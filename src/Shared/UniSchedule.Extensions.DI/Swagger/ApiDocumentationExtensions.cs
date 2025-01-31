@@ -28,7 +28,6 @@ public static class ApiDocumentationExtensions
     {
         services.AddSwaggerGen(c =>
         {
-            // TODO: Add authorization
             c.SwaggerDoc(settings.Swagger.Version,
                 new OpenApiInfo
                 {

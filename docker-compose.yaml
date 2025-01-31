@@ -1,0 +1,12 @@
+﻿services:
+  unischedule.api:
+    image: unischedule.api
+    build:
+      context: .
+      dockerfile: UniSchedule.Api/Dockerfile
+
+  unischedule.shared:
+    image: unischedule.shared
+    build:
+      context: .
+      dockerfile: UniSchedule.Shared/Dockerfile

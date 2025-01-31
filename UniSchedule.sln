@@ -55,6 +55,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Shared.DTO", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Extensions", "src\Shared\UniSchedule.Extensions\UniSchedule.Extensions.csproj", "{1C05531E-CE69-4B23-A005-C93F8BFB0E56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{96EEEC41-AA47-457E-B63E-BCF5B7DA4E3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C6BCE01C-7550-4195-85CC-FD439AF169B8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,5 +148,7 @@ Global
 		{712AAD89-B7DA-4B53-A427-73AB6A6AD7E5} = {84435F4D-C659-49E1-95BD-6DEF74E8FF66}
 		{6BBFA0B8-587A-4B85-947A-A2F9A8E917F5} = {493BA8FF-D52D-4EE7-824B-1FB8614C5C7E}
 		{1C05531E-CE69-4B23-A005-C93F8BFB0E56} = {60700355-FEA6-4338-92F4-2D964ACFF249}
+		{96EEEC41-AA47-457E-B63E-BCF5B7DA4E3E} = {28107316-B0FA-45FD-B62C-6A7BDB53861A}
+		{C6BCE01C-7550-4195-85CC-FD439AF169B8} = {96EEEC41-AA47-457E-B63E-BCF5B7DA4E3E}
 	EndGlobalSection
 EndGlobal

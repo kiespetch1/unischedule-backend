@@ -1,23 +1,27 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS prepare-restore
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN dotnet tool install --global --no-cache dotnet-subset
+
+WORKDIR /restore
+COPY ./src /restore/
+RUN dotnet subset restore Identity/App/UniSchedule.Identity.Api/UniSchedule.Identity.Api.csproj --root-directory /restore --output restore_subset/
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS publish
+
 WORKDIR /src
-COPY ["Identity/App/UniSchedule.Identity.Api/UniSchedule.Identity.Api.csproj", "Identity/App/UniSchedule.Identity.Api/"]
-RUN dotnet restore "Identity/App/UniSchedule.Identity.Api/UniSchedule.Identity.Api.csproj"
-COPY . .
-WORKDIR "/src/Identity/App/UniSchedule.Identity.Api"
-RUN dotnet build "UniSchedule.Identity.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY --from=prepare-restore /restore/restore_subset .
+RUN dotnet restore Identity/App/UniSchedule.Identity.Api/UniSchedule.Identity.Api.csproj
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "UniSchedule.Identity.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY ./src /src/
+RUN dotnet publish Identity/App/UniSchedule.Identity.Api/UniSchedule.Identity.Api.csproj -c Release -o /app --no-restore
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app /app
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS="http://*:80"
+
+EXPOSE 80
 ENTRYPOINT ["dotnet", "UniSchedule.Identity.Api.dll"]

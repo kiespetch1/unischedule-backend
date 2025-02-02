@@ -1,12 +1,101 @@
 ﻿services:
-  unischedule.api:
-    image: unischedule.api
-    build:
-      context: .
-      dockerfile: UniSchedule.Api/Dockerfile
+  traefik:
+    image: traefik:v3.1
+    container_name: us-traefik
+    restart: unless-stopped
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
 
-  unischedule.shared:
-    image: unischedule.shared
-    build:
-      context: .
-      dockerfile: UniSchedule.Shared/Dockerfile
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=shared-network"
+      - "--api=true"
+      - 
+      - "--entrypoints.http.http.redirections.entryPoint.to=https"
+      - "--entrypoints.http.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.http.http.redirections.entrypoint.permanent=true"
+      - 
+      - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
+      - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=shared-network"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - shared-network
+
+  frontend:
+    image: ghcr.io/kiespetch/frontend:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+      - "traefik.docker.network=shared-network"
+    networks:
+      - shared-network
+
+  identity:
+    image: ghcr.io/kiespetch1/identity:latest
+    environment:
+      - CONNECTION_STRING=${IDENTITY_CONNECTION_STRING}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.identity.entrypoints=websecure"
+      - "traefik.http.routers.identity.tls.certresolver=myresolver"
+      - "traefik.docker.network=shared-network"
+    depends_on:
+      - postgres
+    networks:
+      - shared-network
+
+  schedule:
+    image: ghcr.io/kiespetch1/schedule:latest
+    environment:
+      - CONNECTION_STRING=${SCHEDULE_CONNECTION_STRING}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.schedule.entrypoints=websecure"
+      - "traefik.http.routers.schedule.tls.certresolver=myresolver"
+      - "traefik.docker.network=shared-network"
+    depends_on:
+      - postgres
+    networks:
+      - shared-network
+
+  postgres:
+    container_name: us-postgres
+    image: postgres:16.3-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
+
+volumes:
+  postgres-data:

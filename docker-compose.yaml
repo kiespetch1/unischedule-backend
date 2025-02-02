@@ -6,15 +6,15 @@
     command:
       - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
+       
+      - "--entrypoints.http.http.redirections.entryPoint.to=https"
+      - "--entrypoints.http.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.http.http.redirections.entrypoint.permanent=true"
 
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.docker.network=shared-network"
       - "--api=true"
-       
-      - "--entrypoints.http.http.redirections.entryPoint.to=https"
-      - "--entrypoints.http.http.redirections.entryPoint.scheme=https"
-      - "--entrypoints.http.http.redirections.entrypoint.permanent=true"
        
       - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
@@ -45,7 +45,10 @@
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.frontend.entrypoints=https"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
       - "traefik.docker.network=shared-network"
+    ports:
+      - "3000:80"
     networks:
       - shared-network
 
@@ -58,7 +61,10 @@
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.identity.entrypoints=https"
       - "traefik.http.routers.identity.tls.certresolver=letsencrypt"
+      - "traefik.http.services.identity.loadbalancer.server.port=80"
       - "traefik.docker.network=shared-network"
+    ports:
+      - "5000:80"
     depends_on:
       - postgres
     networks:
@@ -73,7 +79,10 @@
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.schedule.entrypoints=https"
       - "traefik.http.routers.schedule.tls.certresolver=letsencrypt"
+      - "traefik.http.services.schedule.loadbalancer.server.port=80"
       - "traefik.docker.network=shared-network"
+    ports:
+      - "5001:80"
     depends_on:
       - postgres
     networks:

@@ -4,11 +4,11 @@
     container_name: us-traefik
     restart: unless-stopped
     command:
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
 
       - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.exposedByDefault=false"
       - "--providers.docker.network=shared-network"
       - "--api=true"
        
@@ -43,8 +43,8 @@
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.frontend.entrypoints=websecure"
-      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+      - "traefik.http.routers.frontend.entrypoints=https"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.docker.network=shared-network"
     networks:
       - shared-network
@@ -56,8 +56,8 @@
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.identity.entrypoints=websecure"
-      - "traefik.http.routers.identity.tls.certresolver=myresolver"
+      - "traefik.http.routers.identity.entrypoints=https"
+      - "traefik.http.routers.identity.tls.certresolver=letsencrypt"
       - "traefik.docker.network=shared-network"
     depends_on:
       - postgres
@@ -71,8 +71,8 @@
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.schedule.entrypoints=websecure"
-      - "traefik.http.routers.schedule.tls.certresolver=myresolver"
+      - "traefik.http.routers.schedule.entrypoints=https"
+      - "traefik.http.routers.schedule.tls.certresolver=letsencrypt"
       - "traefik.docker.network=shared-network"
     depends_on:
       - postgres

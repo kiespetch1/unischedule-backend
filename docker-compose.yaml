@@ -39,7 +39,7 @@
       - shared-network
 
   frontend:
-    image: ghcr.io/kiespetch/frontend:latest
+    image: ghcr.io/kiespetch1/frontend:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"

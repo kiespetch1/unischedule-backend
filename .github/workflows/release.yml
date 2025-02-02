@@ -93,11 +93,13 @@ jobs:
           script: |
             cd unischedule
             docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
-            export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
-            export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
-            export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
-            export POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-            export EMAIL="${{ secrets.EMAIL }}"
-            export CURRENT_DOMAIN="${{ secrets.CURRENT_DOMAIN }}"
+            cat <<EOF > .env
+            IDENTITY_CONNECTION_STRING=${{ secrets.IDENTITY_CONNECTION_STRING }}
+            SCHEDULE_CONNECTION_STRING=${{ secrets.SCHEDULE_CONNECTION_STRING }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            EMAIL=${{ secrets.EMAIL }}
+            CURRENT_DOMAIN=${{ secrets.CURRENT_DOMAIN }}
+            EOF
             docker compose pull
             docker compose up -d

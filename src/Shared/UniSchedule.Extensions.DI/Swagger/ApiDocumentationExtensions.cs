@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using R.Tech.Extensions.Utils;
+using Scalar.AspNetCore;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 
 namespace UniSchedule.Extensions.DI.Swagger;
@@ -104,7 +105,14 @@ public static class ApiDocumentationExtensions
     {
         if (!EnvironmentUtils.IsProduction)
         {
-            endpoints.MapGet("/", settings.Swagger.RoutePrefix);
+            endpoints.MapGet("/", settings.Scalar.RoutePrefix);
+
+            endpoints.MapScalarApiReference(settings.Scalar.RoutePrefix, o =>
+            {
+                o.Title = settings.Scalar.DocumentTitle;
+                o.Theme = ScalarTheme.Default;
+                o.OpenApiRoutePattern = settings.Swagger.RouteTemplate;
+            });
         }
 
         return endpoints;

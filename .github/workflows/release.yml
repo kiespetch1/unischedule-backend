@@ -75,7 +75,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: |
-            docker-compose.yml
+            docker-compose.yaml
           target: "~/unischedule"
           
       - name: Deploy on VPS

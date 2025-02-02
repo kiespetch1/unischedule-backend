@@ -47,10 +47,13 @@ jobs:
           ref: ${{ github.event.release.tag_name }}
           path: frontend
 
+      - name: List frontend directory contents
+        run: ls -la frontend
+
       - name: Build and push frontend Image
         uses: docker/build-push-action@v4
         with:
-          context: frontend
+          context: frontend            
           file: Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}

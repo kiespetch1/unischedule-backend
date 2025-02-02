@@ -48,7 +48,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
 

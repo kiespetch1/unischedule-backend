@@ -95,7 +95,6 @@
 
 networks:
   shared-network:
-    external: true
 
 volumes:
   postgres-data:

@@ -86,6 +86,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd unischedule
+            docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
             export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
             export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
             export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"

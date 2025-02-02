@@ -40,18 +40,18 @@ jobs:
           push: true
           tags: ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
 
-      - name: Clone frontend repo
-        run: |
-          git clone --branch ${{ github.event.release.tag_name }} --depth 1 https://github.com/kiespetch1/unischedule-frontend.git frontend
-          
-      - name: Checkout frontend repo
+      - name: Checkout frontend repository
         uses: actions/checkout@v3
+        with:
+          repository: kiespetch1/unischedule-frontend
+          ref: ${{ github.event.release.tag_name }}
+          path: frontend
 
       - name: Build and push frontend Image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: frontend
+          file: Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
 

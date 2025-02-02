@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Deploy of release ${{ github.event.release.tag_name }} started
         run: echo Deploy of release ${{ github.event.release.tag_name }} started
@@ -17,46 +20,83 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Identity image
-        run: |
-          docker build -t ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }} -f identity/Dockerfile .
-          docker push ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
+      - name: Build and push Identity Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: src/Identity/App/UniSchedule.Identity.Api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/identity:latest
 
-      - name: Build and push Schedule image
-        run: |
-          docker build -t ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }} -f schedule/Dockerfile .
-          docker push ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
+      - name: Build and push Schedule Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: src/Schedule/App/UniSchedule.Schedule.Api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/schedule:latest
 
-      - name: Clone frontend repo
-        run: |
-          git clone --branch ${{ github.event.release.tag_name }} --depth 1 https://github.com/kiespetch1/unischedule-frontend.git frontend
-
-      - name: Build and push frontend Docker image
-        working-directory: frontend
-        run: |
-          docker build -t ghcr.io/kiespetch/frontend:${{ github.event.release.tag_name }} -f Dockerfile .
-          docker push ghcr.io/kiespetch/frontend:${{ github.event.release.tag_name }}
+      - name: Checkout frontend repository
+        uses: actions/checkout@v3
+        with:
+          repository: kiespetch1/unischedule-frontend
+          ref: ${{ github.event.release.tag_name }}
+          path: frontend
+          
+      - name: Build and push frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: frontend
+          file: ${{ github.workspace }}/frontend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/frontend:latest
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to VPS via SSH
+      - name: Checkout backend repo
+        uses: actions/checkout@v3
+
+      - name: List workspace contents (debug)
+        run: ls -la
+        
+      - name: Copy docker-compose.yml to VPS
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: |
+            docker-compose.yaml
+          target: "~/unischedule"
+          
+      - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: | 
+          script: |
             cd unischedule
-            export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
-            export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
-            export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
-            export POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-            export EMAIL="${{ secrets.EMAIL }}"
-            export CURRENT_DOMAIN="${{ secrets.CURRENT_DOMAIN }}"
+            docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
+            cat <<EOF > .env
+            IDENTITY_CONNECTION_STRING=${{ secrets.IDENTITY_CONNECTION_STRING }}
+            SCHEDULE_CONNECTION_STRING=${{ secrets.SCHEDULE_CONNECTION_STRING }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            EMAIL=${{ secrets.EMAIL }}
+            CURRENT_DOMAIN=${{ secrets.CURRENT_DOMAIN }}
+            EOF
             docker compose pull
             docker compose up -d

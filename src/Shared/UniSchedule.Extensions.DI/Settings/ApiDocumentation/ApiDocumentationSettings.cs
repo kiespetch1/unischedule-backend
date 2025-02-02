@@ -9,4 +9,9 @@ public class ApiDocumentationSettings
     ///     Настройки Swagger
     /// </summary>
     public required SwaggerSettings Swagger { get; set; }
+    
+    /// <summary>
+    ///     Настройки Scalar
+    /// </summary>
+    public required ScalarSettings Scalar { get; set; }
 }

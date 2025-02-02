@@ -53,8 +53,8 @@ jobs:
       - name: Build and push frontend Image
         uses: docker/build-push-action@v4
         with:
-          context: frontend            
-          file: Dockerfile
+          context: frontend
+          file: ${{ github.workspace }}/frontend/Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
 

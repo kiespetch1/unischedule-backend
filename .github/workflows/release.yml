@@ -21,25 +21,33 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Identity image
-        run: |
-          docker build -t ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }} -f identity/Dockerfile .
-          docker push ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
+      - name: Build and push Identity Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: identity/Dockerfile
+          push: true
+          tags: ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
 
-      - name: Build and push Schedule image
-        run: |
-          docker build -t ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }} -f schedule/Dockerfile .
-          docker push ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
+      - name: Build and push Schedule Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: schedule/Dockerfile
+          push: true
+          tags: ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
 
       - name: Clone frontend repo
         run: |
           git clone --branch ${{ github.event.release.tag_name }} --depth 1 https://github.com/kiespetch1/unischedule-frontend.git frontend
 
-      - name: Build and push frontend Docker image
-        working-directory: frontend
-        run: |
-          docker build -t ghcr.io/kiespetch/frontend:${{ github.event.release.tag_name }} -f Dockerfile .
-          docker push ghcr.io/kiespetch/frontend:${{ github.event.release.tag_name }}
+      - name: Build and push frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: frontend/Dockerfile
+          push: true
+          tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
 
   deploy:
     needs: build
@@ -51,7 +59,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: | 
+          script: |
             cd unischedule
             export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
             export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"

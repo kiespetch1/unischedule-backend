@@ -62,16 +62,24 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to VPS via SSH
+      - name: Copy docker-compose.yml to VPS
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: |
+            docker-compose.yml
+          target: "~/unischedule"
+          
+      - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            ls -la
             cd unischedule
-            ls -la
             export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
             export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
             export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"

@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: identity/Dockerfile
+          file: src/Identity/App/UniSchedule.Identity.Api/Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
 
@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: schedule/Dockerfile
+          file: src/Schedule/App/UniSchedule.Schedule.Api/Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
 
@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: frontend/Dockerfile
+          file: ./Dockerfile
           push: true
           tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
 

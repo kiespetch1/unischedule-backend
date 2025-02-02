@@ -62,7 +62,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to VPS via SSH to ${{ secrets.SSH_HOST }}
+      - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -70,6 +70,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd unischedule
+            find .
             export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
             export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
             export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"

@@ -30,7 +30,9 @@ jobs:
           context: .
           file: src/Identity/App/UniSchedule.Identity.Api/Dockerfile
           push: true
-          tags: ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
+          tags: |
+            ghcr.io/kiespetch1/identity:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/identity:latest
 
       - name: Build and push Schedule Image
         uses: docker/build-push-action@v4
@@ -38,7 +40,9 @@ jobs:
           context: .
           file: src/Schedule/App/UniSchedule.Schedule.Api/Dockerfile
           push: true
-          tags: ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
+          tags: |
+            ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/schedule:latest
 
       - name: Checkout frontend repository
         uses: actions/checkout@v3
@@ -56,7 +60,9 @@ jobs:
           context: frontend
           file: ${{ github.workspace }}/frontend/Dockerfile
           push: true
-          tags: ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
+          tags: |
+            ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/frontend:latest
 
   deploy:
     needs: build

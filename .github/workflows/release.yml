@@ -69,8 +69,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            ls -la
             cd unischedule
-            find .
+            ls -la
             export IDENTITY_CONNECTION_STRING="${{ secrets.IDENTITY_CONNECTION_STRING }}"
             export SCHEDULE_CONNECTION_STRING="${{ secrets.SCHEDULE_CONNECTION_STRING }}"
             export POSTGRES_USER="${{ secrets.POSTGRES_USER }}"

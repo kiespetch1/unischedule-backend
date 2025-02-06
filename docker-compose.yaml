@@ -7,7 +7,7 @@
       - "--log.level=DEBUG"
       - "--entryPoints.http.address=:80"
       - "--entryPoints.https.address=:443"
-       
+
       - "--entryPoints.http.http.redirections.entryPoint.to=https"
       - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
       - "--entryPoints.http.http.redirections.entrypoint.permanent=true"
@@ -16,7 +16,7 @@
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=shared-network"
       - "--api=true"
-       
+
       - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
@@ -54,6 +54,10 @@
       - shared-network
 
   identity:
+    build:
+      context: .
+      args:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/identity:latest
     environment:
       - CONNECTION_STRING=${IDENTITY_CONNECTION_STRING}
@@ -72,9 +76,14 @@
       - shared-network
 
   schedule:
+    build:
+      context: .
+      args:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/schedule:latest
     environment:
       - CONNECTION_STRING=${SCHEDULE_CONNECTION_STRING}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"

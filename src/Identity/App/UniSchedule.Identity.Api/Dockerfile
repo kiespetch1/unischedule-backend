@@ -20,7 +20,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 
 WORKDIR /app
 COPY --from=publish /app /app
-ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_ENVIRONMENT $ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_URLS="http://*:80"
 
 EXPOSE 80

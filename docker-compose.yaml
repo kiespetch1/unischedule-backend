@@ -69,8 +69,6 @@
       - "traefik.http.routers.identity.tls.certresolver=letsencrypt"
       - "traefik.http.services.identity.loadbalancer.server.port=80"
       - "traefik.docker.network=unischedule_shared-network"
-    ports:
-      - "80:5000"
     depends_on:
       - postgres
     networks:
@@ -92,8 +90,6 @@
       - "traefik.http.routers.schedule.tls.certresolver=letsencrypt"
       - "traefik.http.services.schedule.loadbalancer.server.port=80"
       - "traefik.docker.network=unischedule_shared-network"
-    ports:
-      - "80:5001"
     depends_on:
       - postgres
     networks:

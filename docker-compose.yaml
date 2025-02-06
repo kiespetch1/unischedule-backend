@@ -7,6 +7,7 @@
       - "--log.level=DEBUG"
       - "--entryPoints.http.address=:80"
       - "--entryPoints.https.address=:443"
+      - "--entryPoints.vite.address=:3000"
 
       - "--entryPoints.http.http.redirections.entryPoint.to=https"
       - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
@@ -14,7 +15,7 @@
 
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=shared-network"
+      - "--providers.docker.network=unischedule_shared-network"
       - "--api=true"
 
       - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
@@ -24,7 +25,7 @@
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=shared-network"
+      - "traefik.docker.network=unischedule_shared-network"
       - "traefik.http.routers.traefik.rule=Host(`traefik.${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.traefik.entrypoints=https"
       - "traefik.http.routers.traefik.service=api@internal"
@@ -44,10 +45,10 @@
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.frontend.entrypoints=https"
+      - "traefik.http.routers.frontend.entrypoints=vite"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
-      - "traefik.docker.network=shared-network"
+      - "traefik.docker.network=unischedule_shared-network"
     ports:
       - "3000:80"
     networks:
@@ -67,7 +68,7 @@
       - "traefik.http.routers.identity.entrypoints=https"
       - "traefik.http.routers.identity.tls.certresolver=letsencrypt"
       - "traefik.http.services.identity.loadbalancer.server.port=80"
-      - "traefik.docker.network=shared-network"
+      - "traefik.docker.network=unischedule_shared-network"
     ports:
       - "5000:80"
     depends_on:
@@ -90,7 +91,7 @@
       - "traefik.http.routers.schedule.entrypoints=https"
       - "traefik.http.routers.schedule.tls.certresolver=letsencrypt"
       - "traefik.http.services.schedule.loadbalancer.server.port=80"
-      - "traefik.docker.network=shared-network"
+      - "traefik.docker.network=unischedule_shared-network"
     ports:
       - "5001:80"
     depends_on:

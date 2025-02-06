@@ -45,12 +45,10 @@
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.frontend.entrypoints=vite"
+      - "traefik.http.routers.frontend.entrypoints=https"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
       - "traefik.docker.network=unischedule_shared-network"
-    ports:
-      - "80:3000"
     networks:
       - shared-network
 

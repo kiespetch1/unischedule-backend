@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using R.Tech.Extensions.Utils;
 using Scalar.AspNetCore;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
+using UniSchedule.Extensions.Utils;
 
 namespace UniSchedule.Extensions.DI.Swagger;
 

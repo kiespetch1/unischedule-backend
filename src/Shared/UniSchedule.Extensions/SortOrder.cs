@@ -1,4 +1,4 @@
-﻿namespace R.Tech.Extensions;
+﻿namespace UniSchedule.Extensions;
 
 /// <summary>
 ///     Направление сортировки

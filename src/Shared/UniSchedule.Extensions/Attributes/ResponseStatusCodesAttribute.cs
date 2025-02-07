@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace R.Tech.Extensions.Attributes;
+namespace UniSchedule.Extensions.Attributes;
 
 /// <summary>
 ///     Атрибут для генерации схемы ответа для заданных статус кодов и типа результата

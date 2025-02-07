@@ -1,5 +1,3 @@
-using R.Tech.Extensions;
-
 namespace UniSchedule.Extensions.Data;
 
 /// <summary>

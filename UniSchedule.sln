@@ -64,7 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Abstractions.Entities", "src\Shared\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj", "{0CEA0499-D98B-4841-8BEB-31A53177289B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Extensions.Helpers", "UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj", "{CA6123ED-9B4B-41D8-BC72-A57FAD073756}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Extensions.Helpers", "src\Shared\UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj", "{CA6123ED-9B4B-41D8-BC72-A57FAD073756}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

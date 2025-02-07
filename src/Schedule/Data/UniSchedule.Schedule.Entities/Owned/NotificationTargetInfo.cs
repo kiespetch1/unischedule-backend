@@ -18,7 +18,7 @@ public class NotificationTargetInfo
     /// <summary>
     ///     Включенные кафедры
     /// </summary>
-    public List<Guid>? Department { get; set; }
+    public List<Guid>? IncludedDepartments { get; set; }
 
     /// <summary>
     ///     Исключенные курсы

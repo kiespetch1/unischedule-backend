@@ -4,6 +4,9 @@ using UniSchedule.Schedule.Entities;
 
 namespace UniSchedule.Schedule.Database.Configurations;
 
+/// <summary>
+///     Конфигурация для пар
+/// </summary>
 public class ClassConfiguration : IEntityTypeConfiguration<Class>
 {
     /// <summary />

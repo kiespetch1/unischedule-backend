@@ -4,6 +4,9 @@ using UniSchedule.Schedule.Entities;
 
 namespace UniSchedule.Schedule.Database.Configurations;
 
+/// <summary>
+///     Конфигурация для недель
+/// </summary>
 public class WeekConfiguration : IEntityTypeConfiguration<Week>
 {
     /// <summary />

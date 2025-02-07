@@ -4,6 +4,9 @@ using UniSchedule.Schedule.Entities;
 
 namespace UniSchedule.Schedule.Database.Configurations;
 
+/// <summary>
+///     Конфигурация для объявлений
+/// </summary>
 public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 {
     /// <summary />

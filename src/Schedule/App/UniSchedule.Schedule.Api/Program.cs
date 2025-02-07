@@ -1,10 +1,13 @@
-namespace UniSchedule.Api;
+using UniSchedule.Extensions.DI.Database;
+
+namespace UniSchedule.Schedule.Api;
 
 public class Program
 {
     public static async Task Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
+        await host.MigrateDatabaseAsync();
 
         await host.RunAsync();
     }

@@ -1,4 +1,4 @@
-namespace R.Tech.Extensions.Utils;
+namespace UniSchedule.Extensions.Utils;
 
 /// <summary>
 ///     Утилиты для работы с <see cref="Environment" />

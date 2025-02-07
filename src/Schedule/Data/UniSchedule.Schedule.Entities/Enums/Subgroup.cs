@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.Entities.Enums;
+﻿namespace UniSchedule.Schedule.Entities.Enums;
 
 public enum Subgroup
 {
@@ -6,17 +6,17 @@ public enum Subgroup
     ///     Нет
     /// </summary>
     None = 0,
-    
+
     /// <summary>
     ///     Первая
     /// </summary>
     First = 1,
-    
+
     /// <summary>
     ///     Вторая
     /// </summary>
     Second = 2,
-    
+
     /// <summary>
     ///     Третья
     /// </summary>

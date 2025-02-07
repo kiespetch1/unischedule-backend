@@ -9,7 +9,7 @@ public class ScalarSettings
     ///     Префикс для доступа к интерфейсу Scalar
     /// </summary>
     public required string RoutePrefix { get; set; }
-    
+
     /// <summary>
     ///     Наименование страницы Scalar
     /// </summary>

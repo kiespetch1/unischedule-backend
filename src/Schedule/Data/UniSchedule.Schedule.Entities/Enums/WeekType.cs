@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace UniSchedule.Identity.Entities.Enums;
+﻿namespace UniSchedule.Schedule.Entities.Enums;
 
 /// <summary>
 ///     Тип недели
@@ -11,12 +9,12 @@ public enum WeekType
     ///     Все
     /// </summary>
     Every = 0,
-    
+
     /// <summary>
     ///     Четная (верхняя)
     /// </summary>
     Even = 1,
-    
+
     /// <summary>
     ///     Нечетная (нижняя)
     /// </summary>

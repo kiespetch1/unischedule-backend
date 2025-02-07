@@ -1,6 +1,6 @@
 ﻿using UniSchedule.Abstractions.Entities;
 
-namespace UniSchedule.Identity.Entities;
+namespace UniSchedule.Schedule.Entities;
 
 /// <summary>
 ///     Преподаватель

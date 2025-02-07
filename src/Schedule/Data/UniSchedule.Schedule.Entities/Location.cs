@@ -1,11 +1,12 @@
-﻿using UniSchedule.Identity.Entities.Enums;
+﻿using UniSchedule.Abstractions.Entities;
+using UniSchedule.Schedule.Entities.Enums;
 
-namespace UniSchedule.Identity.Entities;
+namespace UniSchedule.Schedule.Entities;
 
 /// <summary>
 ///     Место проведения занятий
 /// </summary>
-public class Location
+public class Location : Entity<Guid>
 {
     /// <summary>
     ///     Название

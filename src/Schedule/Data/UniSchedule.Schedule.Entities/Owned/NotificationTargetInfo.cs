@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.Entities.Owned;
+﻿namespace UniSchedule.Schedule.Entities.Owned;
 
 /// <summary>
 ///     Информация о получателях уведомления
@@ -19,17 +19,17 @@ public class NotificationTargetInfo
     ///     Включенные кафедры
     /// </summary>
     public List<Guid>? Department { get; set; }
-    
+
     /// <summary>
     ///     Исключенные курсы
     /// </summary>
     public List<int>? ExcludedGrades { get; set; }
-    
+
     /// <summary>
     ///     Исключенный набор групп
     /// </summary>
     public List<Guid>? ExcludedGroups { get; set; }
-    
+
     /// <summary>
     ///     Исключенные кафедры
     /// </summary>

@@ -3,8 +3,8 @@ using System.Reflection;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using R.Tech.Extensions.Attributes;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Basic;
 using UniSchedule.Extensions.Data;
 

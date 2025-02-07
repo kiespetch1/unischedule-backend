@@ -1,7 +1,7 @@
 ﻿using UniSchedule.Abstractions.Entities;
-using UniSchedule.Identity.Entities.Enums;
+using UniSchedule.Schedule.Entities.Enums;
 
-namespace UniSchedule.Identity.Entities;
+namespace UniSchedule.Schedule.Entities;
 
 /// <summary>
 ///     Учебная группа

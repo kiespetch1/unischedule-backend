@@ -59,7 +59,7 @@
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/identity:latest
     environment:
-      - CONNECTION_STRING=${IDENTITY_CONNECTION_STRING}
+      ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-identity"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
@@ -79,8 +79,8 @@
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/schedule:latest
     environment:
-      - CONNECTION_STRING=${SCHEDULE_CONNECTION_STRING}
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-schedule"
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"

@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.Entities.Enums;
+﻿namespace UniSchedule.Schedule.Entities.Enums;
 
 public enum LocationType
 {
@@ -6,7 +6,7 @@ public enum LocationType
     ///     Очная
     /// </summary>
     Irl = 0,
-    
+
     /// <summary>
     ///     Онлайн
     /// </summary>

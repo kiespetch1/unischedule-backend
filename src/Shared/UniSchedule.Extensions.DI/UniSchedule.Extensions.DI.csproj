@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj"/>
+        <ProjectReference Include="..\UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj"/>
         <ProjectReference Include="..\UniSchedule.Extensions\UniSchedule.Extensions.csproj"/>
     </ItemGroup>
 

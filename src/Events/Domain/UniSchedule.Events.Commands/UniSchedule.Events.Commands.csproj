@@ -7,6 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Commands\UniSchedule.Abstractions.Commands.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Events.Entities\UniSchedule.Events.Entities.csproj"/>
+        <ProjectReference Include="..\..\Shared\UniSchedule.Events.Shared\UniSchedule.Events.Shared.csproj"/>
         <ProjectReference Include="..\src\Events\Data\UniSchedule.Events.Entities\UniSchedule.Events.Entities.csproj"/>
         <ProjectReference Include="..\src\Events\Shared\UniSchedule.Events.Shared\UniSchedule.Events.Shared.csproj"/>
         <ProjectReference Include="..\src\Shared\UniSchedule.Abstractions.Commands\UniSchedule.Abstractions.Commands.csproj"/>

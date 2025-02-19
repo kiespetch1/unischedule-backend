@@ -96,7 +96,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Abstractions.Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Events.Shared", "src\Events\Shared\UniSchedule.Events.Shared\UniSchedule.Events.Shared.csproj", "{EE715C90-3EA5-4271-86FE-27EDB3AF5051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Events.Commands", "UniSchedule.Events.Commands\UniSchedule.Events.Commands.csproj", "{C48D03DE-FA4D-41F7-BE82-93424BC04A3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Events.Commands", "src\Events\Domain\UniSchedule.Events.Commands\UniSchedule.Events.Commands.csproj", "{C48D03DE-FA4D-41F7-BE82-93424BC04A3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -108,8 +108,33 @@
     networks:
       - shared-network
 
+  rabbitmq:
+    container_name: us-rabbitmq
+    image: rabbitmq:3.13.3-management
+    hostname: rabbitmq
+    restart: unless-stopped
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - shared-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rabbitmq.rule=Host(`rabbitmq.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.rabbitmq.entrypoints=https"
+      - "traefik.http.routers.rabbitmq.tls.certresolver=letsencrypt"
+      - "traefik.http.services.rabbitmq.loadbalancer.server.port=15672"
+      - "traefik.docker.network=unischedule_shared-network"
+
 networks:
   shared-network:
 
 volumes:
   postgres-data:
+  rabbitmq-data:
+    driver: local

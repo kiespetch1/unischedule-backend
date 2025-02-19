@@ -1,6 +1,6 @@
 ﻿namespace UniSchedule.Schedule.Entities.Enums;
 
-public enum NotificationPriority
+public enum AnnouncementPriority
 {
     /// <summary>
     ///     Обычная

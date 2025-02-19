@@ -38,6 +38,27 @@ namespace UniSchedule.Schedule.Database.Migrations
                     b.ToTable("DayWeek");
                 });
 
+            modelBuilder.Entity("UniSchedule.Schedule.Entities.Announcement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcements");
+                });
+
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Class", b =>
                 {
                     b.Property<Guid>("Id")
@@ -141,27 +162,6 @@ namespace UniSchedule.Schedule.Database.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("UniSchedule.Schedule.Entities.Notification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Teacher", b =>
                 {
                     b.Property<Guid>("Id")
@@ -213,6 +213,44 @@ namespace UniSchedule.Schedule.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UniSchedule.Schedule.Entities.Announcement", b =>
+                {
+                    b.OwnsOne("UniSchedule.Schedule.Entities.Owned.AnnouncementTargetInfo", "Target", b1 =>
+                        {
+                            b1.Property<Guid>("AnnouncementId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<List<Guid>>("ExcludedDepartments")
+                                .HasColumnType("uuid[]");
+
+                            b1.Property<List<int>>("ExcludedGrades")
+                                .HasColumnType("integer[]");
+
+                            b1.Property<List<Guid>>("ExcludedGroups")
+                                .HasColumnType("uuid[]");
+
+                            b1.Property<List<Guid>>("IncludedDepartments")
+                                .HasColumnType("uuid[]");
+
+                            b1.Property<List<int>>("IncludedGrades")
+                                .HasColumnType("integer[]");
+
+                            b1.Property<List<Guid>>("IncludedGroups")
+                                .HasColumnType("uuid[]");
+
+                            b1.HasKey("AnnouncementId");
+
+                            b1.ToTable("Announcements");
+
+                            b1.ToJson("Target");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AnnouncementId");
+                        });
+
+                    b.Navigation("Target");
+                });
+
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Class", b =>
                 {
                     b.HasOne("UniSchedule.Schedule.Entities.Day", "Day")
@@ -238,44 +276,6 @@ namespace UniSchedule.Schedule.Database.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("UniSchedule.Schedule.Entities.Notification", b =>
-                {
-                    b.OwnsOne("UniSchedule.Schedule.Entities.Owned.NotificationTargetInfo", "Target", b1 =>
-                        {
-                            b1.Property<Guid>("NotificationId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<List<Guid>>("Department")
-                                .HasColumnType("uuid[]");
-
-                            b1.Property<List<Guid>>("ExcludedDepartments")
-                                .HasColumnType("uuid[]");
-
-                            b1.Property<List<int>>("ExcludedGrades")
-                                .HasColumnType("integer[]");
-
-                            b1.Property<List<Guid>>("ExcludedGroups")
-                                .HasColumnType("uuid[]");
-
-                            b1.Property<List<int>>("IncludedGrades")
-                                .HasColumnType("integer[]");
-
-                            b1.Property<List<Guid>>("IncludedGroups")
-                                .HasColumnType("uuid[]");
-
-                            b1.HasKey("NotificationId");
-
-                            b1.ToTable("Notifications");
-
-                            b1.ToJson("Target");
-
-                            b1.WithOwner()
-                                .HasForeignKey("NotificationId");
-                        });
-
-                    b.Navigation("Target");
                 });
 
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Day", b =>

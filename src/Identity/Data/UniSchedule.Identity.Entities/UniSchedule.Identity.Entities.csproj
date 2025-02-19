@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions\UniSchedule.Extensions.csproj"/>
     </ItemGroup>
 
 </Project>

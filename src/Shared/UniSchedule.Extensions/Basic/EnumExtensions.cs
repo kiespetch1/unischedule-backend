@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using UniSchedule.Extensions.Attributes;
 
 namespace UniSchedule.Extensions.Basic;
 
@@ -21,6 +22,21 @@ public static class EnumExtensions
             ?.GetCustomAttribute<DescriptionAttribute>();
 
         return attribute?.Description ?? source.ToString();
+    }
+
+    /// <summary>
+    ///     Получение значения идентификатора из атрибута <see cref="HandbookValueAttribute" />.
+    /// </summary>
+    /// <param name="source">Значение Enum</param>
+    /// <returns>Текстовое значение идентификатора из атрибута <see cref="HandbookValueAttribute" /></returns>
+    public static Guid GetId(this Enum source)
+    {
+        var attribute = source
+            .GetType()
+            .GetRuntimeField(source.ToString())
+            ?.GetCustomAttribute<HandbookValueAttribute>();
+
+        return attribute?.Id ?? Guid.Empty;
     }
 
     /// <summary>

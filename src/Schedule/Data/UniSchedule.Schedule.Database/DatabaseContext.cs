@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using UniSchedule.Extensions.Helpers;
+using UniSchedule.Abstractions.Helpers.Database;
 using UniSchedule.Schedule.Entities;
 
 namespace UniSchedule.Schedule.Database;
@@ -8,7 +8,7 @@ namespace UniSchedule.Schedule.Database;
 /// <summary>
 ///     Контекст базы данных
 /// </summary>
-public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbContext(options), IMigrationDatabase
+public class DatabaseContext(DbContextOptions<DatabaseContext> options) : AuditableDbContext(options)
 {
     /// <summary>
     ///     Преподаватели
@@ -36,19 +36,14 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbCont
     public DbSet<Group> Groups { get; set; }
 
     /// <summary>
-    ///     Уведомления
+    ///     Объявления
     /// </summary>
-    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Announcement> Announcements { get; set; }
 
     /// <summary>
     ///     Места проведения занятий
     /// </summary>
     public DbSet<Location> Locations { get; set; }
-
-    public async Task MigrateAsync()
-    {
-        await Database.MigrateAsync();
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

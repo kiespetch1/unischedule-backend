@@ -6,21 +6,14 @@
 public abstract class AuditableEntity<TKey> :
     Entity<TKey>,
     ICreatable,
-    IUpdatable,
-    IDeletable
+    IUpdatable
 {
     /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
     /// <inheritdoc />
     public Guid? CreatedBy { get; set; }
-
-    /// <inheritdoc />
-    public DateTime? DeletedAt { get; set; }
-
-    /// <inheritdoc />
-    public Guid? DeletedBy { get; set; }
-
+    
     /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 

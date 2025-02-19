@@ -44,6 +44,16 @@ jobs:
             ghcr.io/kiespetch1/schedule:${{ github.event.release.tag_name }}
             ghcr.io/kiespetch1/schedule:latest
 
+      - name: Build and push Events Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: src/Events/App/UniSchedule.Events.Api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/kiespetch1/events:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/events:latest
+
       - name: Checkout frontend repository
         uses: actions/checkout@v3
         with:

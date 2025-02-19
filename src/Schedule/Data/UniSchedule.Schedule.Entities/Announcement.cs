@@ -7,17 +7,17 @@ namespace UniSchedule.Schedule.Entities;
 /// <summary>
 ///     Объявление
 /// </summary>
-public class Notification : Entity<Guid>, ICreatable
+public class Announcement : Entity<Guid>, ICreatable
 {
     /// <summary>
-    ///     Текст уведомления
+    ///     Текст объявления
     /// </summary>
     public string Message { get; set; }
 
     /// <summary>
     ///     Информация о получателях
     /// </summary>
-    public NotificationTargetInfo? Target { get; set; }
+    public AnnouncementTargetInfo? Target { get; set; }
 
     /// <summary>
     ///     Дата создания

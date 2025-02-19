@@ -7,10 +7,10 @@ namespace UniSchedule.Schedule.Database.Configurations;
 /// <summary>
 ///     Конфигурация для объявлений
 /// </summary>
-public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
+public class AnnouncementConfiguration : IEntityTypeConfiguration<Announcement>
 {
     /// <summary />
-    public void Configure(EntityTypeBuilder<Notification> builder)
+    public void Configure(EntityTypeBuilder<Announcement> builder)
     {
         builder.HasKey(x => x.Id);
 

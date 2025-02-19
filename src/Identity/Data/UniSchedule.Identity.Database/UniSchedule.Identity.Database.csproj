@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Helpers\UniSchedule.Abstractions.Helpers.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj" />
         <ProjectReference Include="..\UniSchedule.Identity.Entities\UniSchedule.Identity.Entities.csproj"/>
     </ItemGroup>

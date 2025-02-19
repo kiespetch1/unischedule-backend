@@ -3,7 +3,7 @@
 /// <summary>
 ///     Информация о получателях уведомления
 /// </summary>
-public class NotificationTargetInfo
+public class AnnouncementTargetInfo
 {
     /// <summary>
     ///     Включенные курсы

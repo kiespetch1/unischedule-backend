@@ -61,6 +61,9 @@
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-identity"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      RabbitMqSettings__Host: ${RABBITMQ_HOST}
+      RabbitMqSettings__Username: ${RABBITMQ_USER}
+      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
@@ -82,12 +85,39 @@
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-schedule"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      RabbitMqSettings__Host: ${RABBITMQ_HOST}
+      RabbitMqSettings__Username: ${RABBITMQ_USER}
+      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.schedule.entrypoints=https"
       - "traefik.http.routers.schedule.tls.certresolver=letsencrypt"
       - "traefik.http.services.schedule.loadbalancer.server.port=80"
+      - "traefik.docker.network=unischedule_shared-network"
+    depends_on:
+      - postgres
+    networks:
+      - shared-network
+
+  events:
+    build:
+      context: .
+      args:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    image: ghcr.io/kiespetch1/events:latest
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-events"
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      RabbitMqSettings__Host: ${RABBITMQ_HOST}
+      RabbitMqSettings__Username: ${RABBITMQ_USER}
+      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.events.rule=Host(`events.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.events.entrypoints=https"
+      - "traefik.http.routers.events.tls.certresolver=letsencrypt"
+      - "traefik.http.services.events.loadbalancer.server.port=80"
       - "traefik.docker.network=unischedule_shared-network"
     depends_on:
       - postgres

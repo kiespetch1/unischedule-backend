@@ -103,6 +103,9 @@ jobs:
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             EMAIL=${{ secrets.EMAIL }}
             CURRENT_DOMAIN=${{ secrets.CURRENT_DOMAIN }}
+            RabbitMqSettings__Host: ${{ secrets.RABBITMQ_HOST }}
+            RabbitMqSettings__Username: ${{ secrets.RABBITMQ_USER }}
+            RabbitMqSettings__Password: ${{ secrets.RABBITMQ_PASSWORD }}
             EOF
             docker compose pull
             docker compose up -d

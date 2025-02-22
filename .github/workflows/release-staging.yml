@@ -106,6 +106,10 @@ jobs:
             RabbitMqSettings__Host: ${{ secrets.RABBITMQ_HOST }}
             RabbitMqSettings__Username: ${{ secrets.RABBITMQ_USER }}
             RabbitMqSettings__Password: ${{ secrets.RABBITMQ_PASSWORD }}
+            JwtTokenSettings__Issuer: ${{ secrets.JWT_ISSUER }}
+            JwtTokenSettings__Audience: ${{ secrets.JWT_AUDIENCE }}
+            JwtTokenSettings__Lifetime: ${{ secrets.JWT_LIFETIME }}
+            JwtTokenSettings__SecurityKey: ${{ secrets.JWT_SECURITY_KEY }}
             EOF
             docker compose pull
             docker compose up -d

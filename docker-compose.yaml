@@ -64,6 +64,10 @@
       RabbitMqSettings__Host: ${RABBITMQ_HOST}
       RabbitMqSettings__Username: ${RABBITMQ_USER}
       RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
+      JwtTokenSettings__Issuer: ${JWT_ISSUER}
+      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
+      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
+      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
@@ -88,6 +92,10 @@
       RabbitMqSettings__Host: ${RABBITMQ_HOST}
       RabbitMqSettings__Username: ${RABBITMQ_USER}
       RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
+      JwtTokenSettings__Issuer: ${JWT_ISSUER}
+      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
+      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
+      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
@@ -112,6 +120,10 @@
       RabbitMqSettings__Host: ${RABBITMQ_HOST}
       RabbitMqSettings__Username: ${RABBITMQ_USER}
       RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
+      JwtTokenSettings__Issuer: ${JWT_ISSUER}
+      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
+      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
+      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.events.rule=Host(`events.${CURRENT_DOMAIN}`)"

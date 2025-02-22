@@ -61,13 +61,13 @@
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-identity"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      RabbitMqSettings__Host: ${RABBITMQ_HOST}
-      RabbitMqSettings__Username: ${RABBITMQ_USER}
-      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
-      JwtTokenSettings__Issuer: ${JWT_ISSUER}
-      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
-      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
-      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
+      RabbitMqSettings__Host: ${RabbitMqSettings__Host}
+      RabbitMqSettings__Username: ${RabbitMqSettings__Username}
+      RabbitMqSettings__Password: ${RabbitMqSettings__Password}
+      JwtTokenSettings__Issuer: ${JwtTokenSettings__Issuer}
+      JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
+      JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
+      JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"
@@ -89,13 +89,13 @@
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-schedule"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      RabbitMqSettings__Host: ${RABBITMQ_HOST}
-      RabbitMqSettings__Username: ${RABBITMQ_USER}
-      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
-      JwtTokenSettings__Issuer: ${JWT_ISSUER}
-      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
-      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
-      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
+      RabbitMqSettings__Host: ${RabbitMqSettings__Host}
+      RabbitMqSettings__Username: ${RabbitMqSettings__Username}
+      RabbitMqSettings__Password: ${RabbitMqSettings__Password}
+      JwtTokenSettings__Issuer: ${JwtTokenSettings__Issuer}
+      JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
+      JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
+      JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
@@ -117,13 +117,13 @@
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-events"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      RabbitMqSettings__Host: ${RABBITMQ_HOST}
-      RabbitMqSettings__Username: ${RABBITMQ_USER}
-      RabbitMqSettings__Password: ${RABBITMQ_PASSWORD}
-      JwtTokenSettings__Issuer: ${JWT_ISSUER}
-      JwtTokenSettings__Audience: ${JWT_AUDIENCE}
-      JwtTokenSettings__Lifetime: ${JWT_LIFETIME}
-      JwtTokenSettings__SecurityKey: ${JWT_SECURITY_KEY}
+      RabbitMqSettings__Host: ${RabbitMqSettings__Host}
+      RabbitMqSettings__Username: ${RabbitMqSettings__Username}
+      RabbitMqSettings__Password: ${RabbitMqSettings__Password}
+      JwtTokenSettings__Issuer: ${JwtTokenSettings__Issuer}
+      JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
+      JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
+      JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.events.rule=Host(`events.${CURRENT_DOMAIN}`)"

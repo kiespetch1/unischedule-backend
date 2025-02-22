@@ -1,4 +1,5 @@
 ﻿using UniSchedule.Events.Commands;
+using UniSchedule.Events.Commands.Consumers;
 using UniSchedule.Events.Database;
 using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
@@ -11,6 +12,7 @@ using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Validation;
 
 namespace UniSchedule.Events.Api;
 
@@ -27,6 +29,8 @@ public class Startup(IConfiguration configuration)
         services.AddRabbitMq(rabbitMqSettings, x =>
             x.AddBatchConsumer<EventsConsumer, EventsConsumerDefinition>());
 
+        services.AddCommands();
+        services.AddValidation();
         services.AddAuthorization();
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();

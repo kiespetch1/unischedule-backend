@@ -12,6 +12,7 @@ using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
 using UniSchedule.Schedule.Database;
+using UniSchedule.Validation;
 
 namespace UniSchedule.Schedule.Api;
 
@@ -33,6 +34,7 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<EventCreateParameters>();
         });
 
+        services.AddValidation();
         services.AddAuthorization();
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();

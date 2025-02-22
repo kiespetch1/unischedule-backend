@@ -1,7 +1,7 @@
 ﻿using UniSchedule.Abstractions.Messaging;
 using UniSchedule.Events.Shared.Parameters;
 
-namespace UniSchedule.Events.Commands;
+namespace UniSchedule.Events.Commands.Consumers;
 
 /// <summary>
 ///     Описание для обработчика сообщений

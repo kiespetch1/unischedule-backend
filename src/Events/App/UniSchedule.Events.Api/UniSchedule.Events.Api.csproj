@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.12">
             <PrivateAssets>all</PrivateAssets>
@@ -27,7 +28,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\UniSchedule.Events.Commands\UniSchedule.Events.Commands.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj"/>
+        <ProjectReference Include="..\..\Domain\UniSchedule.Events.Commands\UniSchedule.Events.Commands.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
         <ProjectReference Include="..\..\Data\UniSchedule.Events.Database\UniSchedule.Events.Database.csproj"/>
     </ItemGroup>

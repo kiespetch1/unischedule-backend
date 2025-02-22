@@ -167,7 +167,7 @@
       - shared-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rabbitmq.rule=Host(`rabbitmq.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.rabbitmq.rule=Host(`rabbit.${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.rabbitmq.entrypoints=https"
       - "traefik.http.routers.rabbitmq.tls.certresolver=letsencrypt"
       - "traefik.http.services.rabbitmq.loadbalancer.server.port=15672"

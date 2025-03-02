@@ -48,4 +48,9 @@ public class User : Entity<Guid>
     ///     Список идентификаторов групп, которыми управляет пользователь
     /// </summary>
     public List<Guid>? ManagedGroupIds { get; set; }
+
+    /// <summary>
+    ///     Токен обновления
+    /// </summary>
+    public string RefreshToken { get; set; }
 }

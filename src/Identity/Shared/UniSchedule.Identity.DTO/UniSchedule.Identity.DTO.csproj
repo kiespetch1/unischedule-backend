@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Data\UniSchedule.Identity.Entities\UniSchedule.Identity.Entities.csproj"/>
+    </ItemGroup>
+
 </Project>

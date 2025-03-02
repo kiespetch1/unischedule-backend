@@ -1,4 +1,5 @@
-﻿using UniSchedule.Events.Shared.Parameters;
+﻿using System.Reflection;
+using UniSchedule.Events.Shared.Parameters;
 using UniSchedule.Events.Shared.Publishers;
 using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
@@ -36,6 +37,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddValidation();
         services.AddAuthorization();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);

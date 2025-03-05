@@ -34,6 +34,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Identity.Database.Helpers\UniSchedule.Identity.Database.Helpers.csproj" />
         <ProjectReference Include="..\..\Data\UniSchedule.Identity.Database\UniSchedule.Identity.Database.csproj"/>
         <ProjectReference Include="..\..\Domain\UniSchedule.Identity.Services\UniSchedule.Identity.Services.csproj"/>
         <ProjectReference Include="..\..\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj"/>

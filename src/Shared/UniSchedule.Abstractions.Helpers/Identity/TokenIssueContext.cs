@@ -1,4 +1,6 @@
-﻿namespace UniSchedule.Abstractions.Helpers.Identity;
+﻿using UniSchedule.Identity.Entities;
+
+namespace UniSchedule.Abstractions.Helpers.Identity;
 
 /// <summary>
 ///     Данные, сохраняемые в токене
@@ -33,7 +35,7 @@ public class TokenIssueContext
     /// <summary>
     ///     Роль пользователя
     /// </summary>
-    public string Role { get; set; }
+    public required Role Role { get; set; }
 
     /// <summary>
     ///     Идентификатор группы

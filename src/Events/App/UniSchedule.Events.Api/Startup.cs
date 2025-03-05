@@ -1,6 +1,7 @@
 ﻿using UniSchedule.Events.Commands;
 using UniSchedule.Events.Commands.Consumers;
 using UniSchedule.Events.Database;
+using UniSchedule.Events.Database.Helpers;
 using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
 using UniSchedule.Extensions.DI.Controllers;
@@ -29,6 +30,7 @@ public class Startup(IConfiguration configuration)
         services.AddRabbitMq(rabbitMqSettings, x =>
             x.AddBatchConsumer<EventsConsumer, EventsConsumerDefinition>());
 
+        services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddCommands();
         services.AddValidation();
         services.AddAuthorization();
@@ -38,6 +40,7 @@ public class Startup(IConfiguration configuration)
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
+        services.AddUserContextProvider(); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

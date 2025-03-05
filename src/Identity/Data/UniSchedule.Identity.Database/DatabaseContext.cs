@@ -29,7 +29,7 @@ public class DatabaseContext : AuditableDbContext
     /// <summary>
     ///     Роли
     /// </summary>
-    public DbSet<Role> Role { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     /// <summary>
     ///     Пользователи

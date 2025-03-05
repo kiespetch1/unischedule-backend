@@ -34,11 +34,6 @@ public class AuditableDbContext : DbContext, IMigrationDatabase
         await Database.MigrateAsync();
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.LogTo(Console.WriteLine);
-    }
-
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
         WriteAuditedEntitiesChanges().GetAwaiter().GetResult();

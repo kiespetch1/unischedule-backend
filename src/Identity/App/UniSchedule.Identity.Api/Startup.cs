@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using UniSchedule.Abstractions.Commands;
 using UniSchedule.Events.Shared.Parameters;
 using UniSchedule.Events.Shared.Publishers;
 using UniSchedule.Extensions.DI.Auth;
@@ -13,6 +14,8 @@ using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
 using UniSchedule.Identity.Database;
+using UniSchedule.Identity.Database.Helpers;
+using UniSchedule.Identity.Services;
 using UniSchedule.Validation;
 
 namespace UniSchedule.Identity.Api;
@@ -27,6 +30,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddDatabase<DatabaseContext>(connectionString!);
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
+        services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();
@@ -35,6 +39,7 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<EventCreateParameters>();
         });
 
+        services.AddDomainServices();
         services.AddValidation();
         services.AddAuthorization();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -44,6 +49,7 @@ public class Startup(IConfiguration configuration)
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
+        services.AddUserContextProvider(); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

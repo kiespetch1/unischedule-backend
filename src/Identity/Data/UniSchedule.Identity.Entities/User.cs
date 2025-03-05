@@ -1,4 +1,5 @@
 ﻿using UniSchedule.Abstractions.Entities;
+using UniSchedule.Identity.Entities.Owned;
 
 namespace UniSchedule.Identity.Entities;
 
@@ -7,7 +8,7 @@ public class User : Entity<Guid>
     /// <summary>
     ///     Пароль
     /// </summary>
-    public required string Password { get; set; }
+    public required PasswordInfo Password { get; set; }
 
     /// <summary>
     ///     Фамилия
@@ -52,5 +53,5 @@ public class User : Entity<Guid>
     /// <summary>
     ///     Токен обновления
     /// </summary>
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 }

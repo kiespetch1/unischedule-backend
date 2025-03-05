@@ -17,7 +17,8 @@ public class TokenContextProvider : ITokenContextProvider
             Name = user.Name,
             Patronymic = user.Patronymic,
             Email = user.Email,
-            Role = user.Role.Name
+            GroupId = user.GroupId,
+            Role = user.Role
         };
 
         return tokenContext;

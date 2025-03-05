@@ -42,6 +42,7 @@ public class Startup(IConfiguration configuration)
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
+        services.AddUserContextProvider(); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

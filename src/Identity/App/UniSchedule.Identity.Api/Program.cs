@@ -8,6 +8,7 @@ public class Program
     {
         var host = CreateHostBuilder(args).Build();
         await host.MigrateDatabaseAsync();
+        await host.SeedDataAsync();
 
         await host.RunAsync();
     }

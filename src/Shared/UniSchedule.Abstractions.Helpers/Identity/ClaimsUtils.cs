@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
 using ClaimTypes = UniSchedule.Identity.Shared.ClaimTypes;
 
 namespace UniSchedule.Abstractions.Helpers.Identity;
@@ -26,8 +27,8 @@ public static class ClaimsUtils
         claims.AddClaim(new Claim(ClaimTypes.Email, context.Email));
         claims.AddClaims((context.ManagedGroupIds ?? [])
             .Select(groupId => new Claim(ClaimTypes.ManagedGroupIds, groupId.ToString())));
-        claims.AddClaim(new Claim(ClaimTypes.GroupId, context.GroupId.ToString() ?? string.Empty));
-        claims.AddClaim(new Claim(ClaimTypes.Role, context.Role));
+        claims.AddClaim(new Claim(ClaimTypes.GroupId, context.GroupId.ToString() ?? Guid.Empty.ToString()));
+        claims.AddClaim(new Claim(ClaimTypes.Role, JsonSerializer.Serialize(context.Role)));
 
         return claims;
     }

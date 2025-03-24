@@ -1,4 +1,5 @@
-﻿using UniSchedule.Events.Commands;
+﻿using System.Reflection;
+using UniSchedule.Events.Commands;
 using UniSchedule.Events.Commands.Consumers;
 using UniSchedule.Events.Database;
 using UniSchedule.Events.Database.Helpers;
@@ -30,8 +31,10 @@ public class Startup(IConfiguration configuration)
         services.AddRabbitMq(rabbitMqSettings, x =>
             x.AddBatchConsumer<EventsConsumer, EventsConsumerDefinition>());
 
-        services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddCommands();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        
+        services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddValidation();
         services.AddAuthorization();
         services.AddRouting(options => options.LowercaseUrls = true);

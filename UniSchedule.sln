@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.Comman
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.Queries", "src\Schedule\Domain\UniSchedule.Schedule.Queries\UniSchedule.Schedule.Queries.csproj", "{712AAD89-B7DA-4B53-A427-73AB6A6AD7E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Shared.DTO", "src\Schedule\Shared\UniSchedule.Shared.DTO\UniSchedule.Shared.DTO.csproj", "{6BBFA0B8-587A-4B85-947A-A2F9A8E917F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.DTO", "src\Schedule\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj", "{6BBFA0B8-587A-4B85-947A-A2F9A8E917F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Extensions", "src\Shared\UniSchedule.Extensions\UniSchedule.Extensions.csproj", "{1C05531E-CE69-4B23-A005-C93F8BFB0E56}"
 EndProject

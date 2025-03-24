@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>UniSchedule.Shared.DTO</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Queries\UniSchedule.Abstractions.Queries.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Entities\UniSchedule.Schedule.Entities.csproj"/>
+    </ItemGroup>
+
+</Project>

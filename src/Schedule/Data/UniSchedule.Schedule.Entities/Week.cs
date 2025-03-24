@@ -19,6 +19,16 @@ public class Week : Entity<Guid>
     public Subgroup Subgroup { get; set; }
 
     /// <summary>
+    ///     Идентификатор группы
+    /// </summary>
+    public Guid GroupId { get; set; }
+
+    /// <summary>
+    ///     Группа
+    /// </summary>
+    public Group Group { get; set; }
+
+    /// <summary>
     ///     Дни недели
     /// </summary>
     public ICollection<Day> Days { get; set; }

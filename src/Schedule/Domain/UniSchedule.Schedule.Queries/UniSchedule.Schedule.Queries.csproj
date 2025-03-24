@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
+        <ProjectReference Include="..\..\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj"/>
+    </ItemGroup>
+
 </Project>

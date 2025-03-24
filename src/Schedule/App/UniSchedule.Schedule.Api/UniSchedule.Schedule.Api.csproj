@@ -32,6 +32,9 @@
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj"/>
         <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
+        <ProjectReference Include="..\..\Domain\UniSchedule.Schedule.Commands\UniSchedule.Schedule.Commands.csproj"/>
+        <ProjectReference Include="..\..\Domain\UniSchedule.Schedule.Queries\UniSchedule.Schedule.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj"/>
     </ItemGroup>
 
 </Project>

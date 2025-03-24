@@ -1,4 +1,5 @@
-﻿using UniSchedule.Events.Shared.Parameters;
+﻿using System.Reflection;
+using UniSchedule.Events.Shared.Parameters;
 using UniSchedule.Events.Shared.Publishers;
 using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
@@ -11,7 +12,9 @@ using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Schedule.Commands;
 using UniSchedule.Schedule.Database;
+using UniSchedule.Schedule.Queries;
 using UniSchedule.Validation;
 
 namespace UniSchedule.Schedule.Api;
@@ -34,6 +37,10 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<EventCreateParameters>();
         });
 
+        services.AddCommands();
+        services.AddQueries();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        
         services.AddValidation();
         services.AddAuthorization();
         services.AddRouting(options => options.LowercaseUrls = true);

@@ -6,4 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Commands\UniSchedule.Abstractions.Commands.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Queries\UniSchedule.Abstractions.Queries.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions\UniSchedule.Extensions.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
+        <ProjectReference Include="..\..\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj"/>
+    </ItemGroup>
+
 </Project>

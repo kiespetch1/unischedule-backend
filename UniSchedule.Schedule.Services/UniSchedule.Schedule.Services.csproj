@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\src\Schedule\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
+        <ProjectReference Include="..\src\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
+    </ItemGroup>
+
+</Project>

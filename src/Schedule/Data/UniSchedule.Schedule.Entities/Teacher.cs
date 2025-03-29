@@ -10,10 +10,10 @@ public class Teacher : Entity<Guid>
     /// <summary>
     ///     ФИО преподавателя
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     ///     Полное ФИО преподавателя
     /// </summary>
-    public string FullName { get; set; }
+    public required string FullName { get; set; }
 }

@@ -108,6 +108,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Identity.Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Events.Database.Helpers", "src\Events\Data\UniSchedule.Events.Database.Helpers\UniSchedule.Events.Database.Helpers.csproj", "{307674F0-2A2F-4977-9302-F1FC6A75A141}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.Services", "UniSchedule.Schedule.Services\UniSchedule.Schedule.Services.csproj", "{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +244,10 @@ Global
 		{307674F0-2A2F-4977-9302-F1FC6A75A141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307674F0-2A2F-4977-9302-F1FC6A75A141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{307674F0-2A2F-4977-9302-F1FC6A75A141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{00996570-C359-4AA6-8E70-0D5B606DB1B1} = {60700355-FEA6-4338-92F4-2D964ACFF249}
@@ -290,5 +296,6 @@ Global
 		{0746C9A9-1600-40DB-9EB5-19CC34763D88} = {9E8BBEF7-62B3-47C9-B9E9-F6DD5AC95807}
 		{E818C072-A479-4876-B667-158DE1C44B35} = {BD40640E-7552-453B-9BE2-131E408557AA}
 		{307674F0-2A2F-4977-9302-F1FC6A75A141} = {A2625F8C-CA03-4C67-81E7-9320293F6C72}
+		{2CBA5392-C3F0-40E9-96ED-E8AD68E77357} = {84435F4D-C659-49E1-95BD-6DEF74E8FF66}
 	EndGlobalSection
 EndGlobal

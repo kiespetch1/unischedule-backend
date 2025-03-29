@@ -1,70 +1,59 @@
-﻿using UniSchedule.Abstractions.Entities;
 using UniSchedule.Schedule.Entities.Enums;
 
-namespace UniSchedule.Schedule.Entities;
+namespace UniSchedule.Shared.DTO.Models;
 
 /// <summary>
-///     Пара
+///     Модель пары
 /// </summary>
-public class Class : Entity<Guid>
+public class ClassModel
 {
+    /// <summary>
+    ///     Идентификатор
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     ///     Название
     /// </summary>
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     ///     Время начала
     /// </summary>
-    public required TimeOnly StartedAt { get; set; }
+    public TimeOnly StartedAt { get; set; }
 
     /// <summary>
     ///     Время окончания
     /// </summary>
-    public required TimeOnly FinishedAt { get; set; }
+    public TimeOnly FinishedAt { get; set; }
 
     /// <summary>
     ///     Тип недели, на которой проводится пара (четная/нечетная)
     /// </summary>
-    public required WeekType WeekType { get; set; }
+    public WeekType WeekType { get; set; }
 
     /// <summary>
     ///     Подгруппа, для которой проводится пара
     /// </summary>
-    public required Subgroup Subgroup { get; set; }
+    public Subgroup Subgroup { get; set; }
 
     /// <summary>
     ///     Отменена ли пара
     /// </summary>
-    public required bool IsCancelled { get; set; }
+    public bool IsCancelled { get; set; }
 
     /// <summary>
     ///     Идентификатор дня
     /// </summary>
-    public required Guid DayId { get; set; }
-
-    /// <summary>
-    ///     День
-    /// </summary>
-    public Day Day { get; set; }
+    public Guid DayId { get; set; }
 
     /// <summary>
     ///     Идентификатор места проведения
     /// </summary>
-    public required Guid LocationId { get; set; }
-
-    /// <summary>
-    ///     Место проведения
-    /// </summary>
-    public Location Location { get; set; }
+    public Guid LocationId { get; set; }
 
     /// <summary>
     ///     Идентификатор преподавателя
     /// </summary>
-    public required Guid TeacherId { get; set; }
-
-    /// <summary>
-    ///     Преподаватель
-    /// </summary>
-    public Teacher Teacher { get; set; }
+    public Guid TeacherId { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UniSchedule.Abstractions.Queries;
+using UniSchedule.Schedule.Queries.Queries;
 
 namespace UniSchedule.Schedule.Queries;
 
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddQueries(this IServiceCollection services)
     {
         services.AddQuery<WeeksQuery>();
+        services.AddQuery<ClassQuery>();
 
         return services;
     }

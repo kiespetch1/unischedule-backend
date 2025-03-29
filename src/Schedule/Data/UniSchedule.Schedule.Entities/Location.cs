@@ -11,15 +11,20 @@ public class Location : Entity<Guid>
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     ///     Ссылка на встречу
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     ///     Тип
     /// </summary>
-    public LocationType LocationType { get; set; }
+    public required LocationType LocationType { get; set; }
+
+    /// <summary>
+    ///     Пары
+    /// </summary>
+    public ICollection<Class> Classes { get; set; }
 }

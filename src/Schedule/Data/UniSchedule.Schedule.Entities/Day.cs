@@ -10,7 +10,17 @@ public class Day : Entity<Guid>
     /// <summary>
     ///     День недели
     /// </summary>
-    public DayOfWeek DayOfWeek { get; set; }
+    public required DayOfWeek DayOfWeek { get; set; }
+
+    /// <summary>
+    ///     Идентификатор недели
+    /// </summary>
+    public required Guid WeekId { get; set; }
+
+    /// <summary>
+    ///     Неделя
+    /// </summary>
+    public Week Week { get; set; }
 
     /// <summary>
     ///     Пары

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UniSchedule.Abstractions.Commands;
+using UniSchedule.Schedule.Commands.Commands;
 
 namespace UniSchedule.Schedule.Commands;
 
@@ -11,6 +12,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
         services.AddCommands<WeekCommands>();
+        services.AddCommands<DayCommands>();
+        services.AddCommands<ClassCommands>();
 
         return services;
     }

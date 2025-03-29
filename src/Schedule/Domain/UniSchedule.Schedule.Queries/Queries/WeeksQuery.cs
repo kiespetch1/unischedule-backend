@@ -1,17 +1,23 @@
-﻿using UniSchedule.Abstractions.Queries;
+﻿using Microsoft.EntityFrameworkCore;
+using UniSchedule.Abstractions.Queries;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Data;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Queries;
+namespace UniSchedule.Schedule.Queries.Queries;
 
 /// <summary>
 ///     Запросы для работы с неделями
 /// </summary>
 public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQueryParameters>(context)
 {
+    private IQueryable<Week> Query => BaseQuery
+        .Include(x => x.Group)
+        .Include(x => x.Days)
+        .ThenInclude(x => x.Classes);
+
     /// <summary>
     ///     Получение списка недель
     /// </summary>
@@ -21,7 +27,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
         WeekQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        var query = BaseQuery;
+        var query = Query;
 
         if (parameters.GroupIds is { Count: > 0 })
         {
@@ -43,7 +49,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
 
     public override async Task<Week> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await BaseQuery.SingleOrNotFoundAsync(id, cancellationToken);
+        var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
         return entity;
     }

@@ -1,12 +1,11 @@
-﻿using UniSchedule.Abstractions.Entities;
 using UniSchedule.Schedule.Entities.Enums;
 
-namespace UniSchedule.Schedule.Entities;
+namespace UniSchedule.Shared.DTO.Parameters;
 
 /// <summary>
-///     Пара
+///     Параметры создания пары
 /// </summary>
-public class Class : Entity<Guid>
+public class ClassCreateParameters
 {
     /// <summary>
     ///     Название
@@ -34,19 +33,9 @@ public class Class : Entity<Guid>
     public required Subgroup Subgroup { get; set; }
 
     /// <summary>
-    ///     Отменена ли пара
-    /// </summary>
-    public required bool IsCancelled { get; set; }
-
-    /// <summary>
     ///     Идентификатор дня
     /// </summary>
     public required Guid DayId { get; set; }
-
-    /// <summary>
-    ///     День
-    /// </summary>
-    public Day Day { get; set; }
 
     /// <summary>
     ///     Идентификатор места проведения
@@ -54,17 +43,7 @@ public class Class : Entity<Guid>
     public required Guid LocationId { get; set; }
 
     /// <summary>
-    ///     Место проведения
-    /// </summary>
-    public Location Location { get; set; }
-
-    /// <summary>
     ///     Идентификатор преподавателя
     /// </summary>
     public required Guid TeacherId { get; set; }
-
-    /// <summary>
-    ///     Преподаватель
-    /// </summary>
-    public Teacher Teacher { get; set; }
 }

@@ -6,6 +6,7 @@ using UniSchedule.Abstractions.Queries.Base;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
 using UniSchedule.Schedule.Entities;
+using UniSchedule.Shared.DTO.Models;
 using UniSchedule.Shared.DTO.Parameters;
 
 namespace UniSchedule.Schedule.Api.Controllers;
@@ -14,6 +15,7 @@ namespace UniSchedule.Schedule.Api.Controllers;
 [Route("/api/v1/[controller]")]
 public class WeeksController(
     ICreateCommand<Week, WeekCreateParameters, Guid> create,
+    IDeleteCommand<Week, Guid> delete,
     ISingleQuery<Week, Guid> getById,
     IMultipleQuery<Week, WeekQueryParameters> get,
     IMapper mapper)
@@ -42,6 +44,25 @@ public class WeeksController(
     }
 
     /// <summary>
+    ///     Удаление недели
+    /// </summary>
+    /// <param name="id">Идентификатор недели</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Успешное удаление недели</response>
+    /// <response code="404">Неделя не найдена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpDelete("{id}")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    public async Task DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+    {
+        await delete.ExecuteAsync(id, cancellationToken);
+    }
+
+    /// <summary>
     ///     Получение недели по идентификатору
     /// </summary>
     /// <param name="id">Идентификаторы недели</param>
@@ -55,10 +76,10 @@ public class WeeksController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<Week> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+    public async Task<WeekModel> GetByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
     {
         var week = await getById.ExecuteAsync(id, cancellationToken);
-        var data = mapper.Map<Week>(week);
+        var data = mapper.Map<WeekModel>(week);
 
         return data;
     }
@@ -75,12 +96,12 @@ public class WeeksController(
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]
-    public async Task<CollectionResult<Week>> GetAsync(
+    public async Task<CollectionResult<WeekModel>> GetAsync(
         [FromQuery] WeekQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var weeks = await get.ExecuteAsync(parameters, cancellationToken);
-        var data = mapper.Map<CollectionResult<Week>>(weeks);
+        var data = mapper.Map<CollectionResult<WeekModel>>(weeks);
 
         return data;
     }

@@ -38,6 +38,11 @@ public class GroupModel
     public required bool HasFixedSubgroups { get; set; }
 
     /// <summary>
+    ///     Последнее объявление данной группы
+    /// </summary>
+    public AnnouncementModel? LastAnnouncement { get; set; }
+
+    /// <summary>
     ///     Недели группы
     /// </summary>
     public List<WeekModel> Weeks { get; set; }

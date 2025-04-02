@@ -54,6 +54,17 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
     {
         var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
+        var lastAnnouncement = await context.Announcements.LastOrDefaultAsync(x =>
+                (x.Target != null && x.Target.IncludedGroups != null && x.Target.IncludedGroups.Contains(entity.Id)) ||
+                (x.Target != null && x.Target.ExcludedGroups != null && !x.Target.ExcludedGroups.Contains(entity.Id)) ||
+                (x.Target != null && x.Target.IncludedGrades != null &&
+                 x.Target.IncludedGrades.Contains(entity.Grade)) ||
+                (x.Target != null && x.Target.ExcludedGrades != null &&
+                 !x.Target.ExcludedGrades.Contains(entity.Grade)),
+            //TODO: аналогично нужно сделать валидацию для кафедр/отделений когда до них дойдет дело
+            cancellationToken);
+        entity.LastAnnouncement = lastAnnouncement;
+
         return entity;
     }
 }

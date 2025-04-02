@@ -1,4 +1,5 @@
-﻿using UniSchedule.Abstractions.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using UniSchedule.Abstractions.Entities;
 
 namespace UniSchedule.Schedule.Entities;
 
@@ -26,6 +27,12 @@ public class Group : Entity<Guid>
     ///     Имеет ли четкое разделение на подгруппы
     /// </summary>
     public required bool HasFixedSubgroups { get; set; }
+
+    /// <summary>
+    ///     Последнее объявление группы
+    /// </summary>
+    [NotMapped]
+    public Announcement? LastAnnouncement { get; set; }
 
     /// <summary>
     ///     Недели группы

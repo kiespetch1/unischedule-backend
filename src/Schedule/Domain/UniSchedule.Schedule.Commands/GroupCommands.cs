@@ -10,7 +10,7 @@ namespace UniSchedule.Schedule.Commands;
 /// <summary>
 ///     Команды для работы с группами
 /// </summary>
-public class GroupCommand(DatabaseContext context, ICreateCommand<Week, WeekCreateParameters, Guid> createWeek) :
+public class GroupCommands(DatabaseContext context, ICreateCommand<Week, WeekCreateParameters, Guid> createWeek) :
     ICreateCommand<Group, GroupCreateParameters, Guid>,
     IUpdateCommand<Group, GroupUpdateParameters, Guid>,
     IDeleteCommand<Group, Guid>

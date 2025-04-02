@@ -16,7 +16,12 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
     private IQueryable<Week> Query => BaseQuery
         .Include(x => x.Group)
         .Include(x => x.Days)
-        .ThenInclude(x => x.Classes);
+        .ThenInclude(x => x.Classes)
+        .ThenInclude(x => x.Teacher)
+        .Include(x => x.Group)
+        .Include(x => x.Days)
+        .ThenInclude(x => x.Classes)
+        .ThenInclude(x => x.Location);
 
     /// <inheritdoc />
     public override async Task<CollectionResult<Week>> ExecuteAsync(

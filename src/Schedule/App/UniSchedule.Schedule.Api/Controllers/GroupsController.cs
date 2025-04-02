@@ -105,15 +105,15 @@ public class GroupsController(
     /// <response code="400">Некорректные данные</response>
     /// <response code="404">Группа не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPut]
+    [HttpPut("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     public async Task UpdateAsync(
-        Guid id,
-        [FromQuery] GroupUpdateParameters parameters,
+        [FromRoute] Guid id,
+        [FromBody] GroupUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         await update.ExecuteAsync(id, parameters, cancellationToken);

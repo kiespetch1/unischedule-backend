@@ -12,25 +12,25 @@ using UniSchedule.Shared.DTO.Parameters;
 namespace UniSchedule.Schedule.Api.Controllers;
 
 /// <summary>
-///     Контроллер для работы с преподавателями
+///     Контроллер для работы с местами проведения
 /// </summary>
 [ApiController]
 [Route("/api/v1/[controller]")]
-public class TeachersController(
-    ICreateCommand<Teacher, TeacherCreateParameters, Guid> create,
-    IDeleteCommand<Teacher, Guid> delete,
-    IUpdateCommand<Teacher, TeacherUpdateParameters, Guid> update,
-    IMultipleQuery<Teacher, TeacherQueryParameters> get,
-    ISingleQuery<Teacher, Guid> getById,
+public class LocationsController(
+    ICreateCommand<Location, LocationCreateParameters, Guid> create,
+    IDeleteCommand<Location, Guid> delete,
+    IUpdateCommand<Location, LocationUpdateParameters, Guid> update,
+    IMultipleQuery<Location, LocationQueryParameters> get,
+    ISingleQuery<Location, Guid> getById,
     IMapper mapper)
 {
     /// <summary>
-    ///     Создание преподавателя
+    ///     Создание места проведения
     /// </summary>
-    /// <param name="parameters">Параметры создания преподавателя</param>
+    /// <param name="parameters">Параметры создания места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Идентификатор преподавателя</returns>
-    /// <response code="200">Успешное создание преподавателя</response>
+    /// <returns>Идентификатор места проведения</returns>
+    /// <response code="200">Успешное создание места проведения</response>
     /// <response code="400">Некорректные данные</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost]
@@ -39,7 +39,7 @@ public class TeachersController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
     public async Task<Result<Guid>> CreateAsync(
-        [FromQuery] TeacherCreateParameters parameters,
+        [FromQuery] LocationCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var id = await create.ExecuteAsync(parameters, cancellationToken);
@@ -48,61 +48,61 @@ public class TeachersController(
     }
 
     /// <summary>
-    ///     Получение преподавателя по идентификатору
+    ///     Получение места проведения по идентификатору
     /// </summary>
-    /// <param name="id">Идентификатор преподавателя</param>
+    /// <param name="id">Идентификатор места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Преподаватель</returns>
-    /// <response code="200">Успешное получение преподавателя</response>
-    /// <response code="404">Преподаватель не найден</response>
+    /// <returns>Место проведения</returns>
+    /// <response code="200">Успешное получение места проведения</response>
+    /// <response code="404">Место проведения не найдено</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpGet("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<Result<TeacherModel>> GetByIdAsync(
+    public async Task<Result<LocationModel>> GetByIdAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
     {
-        var teacher = await getById.ExecuteAsync(id, cancellationToken);
-        var result = mapper.Map<TeacherModel>(teacher);
+        var location = await getById.ExecuteAsync(id, cancellationToken);
+        var result = mapper.Map<LocationModel>(location);
 
-        return new Result<TeacherModel>(result);
+        return new Result<LocationModel>(result);
     }
 
     /// <summary>
-    ///     Получение списка преподавателей
+    ///     Получение списка мест проведения
     /// </summary>
     /// <param name="parameters">Параметры запроса</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список преподавателей</returns>
-    /// <response code="200">Успешное получение преподавателей</response>
+    /// <returns>Список мест проведения</returns>
+    /// <response code="200">Успешное получение мест проведения</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpGet]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]
-    public async Task<CollectionResult<TeacherModel>> GetAsync(
-        [FromQuery] TeacherQueryParameters parameters,
+    public async Task<CollectionResult<LocationModel>> GetAsync(
+        [FromQuery] LocationQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        var teachers = await get.ExecuteAsync(parameters, cancellationToken);
-        var data = mapper.Map<CollectionResult<TeacherModel>>(teachers);
+        var locations = await get.ExecuteAsync(parameters, cancellationToken);
+        var data = mapper.Map<CollectionResult<LocationModel>>(locations);
 
         return data;
     }
 
     /// <summary>
-    ///     Обновление преподавателя
+    ///     Обновление места проведения
     /// </summary>
-    /// <param name="id">Идентификатор преподавателя</param>
-    /// <param name="parameters">Параметры обновления преподавателя</param>
+    /// <param name="id">Идентификатор места проведения</param>
+    /// <param name="parameters">Параметры обновления места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
-    /// <response code="200">Успешное обновление преподавателя</response>
+    /// <response code="200">Успешное обновление места проведения</response>
     /// <response code="400">Некорректные данные</response>
-    /// <response code="404">Преподаватель не найден</response>
+    /// <response code="404">Место проведения не найдено</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPut("{id}")]
     [ResponseStatusCodes(
@@ -112,20 +112,20 @@ public class TeachersController(
         HttpStatusCode.InternalServerError)]
     public async Task UpdateAsync(
         [FromRoute] Guid id,
-        [FromBody] TeacherUpdateParameters parameters,
+        [FromBody] LocationUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         await update.ExecuteAsync(id, parameters, cancellationToken);
     }
 
     /// <summary>
-    ///     Удаление преподавателя
+    ///     Удаление места проведения
     /// </summary>
-    /// <param name="id">Идентификатор преподавателя</param>
+    /// <param name="id">Идентификатор места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
-    /// <response code="200">Успешное удаление преподавателя</response>
-    /// <response code="404">Преподаватель не найден</response>
+    /// <response code="200">Успешное удаление места проведения</response>
+    /// <response code="404">Место проведения не найдено</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpDelete("{id}")]
     [ResponseStatusCodes(

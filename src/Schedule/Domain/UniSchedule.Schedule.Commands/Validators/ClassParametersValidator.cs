@@ -48,13 +48,5 @@ public class ClassCreateParametersValidator(DatabaseContext context)
 /// <summary>
 ///     Валидатор входных параметров для обновления пары
 /// </summary>
-public class ClassUpdateParametersValidator : ClassParametersValidator<ClassUpdateParameters>
-{
-    /// <summary />
-    public ClassUpdateParametersValidator(DatabaseContext context) : base(context)
-    {
-        RuleFor(x => x.Id)
-            .Must(IsExist<Class, Guid>)
-            .WithMessage("Пара не найдена");
-    }
-}
+public class ClassUpdateParametersValidator(DatabaseContext context)
+    : ClassParametersValidator<ClassUpdateParameters>(context);

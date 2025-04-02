@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddQuery<ClassQuery>();
         services.AddQuery<GroupQuery>();
         services.AddQuery<TeacherQuery>();
+        services.AddQuery<LocationQuery>();
 
         return services;
     }

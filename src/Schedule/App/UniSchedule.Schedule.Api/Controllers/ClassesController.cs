@@ -106,15 +106,15 @@ public class ClassesController(
     /// <response code="400">Некорректные данные</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPut]
+    [HttpPut("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     public async Task UpdateAsync(
-        Guid id,
-        [FromQuery] ClassUpdateParameters parameters,
+        [FromRoute] Guid id,
+        [FromBody] ClassUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         await update.ExecuteAsync(id, parameters, cancellationToken);

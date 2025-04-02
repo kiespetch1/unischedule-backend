@@ -1,11 +1,9 @@
-﻿using UniSchedule.Abstractions.Entities;
-
-namespace UniSchedule.Schedule.Entities;
+namespace UniSchedule.Shared.DTO.Parameters;
 
 /// <summary>
-///     Учебная группа
+///     Параметры обновления группы
 /// </summary>
-public class Group : Entity<Guid>
+public class GroupUpdateParameters
 {
     /// <summary>
     ///     Название
@@ -26,9 +24,4 @@ public class Group : Entity<Guid>
     ///     Имеет ли четкое разделение на подгруппы
     /// </summary>
     public required bool HasFixedSubgroups { get; set; }
-
-    /// <summary>
-    ///     Недели группы
-    /// </summary>
-    public ICollection<Week> Weeks { get; set; }
 }

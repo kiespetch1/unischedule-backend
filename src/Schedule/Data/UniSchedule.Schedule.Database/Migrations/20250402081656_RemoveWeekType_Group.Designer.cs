@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniSchedule.Schedule.Database;
@@ -12,9 +13,11 @@ using UniSchedule.Schedule.Database;
 namespace UniSchedule.Schedule.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250402081656_RemoveWeekType_Group")]
+    partial class RemoveWeekType_Group
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -270,7 +273,7 @@ namespace UniSchedule.Schedule.Database.Migrations
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Week", b =>
                 {
                     b.HasOne("UniSchedule.Schedule.Entities.Group", "Group")
-                        .WithMany("Weeks")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -281,11 +284,6 @@ namespace UniSchedule.Schedule.Database.Migrations
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Day", b =>
                 {
                     b.Navigation("Classes");
-                });
-
-            modelBuilder.Entity("UniSchedule.Schedule.Entities.Group", b =>
-                {
-                    b.Navigation("Weeks");
                 });
 
             modelBuilder.Entity("UniSchedule.Schedule.Entities.Location", b =>

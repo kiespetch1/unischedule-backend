@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddCommands<WeekCommands>();
         services.AddCommands<DayCommands>();
         services.AddCommands<ClassCommands>();
+        services.AddCommands<GroupCommand>();
 
         return services;
     }

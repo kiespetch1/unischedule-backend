@@ -1,12 +1,17 @@
-﻿using UniSchedule.Abstractions.Entities;
+using UniSchedule.Schedule.Entities.Enums;
 
-namespace UniSchedule.Schedule.Entities;
+namespace UniSchedule.Shared.DTO.Models;
 
 /// <summary>
-///     Учебная группа
+///     Модель группы
 /// </summary>
-public class Group : Entity<Guid>
+public class GroupModel
 {
+    /// <summary>
+    ///     Идентификатор
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     ///     Название
     /// </summary>
@@ -16,6 +21,11 @@ public class Group : Entity<Guid>
     ///     Курс
     /// </summary>
     public required int Grade { get; set; }
+
+    /// <summary>
+    ///     Тип недели
+    /// </summary>
+    public required WeekType WeekType { get; set; }
 
     /// <summary>
     ///     Имеет ли разделение по подгруппам
@@ -30,5 +40,5 @@ public class Group : Entity<Guid>
     /// <summary>
     ///     Недели группы
     /// </summary>
-    public ICollection<Week> Weeks { get; set; }
+    public List<WeekModel> Weeks { get; set; }
 }

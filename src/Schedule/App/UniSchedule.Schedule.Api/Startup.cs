@@ -15,6 +15,7 @@ using UniSchedule.Extensions.Utils;
 using UniSchedule.Schedule.Commands;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Queries;
+using UniSchedule.Schedule.Services;
 using UniSchedule.Validation;
 
 namespace UniSchedule.Schedule.Api;
@@ -39,6 +40,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddCommands();
         services.AddQueries();
+        services.AddServices();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         
         services.AddValidation();

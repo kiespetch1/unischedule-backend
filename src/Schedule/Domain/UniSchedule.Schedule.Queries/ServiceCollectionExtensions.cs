@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddQuery<WeeksQuery>();
         services.AddQuery<ClassQuery>();
+        services.AddQuery<GroupQuery>();
 
         return services;
     }

@@ -21,4 +21,9 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Compile Remove="Migrations\20250402091617_AddWeeks_Group.cs"/>
+        <Compile Remove="Migrations\20250402091617_AddWeeks_Group.Designer.cs"/>
+    </ItemGroup>
+
 </Project>

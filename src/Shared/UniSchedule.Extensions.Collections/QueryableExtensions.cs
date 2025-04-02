@@ -13,7 +13,7 @@ public static partial class QueryableExtensions
     /// <summary>
     ///     Представление <see cref="IQueryable{T}" /> в <see cref="query" />
     /// </summary>
-    /// <param name="cancellationToken">Коллекция</param>
+    /// <param name="query">Коллекция</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <typeparam name="T">Тип элементов коллекции</typeparam>
     /// <returns>Коллекция, обёрнутая в <see cref="CollectionResult{T}" /></returns>
@@ -65,7 +65,7 @@ public static partial class QueryableExtensions
     /// </summary>
     /// <param name="query">Коллекция <see cref="id" />"/></param>
     /// <param name="id">Идентификатор</param>
-    /// <typeparam name="TKey">Тип элементов коллекции</typeparam>
+    /// <typeparam name="TEntity">Тип элементов коллекции</typeparam>
     /// <typeparam name="TKey">Тип ключа сущности</typeparam>
     /// <returns>Элемент коллекции</returns>
     public static TEntity SingleOrNotFound<TEntity, TKey>(this IQueryable<TEntity> query, TKey id)

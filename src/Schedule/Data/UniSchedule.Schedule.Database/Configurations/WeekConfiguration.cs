@@ -17,5 +17,9 @@ public class WeekConfiguration : IEntityTypeConfiguration<Week>
         builder
             .HasMany(x => x.Days)
             .WithOne(x => x.Week);
+
+        builder
+            .HasOne(x => x.Group)
+            .WithMany(x => x.Weeks);
     }
 }

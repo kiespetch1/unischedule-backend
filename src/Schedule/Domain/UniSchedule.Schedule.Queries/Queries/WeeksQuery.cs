@@ -18,11 +18,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
         .Include(x => x.Days)
         .ThenInclude(x => x.Classes);
 
-    /// <summary>
-    ///     Получение списка недель
-    /// </summary>
-    /// <param name="parameters">Параметры запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
+    /// <inheritdoc />
     public override async Task<CollectionResult<Week>> ExecuteAsync(
         WeekQueryParameters parameters,
         CancellationToken cancellationToken = default)
@@ -47,6 +43,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
         return await query.ToCollectionResultAsync(cancellationToken);
     }
 
+    /// <inheritdoc />
     public override async Task<Week> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);

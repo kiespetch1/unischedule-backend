@@ -140,50 +140,6 @@ public class ClassesController(
     {
         await delete.ExecuteAsync(id, cancellationToken);
     }
-
-    /// <summary>
-    ///     Установка статуса отмены пары
-    /// </summary>
-    /// <param name="id">Идентификатор пары</param>
-    /// <param name="isCancelled">Статус отмены</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Результат операции</returns>
-    /// <response code="200">Успешное обновление статуса</response>
-    /// <response code="404">Пара не найдена</response>
-    /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPatch("{id}/cancelled")]
-    [ResponseStatusCodes(
-        HttpStatusCode.OK,
-        HttpStatusCode.NotFound,
-        HttpStatusCode.InternalServerError)]
-    public async Task SetCancelledAsync(
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        await service.SetCancelledAsync(id, cancellationToken);
-    }
-
-    /// <summary>
-    ///     Возвращение пары из статуса отмены
-    /// </summary>
-    /// <param name="id">Идентификатор пары</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Результат операции</returns>
-    /// <response code="200">Успешное обновление статуса</response>
-    /// <response code="404">Пара не найдена</response>
-    /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPatch("{id}/")]
-    [ResponseStatusCodes(
-        HttpStatusCode.OK,
-        HttpStatusCode.NotFound,
-        HttpStatusCode.InternalServerError)]
-    public async Task SetActiveAsync(
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        await service.SetActiveAsync(id, cancellationToken);
-    }
-
     /// <summary>
     ///     Отмена пары
     /// </summary>

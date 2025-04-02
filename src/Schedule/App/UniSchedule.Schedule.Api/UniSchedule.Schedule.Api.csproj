@@ -35,6 +35,7 @@
         <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
         <ProjectReference Include="..\..\Domain\UniSchedule.Schedule.Commands\UniSchedule.Schedule.Commands.csproj"/>
         <ProjectReference Include="..\..\Domain\UniSchedule.Schedule.Queries\UniSchedule.Schedule.Queries.csproj"/>
+        <ProjectReference Include="..\..\Domain\UniSchedule.Schedule.Services\UniSchedule.Schedule.Services.csproj"/>
         <ProjectReference Include="..\..\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj"/>
     </ItemGroup>
 

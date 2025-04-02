@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\src\Schedule\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
-        <ProjectReference Include="..\src\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
+        <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
     </ItemGroup>
 
 </Project>

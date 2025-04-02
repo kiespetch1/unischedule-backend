@@ -108,7 +108,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Identity.Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Events.Database.Helpers", "src\Events\Data\UniSchedule.Events.Database.Helpers\UniSchedule.Events.Database.Helpers.csproj", "{307674F0-2A2F-4977-9302-F1FC6A75A141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.Services", "UniSchedule.Schedule.Services\UniSchedule.Schedule.Services.csproj", "{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Schedule.Services", "src\Schedule\Domain\UniSchedule.Schedule.Services\UniSchedule.Schedule.Services.csproj", "{2CBA5392-C3F0-40E9-96ED-E8AD68E77357}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

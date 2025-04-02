@@ -9,7 +9,7 @@ namespace UniSchedule.Schedule.Commands.Commands;
 /// <summary>
 ///     Команды для работы с неделями
 /// </summary>
-public class WeekCommands(DatabaseContext context, ICreateCommand<Day, DayCreateParameters, Guid> createDay) :
+public class WeekCommands(DatabaseContext context) :
     ICreateCommand<Week, WeekCreateParameters, Guid>,
     IDeleteCommand<Week, Guid>
 {

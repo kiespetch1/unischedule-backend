@@ -1,23 +1,19 @@
-﻿using UniSchedule.Abstractions.Entities;
-using UniSchedule.Abstractions.Entities.Auditable;
-using UniSchedule.Schedule.Entities.Owned;
-
-namespace UniSchedule.Schedule.Entities;
+﻿namespace UniSchedule.Shared.DTO.Models;
 
 /// <summary>
-///     Объявление
+///     Модель "Объявление"
 /// </summary>
-public class Announcement : Entity<Guid>, ICreatable, IUpdatable
+public class AnnouncementModel
 {
+    /// <summary>
+    ///     Идентификатор
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     ///     Текст объявления
     /// </summary>
     public required string Message { get; set; }
-
-    /// <summary>
-    ///     Информация о получателях
-    /// </summary>
-    public AnnouncementTargetInfo? Target { get; set; }
 
     /// <summary>
     ///     Является ли анонимным

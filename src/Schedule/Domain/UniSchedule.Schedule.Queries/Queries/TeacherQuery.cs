@@ -12,12 +12,7 @@ namespace UniSchedule.Schedule.Queries.Queries;
 /// </summary>
 public class TeacherQuery(DatabaseContext context) : EFQuery<Teacher, Guid, TeacherQueryParameters>(context)
 {
-    /// <summary>
-    ///     Получение преподавателя по идентификатору
-    /// </summary>
-    /// <param name="id">Идентификатор преподавателя</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Преподаватель</returns>
+    /// <inheritdoc />
     public override async Task<Teacher> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await BaseQuery.SingleOrNotFoundAsync(id, cancellationToken);
@@ -25,12 +20,7 @@ public class TeacherQuery(DatabaseContext context) : EFQuery<Teacher, Guid, Teac
         return entity;
     }
 
-    /// <summary>
-    ///     Получение списка преподавателей
-    /// </summary>
-    /// <param name="parameters">Параметры запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список преподавателей</returns>
+    /// <inheritdoc />
     public override async Task<CollectionResult<Teacher>> ExecuteAsync(
         TeacherQueryParameters parameters,
         CancellationToken cancellationToken = default)

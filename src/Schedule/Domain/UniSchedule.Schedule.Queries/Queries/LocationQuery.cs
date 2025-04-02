@@ -13,12 +13,7 @@ namespace UniSchedule.Schedule.Queries.Queries;
 /// </summary>
 public class LocationQuery(DatabaseContext context) : EFQuery<Location, Guid, LocationQueryParameters>(context)
 {
-    /// <summary>
-    ///     Получение места проведения по идентификатору
-    /// </summary>
-    /// <param name="id">Идентификатор места проведения</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Место проведения</returns>
+    /// <inheritdoc />
     public override async Task<Location> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await BaseQuery.SingleOrNotFoundAsync(id, cancellationToken);
@@ -26,12 +21,7 @@ public class LocationQuery(DatabaseContext context) : EFQuery<Location, Guid, Lo
         return entity;
     }
 
-    /// <summary>
-    ///     Получение списка мест проведения
-    /// </summary>
-    /// <param name="parameters">Параметры запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список мест проведения</returns>
+    /// <inheritdoc />
     public override async Task<CollectionResult<Location>> ExecuteAsync(
         LocationQueryParameters parameters,
         CancellationToken cancellationToken = default)

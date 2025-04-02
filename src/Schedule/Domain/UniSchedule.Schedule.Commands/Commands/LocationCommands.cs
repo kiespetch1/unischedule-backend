@@ -20,7 +20,8 @@ public class LocationCommands(DatabaseContext context) :
     /// <param name="parameters">Параметры создания места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Идентификатор созданного места проведения</returns>
-    public async Task<Guid> ExecuteAsync(LocationCreateParameters parameters,
+    public async Task<Guid> ExecuteAsync(
+        LocationCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var location = new Location
@@ -40,7 +41,9 @@ public class LocationCommands(DatabaseContext context) :
     /// <param name="id">Идентификатор места проведения</param>
     /// <param name="parameters">Параметры обновления места проведения</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public async Task ExecuteAsync(Guid id, LocationUpdateParameters parameters,
+    public async Task ExecuteAsync(
+        Guid id,
+        LocationUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var location = await context.Locations.SingleOrNotFoundAsync(id, cancellationToken);

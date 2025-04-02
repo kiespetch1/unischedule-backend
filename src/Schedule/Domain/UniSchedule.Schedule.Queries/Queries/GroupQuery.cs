@@ -13,6 +13,7 @@ namespace UniSchedule.Schedule.Queries.Queries;
 /// </summary>
 public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQueryParameters>(context)
 {
+    /// <summary />
     private IQueryable<Group> Query => BaseQuery
         .Include(x => x.Weeks)
         .ThenInclude(x => x.Days)

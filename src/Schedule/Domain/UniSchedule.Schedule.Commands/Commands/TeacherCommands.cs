@@ -20,7 +20,8 @@ public class TeacherCommands(DatabaseContext context) :
     /// <param name="parameters">Параметры создания преподавателя</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Идентификатор созданного преподавателя</returns>
-    public async Task<Guid> ExecuteAsync(TeacherCreateParameters parameters,
+    public async Task<Guid> ExecuteAsync(
+        TeacherCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var teacher = new Teacher { Name = parameters.Name, FullName = parameters.FullName };
@@ -37,7 +38,9 @@ public class TeacherCommands(DatabaseContext context) :
     /// <param name="id">Идентификатор преподавателя</param>
     /// <param name="parameters">Параметры обновления преподавателя</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public async Task ExecuteAsync(Guid id, TeacherUpdateParameters parameters,
+    public async Task ExecuteAsync(
+        Guid id,
+        TeacherUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var teacher = await context.Teachers.SingleOrNotFoundAsync(id, cancellationToken);

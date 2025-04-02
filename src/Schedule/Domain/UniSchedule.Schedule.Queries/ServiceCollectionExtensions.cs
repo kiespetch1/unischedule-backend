@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddQuery<GroupQuery>();
         services.AddQuery<TeacherQuery>();
         services.AddQuery<LocationQuery>();
+        services.AddQuery<AnnouncementQuery>();
 
         return services;
     }

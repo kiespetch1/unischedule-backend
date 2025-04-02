@@ -20,7 +20,8 @@ public class ClassCommands(DatabaseContext context) :
     /// <param name="parameters">Параметры создания пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Идентификатор созданной пары</returns>
-    public async Task<Guid> ExecuteAsync(ClassCreateParameters parameters,
+    public async Task<Guid> ExecuteAsync(
+        ClassCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var @class = new Class
@@ -48,7 +49,9 @@ public class ClassCommands(DatabaseContext context) :
     /// <param name="id">Идентификатор пары</param>
     /// <param name="parameters">Параметры обновления пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public async Task ExecuteAsync(Guid id, ClassUpdateParameters parameters,
+    public async Task ExecuteAsync(
+        Guid id,
+        ClassUpdateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var @class = await context.Classes.SingleOrNotFoundAsync(id, cancellationToken);

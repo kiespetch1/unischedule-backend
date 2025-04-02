@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddCommands<GroupCommands>();
         services.AddCommands<TeacherCommands>();
         services.AddCommands<LocationCommands>();
+        services.AddCommands<AnnouncementCommands>();
 
         return services;
     }

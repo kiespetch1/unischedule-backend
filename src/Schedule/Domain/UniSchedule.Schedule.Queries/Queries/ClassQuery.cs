@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using UniSchedule.Abstractions.Queries;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Data;
@@ -12,30 +13,26 @@ namespace UniSchedule.Schedule.Queries.Queries;
 /// </summary>
 public class ClassQuery(DatabaseContext context) : EFQuery<Class, Guid, ClassQueryParameters>(context)
 {
-    /// <summary>
-    ///     Получение пары по идентификатору
-    /// </summary>
-    /// <param name="id">Идентификатор пары</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Пара</returns>
+    /// <summary />
+    private IQueryable<Class> Query => context.Classes
+        .Include(x => x.Day)
+        .Include(x => x.Teacher)
+        .Include(x => x.Location);
+
+    /// <inheritdoc />
     public override async Task<Class> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await BaseQuery.SingleOrNotFoundAsync(id, cancellationToken);
+        var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
         return entity;
     }
 
-    /// <summary>
-    ///     Получение списка пар
-    /// </summary>
-    /// <param name="parameters">Параметры запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список пар</returns>
+    /// <inheritdoc />
     public override async Task<CollectionResult<Class>> ExecuteAsync(
         ClassQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        var query = BaseQuery;
+        var query = Query;
 
         if (parameters.DayId is not null)
         {

@@ -9,8 +9,10 @@ namespace UniSchedule.Schedule.Commands.Validators;
 /// <summary>
 ///     Валидатор параметров создания недели
 /// </summary>
-public class WeekParametersValidator<TParams> : ValidatorBase<TParams> where TParams : WeekCreateParameters
+public class WeekParametersValidator<TParams> : ValidatorBase<TParams>
+    where TParams : WeekCreateParameters
 {
+    /// <summary />
     public WeekParametersValidator(DatabaseContext context) : base(context)
     {
         RuleFor(x => x.GroupId)

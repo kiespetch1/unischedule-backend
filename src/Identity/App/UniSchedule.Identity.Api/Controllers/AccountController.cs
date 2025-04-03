@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
-using UniSchedule.Identity.DTO;
+using UniSchedule.Identity.DTO.Models;
+using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Services.Abstractions;
 
 namespace UniSchedule.Identity.Api.Controllers;

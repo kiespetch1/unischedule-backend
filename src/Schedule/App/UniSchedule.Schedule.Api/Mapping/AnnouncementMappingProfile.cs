@@ -11,7 +11,9 @@ public class AnnouncementMappingProfile : MappingProfileBase
 {
     public AnnouncementMappingProfile()
     {
-        CreateMap<Announcement, AnnouncementModel>();
+        CreateMap<Announcement, AnnouncementModel>()
+            .ForMember(x => x.CreatedBy, opt => opt.MapFrom(x => x.Creator))
+            .ForMember(x => x.UpdatedBy, opt => opt.MapFrom(x => x.Updater));
 
         CreateMapForCollectionResult<Announcement, AnnouncementModel>();
     }

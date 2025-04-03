@@ -7,13 +7,13 @@ using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
 using UniSchedule.Extensions.DI.Controllers;
 using UniSchedule.Extensions.DI.Database;
-using UniSchedule.Extensions.DI.Messaging;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 using UniSchedule.Extensions.DI.Middleware;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Messaging;
 using UniSchedule.Validation;
 
 namespace UniSchedule.Events.Api;

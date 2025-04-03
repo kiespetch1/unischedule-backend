@@ -1,5 +1,5 @@
 ﻿using UniSchedule.Abstractions.Helpers.Identity;
-using UniSchedule.Identity.DTO;
+using UniSchedule.Identity.DTO.Models;
 
 namespace UniSchedule.Identity.Services.Abstractions;
 

@@ -1,6 +1,6 @@
 ﻿using UniSchedule.Identity.Entities;
 
-namespace UniSchedule.Identity.DTO;
+namespace UniSchedule.Identity.DTO.Models;
 
 /// <summary>
 ///     Модель контекста пользователя

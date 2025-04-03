@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using UniSchedule.Abstractions.Helpers.Database;
+using UniSchedule.Entities;
 using UniSchedule.Schedule.Entities;
 
 namespace UniSchedule.Schedule.Database;
@@ -44,6 +45,11 @@ public class DatabaseContext(DbContextOptions<DatabaseContext> options) : Audita
     ///     Места проведения занятий
     /// </summary>
     public DbSet<Location> Locations { get; set; }
+
+    /// <summary>
+    ///     Пользователи
+    /// </summary>
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

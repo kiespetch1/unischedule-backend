@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.DTO;
+﻿namespace UniSchedule.Identity.DTO.Parameters;
 
 /// <summary>
 ///     Параметры для создания токена

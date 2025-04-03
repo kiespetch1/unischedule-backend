@@ -1,4 +1,5 @@
 using UniSchedule.Extensions.DI.Database;
+using UniSchedule.Extensions.DI.Sync;
 
 namespace UniSchedule.Identity.Api;
 
@@ -9,6 +10,7 @@ public class Program
         var host = CreateHostBuilder(args).Build();
         await host.MigrateDatabaseAsync();
         await host.SeedDataAsync();
+        await host.SyncDataAsync();
 
         await host.RunAsync();
     }

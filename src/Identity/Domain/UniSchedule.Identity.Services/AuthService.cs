@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Identity.Database;
-using UniSchedule.Identity.DTO;
+using UniSchedule.Identity.DTO.Models;
+using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Services.Abstractions;
 

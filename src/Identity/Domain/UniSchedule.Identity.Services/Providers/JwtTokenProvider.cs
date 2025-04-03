@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.DI.Settings.Auth;
-using UniSchedule.Identity.DTO;
+using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.Services.Abstractions;
 
 namespace UniSchedule.Identity.Services.Providers;

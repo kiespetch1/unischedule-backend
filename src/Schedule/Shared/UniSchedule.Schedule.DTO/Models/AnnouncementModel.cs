@@ -26,9 +26,9 @@ public class AnnouncementModel
     public DateTime CreatedAt { get; set; }
 
     /// <summary>
-    ///     Идентификатор создателя
+    ///    Данные о создателе
     /// </summary>
-    public Guid? CreatedBy { get; set; }
+    public UserModel? CreatedBy { get; set; }
 
     /// <summary>
     ///     Дата обновления
@@ -36,7 +36,7 @@ public class AnnouncementModel
     public DateTime UpdatedAt { get; set; }
 
     /// <summary>
-    ///     Идентификатор обновителя
+    ///     Данные об обновителе
     /// </summary>
-    public Guid? UpdatedBy { get; set; }
+    public UserModel? UpdatedBy { get; set; }
 }

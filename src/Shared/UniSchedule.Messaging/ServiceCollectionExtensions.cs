@@ -4,7 +4,7 @@ using RabbitMQ.Client;
 using UniSchedule.Abstractions.Messaging;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 
-namespace UniSchedule.Extensions.DI.Messaging;
+namespace UniSchedule.Messaging;
 
 /// <summary>
 ///     Методы расширения для DI

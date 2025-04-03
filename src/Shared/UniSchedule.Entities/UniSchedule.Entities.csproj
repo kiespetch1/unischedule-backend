@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj"/>
-        <ProjectReference Include="..\..\..\Shared\UniSchedule.Entities\UniSchedule.Entities.csproj"/>
+        <ProjectReference Include="..\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj"/>
     </ItemGroup>
 
 </Project>

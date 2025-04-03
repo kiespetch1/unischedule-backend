@@ -5,16 +5,19 @@ using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
 using UniSchedule.Extensions.DI.Controllers;
 using UniSchedule.Extensions.DI.Database;
-using UniSchedule.Extensions.DI.Messaging;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 using UniSchedule.Extensions.DI.Middleware;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
+using UniSchedule.Extensions.DI.Sync;
 using UniSchedule.Extensions.Utils;
 using UniSchedule.Identity.Database;
 using UniSchedule.Identity.Database.Helpers;
+using UniSchedule.Identity.DTO.Messages;
 using UniSchedule.Identity.Services;
+using UniSchedule.Identity.Services.Publishers;
+using UniSchedule.Messaging;
 using UniSchedule.Validation;
 
 namespace UniSchedule.Identity.Api;
@@ -28,14 +31,24 @@ public class Startup(IConfiguration configuration)
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDatabase<DatabaseContext>(connectionString!);
+        services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
         services.AddDataSeeder<DataSeeder, DatabaseContext>();
+        services.AddSyncData<UsersSyncService>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();
+            configure.AddPublisher<UserCreatedPublisher, UserMqCreateParameters>();
+            configure.AddPublisher<UserUpdatedPublisher, UserMqUpdateParameters>();
+            configure.AddPublisher<UserDeletedPublisher, UserMqDeleteParameters>();
+            configure.AddPublisher<UsersSyncPublisher, UsersMqSyncParameters>();
         }, messageConfigure =>
         {
             messageConfigure.MessageConfigure<EventCreateParameters>();
+            messageConfigure.MessageConfigure<UserMqCreateParameters>();
+            messageConfigure.MessageConfigure<UserMqUpdateParameters>();
+            messageConfigure.MessageConfigure<UserMqDeleteParameters>();
+            messageConfigure.MessageConfigure<UsersMqSyncParameters>();
         });
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());

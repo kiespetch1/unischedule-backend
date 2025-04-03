@@ -5,13 +5,13 @@ using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
 using UniSchedule.Extensions.DI.Controllers;
 using UniSchedule.Extensions.DI.Database;
-using UniSchedule.Extensions.DI.Messaging;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 using UniSchedule.Extensions.DI.Middleware;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Messaging;
 using UniSchedule.Schedule.Commands;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Queries;
@@ -29,10 +29,12 @@ public class Startup(IConfiguration configuration)
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDatabase<DatabaseContext>(connectionString!);
+        services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();
+            configure.AddUsersConsumers();
         }, messageConfigure =>
         {
             messageConfigure.MessageConfigure<EventCreateParameters>();

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.Mapping;
-using UniSchedule.Identity.DTO;
+using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.Entities;
 
 namespace UniSchedule.Identity.Api.Mapping;

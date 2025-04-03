@@ -1,5 +1,7 @@
-﻿using UniSchedule.Abstractions.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using UniSchedule.Abstractions.Entities;
 using UniSchedule.Abstractions.Entities.Auditable;
+using UniSchedule.Entities;
 using UniSchedule.Schedule.Entities.Owned;
 
 namespace UniSchedule.Schedule.Entities;
@@ -43,4 +45,16 @@ public class Announcement : Entity<Guid>, ICreatable, IUpdatable
     ///     Идентификатор обновителя
     /// </summary>
     public Guid? UpdatedBy { get; set; }
+
+    /// <summary>
+    ///     Данные пользователя создавшего объявление
+    /// </summary>
+    [NotMapped]
+    public User? Creator { get; set; }
+
+    /// <summary>
+    ///     Данные пользователя обновившего объявление
+    /// </summary>
+    [NotMapped]
+    public User? Updater { get; set; }
 }

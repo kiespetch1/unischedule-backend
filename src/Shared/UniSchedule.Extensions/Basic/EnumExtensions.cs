@@ -48,4 +48,15 @@ public static class EnumExtensions
     {
         return (int)(ValueType)source;
     }
+
+    /// <summary>
+    ///     Проверка наличия значения в перечислении
+    /// </summary>
+    /// <param name="value">Проверяемое значени</param>
+    /// <typeparam name="TEnum">Тип перечсиления</typeparam>
+    /// <returns>true, если значение присутствует в перечислении; false, в противном случае</returns>
+    public static bool IsValidEnum<TEnum>(TEnum value)
+    {
+        return value != null && Enum.IsDefined(typeof(TEnum), value);
+    }
 }

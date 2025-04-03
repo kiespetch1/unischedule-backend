@@ -35,7 +35,7 @@ public class WeeksController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
     public async Task<Result<Guid>> CreateAsync(
-        [FromQuery] WeekCreateParameters parameters,
+        [FromBody] WeekCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var id = await create.ExecuteAsync(parameters, cancellationToken);

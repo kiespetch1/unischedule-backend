@@ -39,7 +39,7 @@ public class LocationsController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
     public async Task<Result<Guid>> CreateAsync(
-        [FromQuery] LocationCreateParameters parameters,
+        [FromBody] LocationCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var id = await create.ExecuteAsync(parameters, cancellationToken);

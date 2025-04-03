@@ -41,7 +41,7 @@ public class GroupsController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
     public async Task<Result<Guid>> CreateAsync(
-        [FromQuery] GroupCreateParameters parameters,
+        [FromBody] GroupCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var id = await create.ExecuteAsync(parameters, cancellationToken);

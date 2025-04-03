@@ -22,6 +22,11 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
         builder
             .HasOne(x => x.Location)
             .WithMany(x => x.Classes)
-            .HasForeignKey(x => x.Id);
+            .HasForeignKey(x => x.LocationId);
+
+        builder
+            .HasOne(x => x.Teacher)
+            .WithMany(x => x.Classes)
+            .HasForeignKey(x => x.TeacherId);
     }
 }

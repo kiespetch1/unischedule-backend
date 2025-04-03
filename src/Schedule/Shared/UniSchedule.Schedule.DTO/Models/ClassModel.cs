@@ -48,12 +48,12 @@ public class ClassModel
     public Guid DayId { get; set; }
 
     /// <summary>
-    ///     Идентификатор места проведения
+    ///     Место проведения
     /// </summary>
-    public Guid LocationId { get; set; }
+    public LocationModel Location { get; set; }
 
     /// <summary>
-    ///     Идентификатор преподавателя
+    ///     Преподаватель
     /// </summary>
-    public Guid TeacherId { get; set; }
+    public TeacherModel Teacher { get; set; }
 }

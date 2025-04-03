@@ -39,7 +39,7 @@ public class TeachersController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
     public async Task<Result<Guid>> CreateAsync(
-        [FromQuery] TeacherCreateParameters parameters,
+        [FromBody] TeacherCreateParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var id = await create.ExecuteAsync(parameters, cancellationToken);

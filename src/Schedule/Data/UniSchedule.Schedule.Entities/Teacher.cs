@@ -16,4 +16,9 @@ public class Teacher : Entity<Guid>
     ///     Полное ФИО преподавателя
     /// </summary>
     public required string FullName { get; set; }
+
+    /// <summary>
+    ///     Пары
+    /// </summary>
+    public ICollection<Class> Classes { get; set; }
 }

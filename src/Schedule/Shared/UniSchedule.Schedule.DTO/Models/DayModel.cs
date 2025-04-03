@@ -19,4 +19,9 @@ public class DayModel
     ///     Идентификатор недели
     /// </summary>
     public Guid WeekId { get; set; }
+
+    /// <summary>
+    ///     Пары
+    /// </summary>
+    public ICollection<ClassModel> Classes { get; set; }
 }

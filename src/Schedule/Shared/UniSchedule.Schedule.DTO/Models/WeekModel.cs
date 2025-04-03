@@ -1,5 +1,4 @@
-﻿using UniSchedule.Schedule.Entities;
-using UniSchedule.Schedule.Entities.Enums;
+﻿using UniSchedule.Schedule.Entities.Enums;
 
 namespace UniSchedule.Shared.DTO.Models;
 
@@ -31,5 +30,5 @@ public class WeekModel
     /// <summary>
     ///     Дни
     /// </summary>
-    public ICollection<Day> Days { get; set; }
+    public ICollection<DayModel> Days { get; set; }
 }

@@ -61,7 +61,7 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
                  x.Target.IncludedGrades.Contains(entity.Grade)) ||
                 (x.Target != null && x.Target.ExcludedGrades != null &&
                  !x.Target.ExcludedGrades.Contains(entity.Grade)),
-            //TODO: аналогично нужно сделать валидацию для кафедр/отделений когда до них дойдет дело
+            //TODO: аналогично нужно сделать получение для кафедр/отделений когда до них дойдет дело
             cancellationToken);
         entity.LastAnnouncement = lastAnnouncement;
 

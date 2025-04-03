@@ -21,11 +21,23 @@ public class AnnouncementParametersValidator<TParams> : ValidatorBase<TParams>
 
         RuleFor(x => x.Target)
             .Must(x => x != null && IsExists<Group, Guid>(x.IncludedGroups))
-            .When(x => x.Target is { IncludedGroups.Count: > 0 });
+            .When(x => x.Target is { IncludedGroups.Count: > 0 })
+            .WithMessage("Не все включенные группы существуют");
 
         RuleFor(x => x.Target)
             .Must(x => x != null && IsExists<Group, Guid>(x.ExcludedGroups))
-            .When(x => x.Target is { ExcludedGroups.Count: > 0 });
+            .When(x => x.Target is { ExcludedGroups.Count: > 0 })
+            .WithMessage("Не все исключенные группы существуют");
+
+        RuleFor(x => x.Target)
+            .Must(x => x != null && x.IncludedGrades.Any(grade => grade is > 0 and <= 4))
+            .When(x => x.Target is { IncludedGrades.Count: > 0 })
+            .WithMessage("Включенные курсы должны быть в диапазоне от 1 до 4");
+
+        RuleFor(x => x.Target)
+            .Must(x => x != null && x.ExcludedGrades.Any(grade => grade is > 0 and <= 4))
+            .When(x => x.Target is { ExcludedGrades.Count: > 0 })
+            .WithMessage("Исключенные курсы должны быть в диапазоне от 1 до 4");
 
         //TODO: аналогично нужно сделать валидацию для кафедр/отделений когда до них дойдет дело
     }

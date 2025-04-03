@@ -32,10 +32,6 @@ public class ClassParametersValidator<TParams> : ValidatorBase<TParams>
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Название пары не может быть пустым");
-
-        RuleFor(x => x.Subgroup)
-            .NotEmpty()
-            .WithMessage("Подгруппа не может быть пустой");
     }
 }
 

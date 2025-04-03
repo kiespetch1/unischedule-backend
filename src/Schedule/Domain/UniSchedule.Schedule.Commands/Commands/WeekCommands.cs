@@ -9,7 +9,7 @@ namespace UniSchedule.Schedule.Commands.Commands;
 /// <summary>
 ///     Команды для работы с неделями
 /// </summary>
-public class WeekCommands(DatabaseContext context) :
+public class WeekCommands(DatabaseContext context, ICreateCommand<Day, DayCreateParameters, Guid> createDay) :
     ICreateCommand<Week, WeekCreateParameters, Guid>,
     IDeleteCommand<Week, Guid>
 {
@@ -25,8 +25,10 @@ public class WeekCommands(DatabaseContext context) :
         {
             WeekType = parameters.WeekType, Subgroup = parameters.Subgroup, GroupId = parameters.GroupId
         };
+        
         context.Weeks.Add(week);
         await context.SaveChangesAsync(cancellationToken);
+        await InitializeDaysAsync(week.Id, cancellationToken);
 
         return week.Id;
     }
@@ -42,5 +44,23 @@ public class WeekCommands(DatabaseContext context) :
 
         context.Weeks.Remove(week);
         await context.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task InitializeDaysAsync(Guid weekId, CancellationToken cancellationToken = default)
+    {
+        var parameters = new[]
+        {
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Monday, WeekId = weekId },
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Tuesday, WeekId = weekId },
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Wednesday, WeekId = weekId },
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Thursday, WeekId = weekId },
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Friday, WeekId = weekId },
+            new DayCreateParameters { DayOfWeek = DayOfWeek.Saturday, WeekId = weekId }
+        };
+
+        foreach (var parameter in parameters)
+        {
+            await createDay.ExecuteAsync(parameter, cancellationToken);
+        }
     }
 }

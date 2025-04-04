@@ -30,12 +30,12 @@ public class AnnouncementParametersValidator<TParams> : ValidatorBase<TParams>
             .WithMessage("Не все исключенные группы существуют");
 
         RuleFor(x => x.Target)
-            .Must(x => x != null && x.IncludedGrades.Any(grade => grade is > 0 and <= 4))
+            .Must(x => x != null && x.IncludedGrades!.Any(grade => grade is > 0 and <= 4))
             .When(x => x.Target is { IncludedGrades.Count: > 0 })
             .WithMessage("Включенные курсы должны быть в диапазоне от 1 до 4");
 
         RuleFor(x => x.Target)
-            .Must(x => x != null && x.ExcludedGrades.Any(grade => grade is > 0 and <= 4))
+            .Must(x => x != null && x.ExcludedGrades!.Any(grade => grade is > 0 and <= 4))
             .When(x => x.Target is { ExcludedGrades.Count: > 0 })
             .WithMessage("Исключенные курсы должны быть в диапазоне от 1 до 4");
 

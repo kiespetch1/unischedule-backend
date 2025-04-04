@@ -5,6 +5,8 @@ using UniSchedule.Abstractions.Commands;
 using UniSchedule.Abstractions.Queries.Base;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
+using UniSchedule.Identity.Shared;
+using UniSchedule.Identity.Shared.Attributes;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Models;
 using UniSchedule.Shared.DTO.Parameters;
@@ -38,6 +40,7 @@ public class AnnouncementsController(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task<Result<Guid>> CreateAsync(
         [FromBody] AnnouncementCreateParameters parameters,
         CancellationToken cancellationToken = default)
@@ -110,6 +113,7 @@ public class AnnouncementsController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task UpdateAsync(
         [FromRoute] Guid id,
         [FromBody] AnnouncementUpdateParameters parameters,
@@ -132,6 +136,7 @@ public class AnnouncementsController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task DeleteAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)

@@ -5,6 +5,8 @@ using UniSchedule.Abstractions.Commands;
 using UniSchedule.Abstractions.Queries.Base;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
+using UniSchedule.Identity.Shared;
+using UniSchedule.Identity.Shared.Attributes;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Services.Abstractions;
 using UniSchedule.Shared.DTO.Models;
@@ -40,6 +42,7 @@ public class ClassesController(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task<Result<Guid>> CreateAsync(
         [FromBody] ClassCreateParameters parameters,
         CancellationToken cancellationToken = default)
@@ -112,6 +115,7 @@ public class ClassesController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task UpdateAsync(
         [FromRoute] Guid id,
         [FromBody] ClassUpdateParameters parameters,
@@ -134,6 +138,7 @@ public class ClassesController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task DeleteAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
@@ -153,6 +158,7 @@ public class ClassesController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task CancelAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
@@ -173,6 +179,7 @@ public class ClassesController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task RestoreAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)

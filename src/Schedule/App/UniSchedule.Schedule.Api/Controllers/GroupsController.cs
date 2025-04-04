@@ -5,6 +5,8 @@ using UniSchedule.Abstractions.Commands;
 using UniSchedule.Abstractions.Queries.Base;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
+using UniSchedule.Identity.Shared;
+using UniSchedule.Identity.Shared.Attributes;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Services.Abstractions;
 using UniSchedule.Shared.DTO.Models;
@@ -40,6 +42,7 @@ public class GroupsController(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task<Result<Guid>> CreateAsync(
         [FromBody] GroupCreateParameters parameters,
         CancellationToken cancellationToken = default)
@@ -111,6 +114,7 @@ public class GroupsController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task UpdateAsync(
         [FromRoute] Guid id,
         [FromBody] GroupUpdateParameters parameters,
@@ -133,6 +137,7 @@ public class GroupsController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task DeleteAsync(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
@@ -151,6 +156,7 @@ public class GroupsController(
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task UpdateGradesAsync(CancellationToken cancellationToken = default)
     {
         await service.UpdateGradesAsync(cancellationToken);

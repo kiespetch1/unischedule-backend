@@ -61,6 +61,7 @@ public class AccountController(
         HttpStatusCode.Forbidden,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize]
     public async Task<Result<TokenModel>> RefreshAsync(RefreshParameters parameters)
     {
         var tokenModel = await authenticationService.RefreshAsync(parameters);

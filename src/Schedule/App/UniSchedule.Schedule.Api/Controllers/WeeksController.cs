@@ -5,6 +5,8 @@ using UniSchedule.Abstractions.Commands;
 using UniSchedule.Abstractions.Queries.Base;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
+using UniSchedule.Identity.Shared;
+using UniSchedule.Identity.Shared.Attributes;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Models;
 using UniSchedule.Shared.DTO.Parameters;
@@ -34,6 +36,7 @@ public class WeeksController(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task<Result<Guid>> CreateAsync(
         [FromBody] WeekCreateParameters parameters,
         CancellationToken cancellationToken = default)
@@ -57,6 +60,7 @@ public class WeeksController(
         HttpStatusCode.OK,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
     public async Task DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
     {
         await delete.ExecuteAsync(id, cancellationToken);

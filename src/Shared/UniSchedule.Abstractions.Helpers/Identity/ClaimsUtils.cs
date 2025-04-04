@@ -28,7 +28,7 @@ public static class ClaimsUtils
         claims.AddClaims((context.ManagedGroupIds ?? [])
             .Select(groupId => new Claim(ClaimTypes.ManagedGroupIds, groupId.ToString())));
         claims.AddClaim(new Claim(ClaimTypes.GroupId, context.GroupId.ToString() ?? Guid.Empty.ToString()));
-        claims.AddClaim(new Claim(ClaimTypes.Role, JsonSerializer.Serialize(context.Role)));
+        claims.AddClaim(new Claim(ClaimTypes.Role, JsonSerializer.Serialize(context.Role.Name)));
 
         return claims;
     }

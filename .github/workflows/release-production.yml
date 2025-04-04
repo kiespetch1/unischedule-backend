@@ -1,8 +1,8 @@
-﻿name: Release on Staging
+﻿name: Release on Production
 
 on:
   release:
-    types: [ prereleased ]
+    types: [ published ]
 
 jobs:
   build:
@@ -81,9 +81,9 @@ jobs:
       - name: Copy docker-compose.yml to VPS
         uses: appleboy/scp-action@v0.1.3
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.SSH_HOST_PRODUCTION }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_KEY_PRODUCTION }}
           source: |
             docker-compose.yaml
           target: "~/unischedule"
@@ -91,9 +91,9 @@ jobs:
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.SSH_HOST_PRODUCTION }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_KEY_PRODUCTION }}
           script: |
             cd unischedule
             docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
@@ -102,7 +102,7 @@ jobs:
             POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             EMAIL=${{ secrets.EMAIL }}
-            CURRENT_DOMAIN=${{ secrets.DOMAIN_STAGING }}
+            CURRENT_DOMAIN=${{ secrets.DOMAIN_PRODUCTION }}
             RabbitMqSettings__Host=${{ secrets.RABBITMQ_HOST }}
             RabbitMqSettings__Username=${{ secrets.RABBITMQ_USER }}
             RabbitMqSettings__Password=${{ secrets.RABBITMQ_PASSWORD }}

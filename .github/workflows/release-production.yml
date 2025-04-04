@@ -110,6 +110,11 @@ jobs:
             JwtTokenSettings__Audience=${{ secrets.JWT_AUDIENCE }}
             JwtTokenSettings__Lifetime=${{ secrets.JWT_LIFETIME }}
             JwtTokenSettings__SecurityKey=${{ secrets.JWT_SECURITY_KEY }}
+            AdminCredentials__Email=${{ secrets.EMAIL }}
+            AdminCredentials__Password=${{ secrets.ADMIN_PASSWORD }}
+            AdminCredentials__Surname=${{ secrets.ADMIN_SURNAME }}
+            AdminCredentials__Name=${{ secrets.ADMIN_NAME }}
+            AdminCredentials__Patronymic=${{ secrets.ADMIN_PATRONYMIC }}
             EOF
             docker compose pull
             docker compose up -d

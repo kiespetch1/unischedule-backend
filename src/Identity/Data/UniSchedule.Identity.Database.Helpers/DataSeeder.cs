@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UniSchedule.Extensions.DI.Database;
+using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Entities.Owned;
 using UniSchedule.Identity.Shared;
@@ -7,7 +8,8 @@ using UniSchedule.Identity.Shared;
 namespace UniSchedule.Identity.Database.Helpers;
 
 /// <inheritdoc cref="HandbookSeederBase{TContext}" />
-public class DataSeeder(DatabaseContext context) : HandbookSeederBase<DatabaseContext>(context)
+public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
+    : HandbookSeederBase<DatabaseContext>(context)
 {
     /// <inheritdoc cref="HandbookSeederBase{TContext}.SeedAsync" />
     public override async Task SeedAsync()
@@ -81,10 +83,9 @@ public class DataSeeder(DatabaseContext context) : HandbookSeederBase<DatabaseCo
     /// </summary>
     /// <param name="roles">Список ролей</param>
     /// <returns>Модель пользователя</returns>
-    private static User CreateAdmin(params Role[] roles)
+    private User CreateAdmin(params Role[] roles)
     {
         var salt = PasswordUtils.GenerateSequence();
-        var password = "admin12345";
         var role = roles.Single(x => x.Name == RoleOption.Admin.ToString());
 
         var user = new User
@@ -92,12 +93,12 @@ public class DataSeeder(DatabaseContext context) : HandbookSeederBase<DatabaseCo
             Surname = "Админов",
             Name = "Админ",
             Patronymic = "Админович",
-            Email = "admin@test.ru",
+            Email = credentials.Email,
             Role = role,
             RoleId = role.Id,
             GroupId = Guid.Empty,
             ManagedGroupIds = [Guid.Empty],
-            Password = new PasswordInfo { Hash = PasswordUtils.HashPassword(password, salt), Salt = salt }
+            Password = new PasswordInfo { Hash = PasswordUtils.HashPassword(credentials.Password, salt), Salt = salt }
         };
 
         return user;

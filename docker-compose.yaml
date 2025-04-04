@@ -68,6 +68,11 @@
       JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
       JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
       JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
+      AdminCredentials__Email: ${AdminCredentials__Email}
+      AdminCredentials__Password: ${AdminCredentials__Password}
+      AdminCredentials__Surname: ${AdminCredentials__Surname}
+      AdminCredentials__Name: ${AdminCredentials__Name}
+      AdminCredentials__Patronymic: ${AdminCredentials__Patronymic}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"

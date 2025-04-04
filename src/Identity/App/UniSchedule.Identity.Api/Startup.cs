@@ -33,6 +33,8 @@ public class Startup(IConfiguration configuration)
         services.AddDatabase<DatabaseContext>(connectionString!);
         services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
+        var credentialsSettings = configuration.GetSectionAs<AdminCredentials>();
+        services.AddSingleton(credentialsSettings);
         services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddSyncData<UsersSyncService>();
         services.AddRabbitMq(rabbitMqSettings, configure =>

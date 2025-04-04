@@ -1,5 +1,3 @@
-using UniSchedule.Schedule.Entities.Enums;
-
 namespace UniSchedule.Shared.DTO.Models;
 
 /// <summary>
@@ -21,11 +19,6 @@ public class GroupModel
     ///     Курс
     /// </summary>
     public required int Grade { get; set; }
-
-    /// <summary>
-    ///     Тип недели
-    /// </summary>
-    public required WeekType WeekType { get; set; }
 
     /// <summary>
     ///     Имеет ли разделение по подгруппам

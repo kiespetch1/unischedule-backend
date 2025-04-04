@@ -54,7 +54,9 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
     {
         var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
-        var lastAnnouncement = await context.Announcements.LastOrDefaultAsync(x =>
+        var lastAnnouncement = await context.Announcements
+            .OrderBy(x => x.CreatedBy)
+            .LastOrDefaultAsync(x =>
                 (x.Target != null && x.Target.IncludedGroups != null && x.Target.IncludedGroups.Contains(entity.Id)) ||
                 (x.Target != null && x.Target.ExcludedGroups != null && !x.Target.ExcludedGroups.Contains(entity.Id)) ||
                 (x.Target != null && x.Target.IncludedGrades != null &&

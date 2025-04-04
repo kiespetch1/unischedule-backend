@@ -4,6 +4,7 @@ using UniSchedule.Events.Shared.Publishers;
 using UniSchedule.Extensions.DI.Auth;
 using UniSchedule.Extensions.DI.Configuration;
 using UniSchedule.Extensions.DI.Controllers;
+using UniSchedule.Extensions.DI.CORS;
 using UniSchedule.Extensions.DI.Database;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 using UniSchedule.Extensions.DI.Middleware;
@@ -50,6 +51,7 @@ public class Startup(IConfiguration configuration)
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);
+        services.AddCors(EnvironmentUtils.DefaultId.ToString());
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
@@ -69,6 +71,7 @@ public class Startup(IConfiguration configuration)
 
         app.UseHttpsRedirection();
         app.UseRouting();
+        app.UseCors(EnvironmentUtils.DefaultId.ToString());
 
         app.UseAuthentication();
         app.UseAuthorization();

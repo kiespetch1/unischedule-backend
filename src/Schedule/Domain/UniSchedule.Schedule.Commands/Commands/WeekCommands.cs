@@ -23,7 +23,7 @@ public class WeekCommands(DatabaseContext context, ICreateCommand<Day, DayCreate
     {
         var week = new Week
         {
-            WeekType = parameters.WeekType, Subgroup = parameters.Subgroup, GroupId = parameters.GroupId
+            Type = parameters.WeekType, Subgroup = parameters.Subgroup, GroupId = parameters.GroupId
         };
         
         context.Weeks.Add(week);

@@ -43,7 +43,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
 
         if (parameters.Type is not null)
         {
-            query = query.Where(x => x.WeekType == parameters.Type.Value);
+            query = query.Where(x => x.Type == parameters.Type.Value);
         }
 
         return await query.ToCollectionResultAsync(cancellationToken);

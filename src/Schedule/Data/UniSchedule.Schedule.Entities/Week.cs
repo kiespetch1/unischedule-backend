@@ -11,7 +11,7 @@ public class Week : Entity<Guid>
     /// <summary>
     ///     Тип недели
     /// </summary>
-    public WeekType WeekType { get; set; }
+    public WeekType Type { get; set; }
 
     /// <summary>
     ///     Подгруппа

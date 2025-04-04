@@ -37,14 +37,25 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
             throw new NotAuthorizedException();
         }
 
-        var claim = context.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Role);
+        var claim = context.HttpContext.User.Claims.SingleOrDefault(c =>
+            c.Type is ClaimTypes.Role or System.Security.Claims.ClaimTypes.Role);
         if (claim == null)
         {
             throw new NoAccessRightsException();
         }
 
-        var roles = JsonSerializer.Deserialize<List<string>>(claim.Value) ?? [];
-        if (!roles.Any(role => Roles.Contains(role)))
+        List<string> roles;
+        var claimValue = claim.Value.Trim();
+        if (claimValue.StartsWith('['))
+        {
+            roles = JsonSerializer.Deserialize<List<string>>(claim.Value) ?? new List<string>();
+        }
+        else
+        {
+            roles = new List<string> { claim.Value };
+        }
+
+        if (!roles.Any(role => Roles.Contains(role.Trim('"'))))
         {
             throw new NoAccessRightsException();
         }

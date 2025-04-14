@@ -60,7 +60,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C6BCE01C-7550-4195-85CC-FD439AF169B8}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\release-staging.yml = .github\workflows\release-staging.yml
-		.github\workflows\release-production.yml = .github\workflows\release-production.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Abstractions.Entities", "src\Shared\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj", "{0CEA0499-D98B-4841-8BEB-31A53177289B}"

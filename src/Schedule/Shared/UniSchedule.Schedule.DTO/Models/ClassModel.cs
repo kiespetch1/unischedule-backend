@@ -15,7 +15,7 @@ public class ClassModel
     /// <summary>
     ///     Название
     /// </summary>
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     ///     Время начала

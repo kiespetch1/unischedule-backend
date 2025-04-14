@@ -2,6 +2,7 @@
 using UniSchedule.Abstractions.Entities;
 using UniSchedule.Abstractions.Entities.Auditable;
 using UniSchedule.Entities;
+using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Entities.Owned;
 
 namespace UniSchedule.Schedule.Entities;
@@ -20,6 +21,11 @@ public class Announcement : Entity<Guid>, ICreatable, IUpdatable
     ///     Информация о получателях
     /// </summary>
     public AnnouncementTargetInfo? Target { get; set; }
+
+    /// <summary>
+    ///     Приоритет
+    /// </summary>
+    public AnnouncementPriority Priority { get; set; }
 
     /// <summary>
     ///     Является ли анонимным

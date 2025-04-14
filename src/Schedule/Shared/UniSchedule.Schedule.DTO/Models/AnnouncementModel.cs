@@ -1,4 +1,6 @@
-﻿namespace UniSchedule.Shared.DTO.Models;
+﻿using UniSchedule.Schedule.Entities.Enums;
+
+namespace UniSchedule.Shared.DTO.Models;
 
 /// <summary>
 ///     Модель "Объявление"
@@ -14,6 +16,11 @@ public class AnnouncementModel
     ///     Текст объявления
     /// </summary>
     public required string Message { get; set; }
+
+    /// <summary>
+    ///     Приоритет
+    /// </summary>
+    public AnnouncementPriority Priority { get; set; }
 
     /// <summary>
     ///     Является ли анонимным

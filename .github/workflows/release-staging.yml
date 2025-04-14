@@ -57,8 +57,7 @@ jobs:
       - name: Checkout frontend repository
         uses: actions/checkout@v3
         with:
-          repository: kiespetch1/unischedule-frontend
-          ref: ${{ github.event.release.tag_name }}
+          repository: kiespetch1/unischedule-frontend-ts
           path: frontend
 
       - name: Build and push frontend Image

@@ -22,4 +22,13 @@ public interface IClassService
     Task SetActiveAsync(
         Guid id,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Копирование пар дня на противоположную неделю
+    /// </summary>
+    /// <param name="dayId">Идентификатор дня</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    Task CopyClassesToOppositeWeekAsync(
+        Guid dayId,
+        CancellationToken cancellationToken = default);
 }

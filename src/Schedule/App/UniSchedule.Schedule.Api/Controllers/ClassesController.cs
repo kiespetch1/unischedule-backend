@@ -186,4 +186,27 @@ public class ClassesController(
     {
         await service.SetActiveAsync(id, cancellationToken);
     }
+
+    /// <summary>
+    ///     Копирование пар дня на противоположную неделю
+    /// </summary>
+    /// <param name="dayId">Идентификатор дня</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешное копирование пар</response>
+    /// <response code="404">День не найден</response>
+    /// <response code="400">Противоположная неделя не найдена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPost("copy")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task CopyClassesToOppositeWeekAsync(
+        [FromQuery] Guid dayId,
+        CancellationToken cancellationToken = default)
+    {
+        await service.CopyClassesToOppositeWeekAsync(dayId, cancellationToken);
+    }
 }

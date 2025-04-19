@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using UniSchedule.Extensions.DI.Auth;
 
 namespace UniSchedule.Extensions.DI.Controllers;
 
@@ -23,6 +24,7 @@ public static class ControllersExtensions
         services.AddControllers(options =>
             {
                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
+                options.Filters.Add<ApiAntiforgeryTokenAuthorizationFilter>();
             })
             .AddNewtonsoftJson(options =>
             {

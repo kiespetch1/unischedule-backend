@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Identity.Database;
-using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Services.Abstractions;
@@ -16,7 +15,7 @@ public class AuthService(
     ITokenProvider tokenProvider) : IAuthService
 {
     /// <inheritdoc />
-    public async Task<TokenModel> SignInAsync(
+    public async Task<Token> SignInAsync(
         SignInParameters parameters,
         CancellationToken cancellationToken = default)
     {
@@ -32,7 +31,7 @@ public class AuthService(
     }
 
     /// <inheritdoc />
-    public async Task<TokenModel> RefreshAsync(
+    public async Task<Token> RefreshAsync(
         RefreshParameters parameters,
         CancellationToken cancellationToken = default)
     {

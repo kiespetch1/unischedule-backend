@@ -1,5 +1,5 @@
 ﻿using UniSchedule.Abstractions.Helpers.Identity;
-using UniSchedule.Identity.DTO.Models;
+using UniSchedule.Identity.Entities;
 
 namespace UniSchedule.Identity.Services.Abstractions;
 
@@ -14,7 +14,7 @@ public interface ITokenProvider
     /// <param name="context">Контекст выдачи токена доступа</param>
     /// <param name="returnUrl">Ссылка для возврата после авторизации</param>
     /// <returns>Токен доступа</returns>
-    TokenModel IssueToken(TokenIssueContext context, string? returnUrl = null);
+    Token IssueToken(TokenIssueContext context, string? returnUrl = null);
 
     /// <summary>
     ///     Парсинг токена доступа для получения контекста пользователя

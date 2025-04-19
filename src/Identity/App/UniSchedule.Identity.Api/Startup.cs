@@ -59,6 +59,7 @@ public class Startup(IConfiguration configuration)
         
         services.AddValidation();
         services.AddAuthorization();
+        services.AddAntiforgeryWithOptions();
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);
@@ -86,6 +87,7 @@ public class Startup(IConfiguration configuration)
 
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseXsrfProtection();
 
         app.UseEndpoints(endpoints =>
         {

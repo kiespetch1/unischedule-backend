@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using UniSchedule.Abstractions.Helpers.Identity;
@@ -13,7 +14,7 @@ namespace UniSchedule.Extensions.DI.Auth;
 public static class AuthExtensions
 {
     /// <summary>
-    ///     Добавляет авторизации в DI
+    ///     Добавляет авторизацию в DI
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>
     /// <param name="settings">Настройки авторизации</param>
@@ -56,6 +57,19 @@ public static class AuthExtensions
     {
         services.AddHttpContextAccessor();
         services.AddTransient<IUserContextProvider, UserContextProvider>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAntiforgeryWithOptions(this IServiceCollection services)
+    {
+        services.AddAntiforgery(options =>
+        {
+            options.Cookie.Name = "XSRF-COOKIE";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.HeaderName = "XSRF-TOKEN";
+        });
 
         return services;
     }

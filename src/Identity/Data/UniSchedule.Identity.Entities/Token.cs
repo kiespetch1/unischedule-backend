@@ -1,14 +1,16 @@
-﻿namespace UniSchedule.Identity.DTO.Models;
+﻿namespace UniSchedule.Identity.Entities;
 
-/// <summary>
-///     Модель токена
-/// </summary>
-public class TokenModel
+public class Token
 {
     /// <summary>
     ///     Токен
     /// </summary>
     public required string AccessToken { get; set; }
+
+    /// <summary>
+    ///     Токен обновления
+    /// </summary>
+    public string RefreshToken { get; set; }
 
     /// <summary>
     ///     Время жизни токена

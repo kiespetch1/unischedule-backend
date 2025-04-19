@@ -1,5 +1,5 @@
-﻿using UniSchedule.Identity.DTO.Models;
-using UniSchedule.Identity.DTO.Parameters;
+﻿using UniSchedule.Identity.DTO.Parameters;
+using UniSchedule.Identity.Entities;
 
 namespace UniSchedule.Identity.Services.Abstractions;
 
@@ -14,7 +14,7 @@ public interface IAuthService
     /// <param name="parameters">Параметры создания токена авторизации</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Токен авторизации</returns>
-    Task<TokenModel> SignInAsync(SignInParameters parameters, CancellationToken cancellationToken = default);
+    Task<Token> SignInAsync(SignInParameters parameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Обновление токена авторизации
@@ -22,5 +22,5 @@ public interface IAuthService
     /// <param name="parameters">Параметры обновления токена авторизации</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Токен авторизации</returns>
-    Task<TokenModel> RefreshAsync(RefreshParameters parameters, CancellationToken cancellationToken = default);
+    Task<Token> RefreshAsync(RefreshParameters parameters, CancellationToken cancellationToken = default);
 }

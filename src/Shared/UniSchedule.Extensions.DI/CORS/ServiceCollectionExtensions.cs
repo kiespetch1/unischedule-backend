@@ -18,7 +18,8 @@ public static class ServiceCollectionExtensions
         services.AddCors(options => options.AddPolicy(corsPolicyName, builder =>
         {
             // TODO: подумать в будущем над cors
-            builder.AllowAnyOrigin();
+            builder.AllowCredentials();
+            builder.WithOrigins("http://localhost:5173, https://localhost:5173");
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();
         }));

@@ -65,6 +65,7 @@ public static class ApiDocumentationExtensions
 
             c.OperationFilter<SnakeCaseOperationFilter>();
             c.OperationFilter<StatusCodeFilter>();
+            c.OperationFilter<XsrfOperationFilter>();
         });
         services.AddSwaggerGenNewtonsoftSupport();
 

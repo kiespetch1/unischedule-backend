@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.DI.Settings.Auth;
-using UniSchedule.Identity.DTO.Models;
+using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Services.Abstractions;
 
 namespace UniSchedule.Identity.Services.Providers;
@@ -13,13 +13,13 @@ namespace UniSchedule.Identity.Services.Providers;
 public class JwtTokenProvider(JwtTokenSettings settings) : ITokenProvider
 {
     /// <inheritdoc />
-    public TokenModel IssueToken(TokenIssueContext context, string? returnUrl = null)
+    public Token IssueToken(TokenIssueContext context, string? returnUrl = null)
     {
         var claims = ClaimsUtils.CreateClaims(context);
         var accessToken = IssueToken(claims);
         var refreshToken = HashData(context.UserId.ToString());
 
-        return new TokenModel
+        return new Token
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,

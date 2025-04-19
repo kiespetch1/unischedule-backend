@@ -15,4 +15,9 @@ public static class ApplicationBuilderExtensions
     {
         app.UseMiddleware<ErrorHandlerMiddleware>();
     }
+
+    public static IApplicationBuilder UseXsrfProtection(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<XsrfProtectionMiddleware>();
+    }
 }

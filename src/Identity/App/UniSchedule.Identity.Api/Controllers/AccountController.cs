@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
+using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Services.Abstractions;
@@ -37,7 +38,12 @@ public class AccountController(
         HttpStatusCode.InternalServerError)]
     public async Task<Result<TokenModel>> SignInAsync(SignInParameters parameters)
     {
-        var tokenModel = await authenticationService.SignInAsync(parameters);
+        var token = await authenticationService.SignInAsync(parameters);
+
+        HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
+            new CookieOptions { HttpOnly = true, Secure = true, MaxAge = TimeSpan.FromDays(30) });
+
+        var tokenModel = mapper.Map<TokenModel>(token);
 
         return new Result<TokenModel>(tokenModel);
     }
@@ -45,7 +51,6 @@ public class AccountController(
     /// <summary>
     ///     Обновление токена
     /// </summary>
-    /// <param name="parameters">Параметры обновления токена</param>
     /// <returns>Модель токена</returns>
     /// <response code="200">Успешное обновление токена</response>
     /// <response code="400">Некорректные данные</response>
@@ -61,10 +66,21 @@ public class AccountController(
         HttpStatusCode.Forbidden,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    [Authorize]
-    public async Task<Result<TokenModel>> RefreshAsync(RefreshParameters parameters)
+    public async Task<Result<TokenModel>> RefreshAsync(string expiredToken)
     {
-        var tokenModel = await authenticationService.RefreshAsync(parameters);
+        var refreshToken = HttpContext.Request.Cookies["z-token"];
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            throw new NotAuthorizedException("Refresh token not found");
+        }
+
+        var parameters = new RefreshParameters { ExpiredToken = expiredToken, RefreshToken = refreshToken };
+
+        var token = await authenticationService.RefreshAsync(parameters);
+
+        HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
+            new CookieOptions { HttpOnly = true, Secure = true, MaxAge = TimeSpan.FromDays(30) });
+        var tokenModel = mapper.Map<TokenModel>(token);
 
         return new Result<TokenModel>(tokenModel);
     }

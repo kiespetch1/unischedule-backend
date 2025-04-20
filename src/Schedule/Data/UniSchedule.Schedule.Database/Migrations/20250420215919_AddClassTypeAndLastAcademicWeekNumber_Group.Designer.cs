@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniSchedule.Schedule.Database;
@@ -12,9 +13,11 @@ using UniSchedule.Schedule.Database;
 namespace UniSchedule.Schedule.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250420215919_AddClassTypeAndLastAcademicWeekNumber_Group")]
+    partial class AddClassTypeAndLastAcademicWeekNumber_Group
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,12 +188,12 @@ namespace UniSchedule.Schedule.Database.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("text");
 
+                    b.Property<int>("LocationType")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

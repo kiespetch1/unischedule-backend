@@ -24,6 +24,11 @@ public class Class : Entity<Guid>
     public required TimeOnly FinishedAt { get; set; }
 
     /// <summary>
+    ///     Тип (лекция, практика, лабораторная работа)
+    /// </summary>
+    public ClassType Type { get; set; }
+
+    /// <summary>
     ///     Тип недели, на которой проводится пара (четная/нечетная)
     /// </summary>
     public required WeekType WeekType { get; set; }

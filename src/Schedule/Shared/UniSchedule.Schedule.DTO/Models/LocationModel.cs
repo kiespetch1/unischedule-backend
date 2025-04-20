@@ -25,5 +25,5 @@ public class LocationModel
     /// <summary>
     ///     Тип
     /// </summary>
-    public LocationType LocationType { get; set; }
+    public LocationType Type { get; set; }
 }

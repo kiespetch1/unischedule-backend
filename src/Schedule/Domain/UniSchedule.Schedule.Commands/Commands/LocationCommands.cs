@@ -26,7 +26,7 @@ public class LocationCommands(DatabaseContext context) :
     {
         var location = new Location
         {
-            Name = parameters.Name, Link = parameters.Link, LocationType = parameters.LocationType
+            Name = parameters.Name, Link = parameters.Link, Type = parameters.LocationType
         };
 
         context.Locations.Add(location);
@@ -50,7 +50,7 @@ public class LocationCommands(DatabaseContext context) :
 
         location.Name = parameters.Name;
         location.Link = parameters.Link;
-        location.LocationType = parameters.LocationType;
+        location.Type = parameters.LocationType;
 
         await context.SaveChangesAsync(cancellationToken);
     }

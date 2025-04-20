@@ -66,7 +66,7 @@ public class AccountController(
         HttpStatusCode.Forbidden,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<Result<TokenModel>> RefreshAsync(string expiredToken)
+    public async Task<Result<TokenModel>> RefreshAsync([FromBody] string expiredToken)
     {
         var refreshToken = HttpContext.Request.Cookies["z-token"];
         if (string.IsNullOrEmpty(refreshToken))

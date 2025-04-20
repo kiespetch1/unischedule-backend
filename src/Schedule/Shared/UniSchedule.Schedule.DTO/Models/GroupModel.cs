@@ -36,6 +36,11 @@ public class GroupModel
     public AnnouncementModel? LastAnnouncement { get; set; }
 
     /// <summary>
+    ///     Номер последней учебной недели
+    /// </summary>
+    public int LastAcademicWeekNumber { get; set; }
+
+    /// <summary>
     ///     Недели группы
     /// </summary>
     public List<WeekModel> Weeks { get; set; }

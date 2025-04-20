@@ -21,7 +21,7 @@ public class Location : Entity<Guid>
     /// <summary>
     ///     Тип
     /// </summary>
-    public required LocationType LocationType { get; set; }
+    public required LocationType Type { get; set; }
 
     /// <summary>
     ///     Пары

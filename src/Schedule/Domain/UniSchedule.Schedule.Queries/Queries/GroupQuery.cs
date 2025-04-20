@@ -20,7 +20,7 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
         .ThenInclude(x => x.Classes)
         .ThenInclude(x => x.Location)
         .Include(x => x.Weeks)
-        .ThenInclude(x => x.Days)
+        .ThenInclude(x => x.Days.OrderBy(d => d.DayOfWeek))
         .ThenInclude(x => x.Classes)
         .ThenInclude(x => x.Teacher);
 

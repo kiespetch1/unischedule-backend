@@ -37,7 +37,7 @@ public class LocationQuery(DatabaseContext context) : EFQuery<Location, Guid, Lo
 
         if (parameters.LocationType is not null)
         {
-            query = query.Where(x => x.LocationType == parameters.LocationType);
+            query = query.Where(x => x.Type == parameters.LocationType);
         }
 
         return await query.ToCollectionResultAsync(cancellationToken);

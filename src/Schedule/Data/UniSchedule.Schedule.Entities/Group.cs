@@ -35,6 +35,11 @@ public class Group : Entity<Guid>
     public Announcement? LastAnnouncement { get; set; }
 
     /// <summary>
+    ///     Номер последней учебной недели (без учета зачетных и экзаменационных)
+    /// </summary>
+    public int LastAcademicWeekNumber { get; set; } = 16;
+
+    /// <summary>
     ///     Недели группы
     /// </summary>
     public ICollection<Week> Weeks { get; set; }

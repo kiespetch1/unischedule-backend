@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using UniSchedule.Extensions.Data;
@@ -35,6 +36,10 @@ public class ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMi
             {
                 case RequestException e:
                     response.StatusCode = (int)e.StatusCode;
+                    result.Error = new Error(e);
+                    break;
+                case AntiforgeryValidationException e:
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
                     result.Error = new Error(e);
                     break;
                 default:

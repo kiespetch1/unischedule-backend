@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using UniSchedule.Identity.Shared.Attributes;
@@ -45,7 +44,7 @@ public class ApiAntiforgeryTokenAuthorizationFilter(IAntiforgery antiforgery)
         }
         catch (AntiforgeryValidationException exception)
         {
-            context.Result = new AntiforgeryValidationFailedResult();
+            throw new AntiforgeryValidationException("Invalid token");
         }
     }
 }

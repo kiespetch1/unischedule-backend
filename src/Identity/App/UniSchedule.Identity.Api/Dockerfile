@@ -31,4 +31,4 @@ ENV ASPNETCORE_ENVIRONMENT $ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_URLS="http://*:80"
 
 EXPOSE 80
-ENTRYPOINT ["dockerize","-wait","tcp://postgres:5432","-wait","tcp://rabbitmq:5672","-timeout","30s","dotnet","UniSchedule.Identity.Api.dll"]
+ENTRYPOINT ["dockerize","-wait","tcp://postgres:5432","-wait","tcp://rabbitmq:5672","-timeout","60s","dotnet","UniSchedule.Identity.Api.dll"]

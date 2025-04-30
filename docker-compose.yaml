@@ -43,9 +43,9 @@
   frontend:
     build:
       args:
-        VITE_IDENTITY_URL: ${IDENTITY_URL}
-        VITE_SCHEDULE_URL: ${SCHEDULE_URL}
-        VITE_EVENTS_URL: ${EVENTS_URL}
+        VITE_IDENTITY_URL: ${VITE_IDENTITY_URL}
+        VITE_SCHEDULE_URL: ${VITE_SCHEDULE_URL}
+        VITE_EVENTS_URL: ${VITE_EVENTS_URL}
     image: ghcr.io/kiespetch1/frontend:latest
     labels:
       - "traefik.enable=true"

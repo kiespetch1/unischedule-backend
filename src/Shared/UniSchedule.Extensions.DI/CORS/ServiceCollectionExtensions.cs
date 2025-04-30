@@ -20,8 +20,7 @@ public static class ServiceCollectionExtensions
             // TODO: подумать в будущем над cors
             builder.AllowCredentials();
             builder.WithOrigins(
-                "http://localhost:5173",
-                "https://localhost:5173"
+                "https://streaminginfo.ru"
             );
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();

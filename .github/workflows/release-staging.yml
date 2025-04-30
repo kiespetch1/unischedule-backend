@@ -66,6 +66,10 @@ jobs:
           context: frontend
           file: ${{ github.workspace }}/frontend/Dockerfile
           push: true
+          build-args: |
+            VITE_IDENTITY_URL=${{ secrets.VITE_IDENTITY_URL }}
+            VITE_SCHEDULE_URL=${{ secrets.VITE_SCHEDULE_URL }}
+            VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
           tags: |
             ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
             ghcr.io/kiespetch1/frontend:latest

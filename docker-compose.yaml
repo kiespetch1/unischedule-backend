@@ -82,6 +82,7 @@
       - "traefik.docker.network=unischedule_shared-network"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - shared-network
 
@@ -110,6 +111,7 @@
       - "traefik.docker.network=unischedule_shared-network"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - shared-network
 
@@ -138,6 +140,7 @@
       - "traefik.docker.network=unischedule_shared-network"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - shared-network
 

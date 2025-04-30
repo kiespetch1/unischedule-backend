@@ -1,10 +1,14 @@
+using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.DI.Settings.Auth;
+using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 
 namespace UniSchedule.Extensions.DI.Auth;
 
@@ -69,6 +73,21 @@ public static class AuthExtensions
             options.Cookie.HttpOnly = true;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             options.HeaderName = "XSRF-TOKEN";
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureForwardedHeaders(this IServiceCollection services)
+    {
+        const string dockerNetworkIp = "172.18.0.0";
+        const int dockerNetworkSubnet = 16;
+        services.Configure<ForwardedHeadersOptions>(opts =>
+        {
+            opts.ForwardedHeaders =
+                ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            opts.KnownNetworks.Add(new IPNetwork(IPAddress.Parse(dockerNetworkIp), dockerNetworkSubnet));
+            opts.RequireHeaderSymmetry = false;
         });
 
         return services;

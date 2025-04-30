@@ -27,6 +27,7 @@ public class Startup(IConfiguration configuration)
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.ConfigureForwardedHeaders();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDatabase<DatabaseContext>(connectionString!);
@@ -61,6 +62,7 @@ public class Startup(IConfiguration configuration)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseForwardedHeaders();
         if (!EnvironmentUtils.IsProduction)
         {
             app.UseDeveloperExceptionPage();

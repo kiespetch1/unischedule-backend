@@ -20,8 +20,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 
 WORKDIR /app
 COPY --from=publish /app /app
+
+COPY --from=publish /src/Schedule/App/UniSchedule.Schedule.Api/wait-for.sh ./wait-for.sh
+RUN chmod +x ./wait-for.sh
+
 ENV ASPNETCORE_ENVIRONMENT $ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_URLS="http://*:80"
 
 EXPOSE 80
-ENTRYPOINT ["/app/wait-for.sh", "postgres:5432", "rabbitmq:5672", "--", "dotnet", "UniSchedule.Identity.Api.dll"]
+ENTRYPOINT ["./wait-for.sh", "postgres:5432", "rabbitmq:5672", "--", "dotnet", "UniSchedule.Identity.Api.dll"]

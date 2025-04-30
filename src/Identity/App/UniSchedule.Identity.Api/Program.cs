@@ -10,11 +10,9 @@ public class Program
         var host = CreateHostBuilder(args).Build();
         await host.MigrateDatabaseAsync();
         await host.SeedDataAsync();
-
-        await host.StartAsync();
         await host.SyncDataAsync();
 
-        await host.WaitForShutdownAsync();
+        await host.RunAsync();
     }
 
     private static IHostBuilder CreateHostBuilder(string[] args)

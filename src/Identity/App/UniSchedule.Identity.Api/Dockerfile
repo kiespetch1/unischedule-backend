@@ -24,4 +24,4 @@ ENV ASPNETCORE_ENVIRONMENT $ASPNETCORE_ENVIRONMENT
 ENV ASPNETCORE_URLS="http://*:80"
 
 EXPOSE 80
-ENTRYPOINT ["dotnet", "UniSchedule.Identity.Api.dll"]
+ENTRYPOINT ["/app/wait-for.sh", "postgres:5432", "rabbitmq:5672", "--", "dotnet", "UniSchedule.Identity.Api.dll"]

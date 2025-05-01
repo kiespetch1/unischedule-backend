@@ -14,9 +14,4 @@ public class SignInParameters
     ///     Пароль пользователя
     /// </summary>
     public required string Password { get; set; }
-
-    /// <summary>
-    ///     URL для перенаправления после успешной авторизации
-    /// </summary>
-    public string? ReturnUrl { get; set; }
 }

@@ -12,9 +12,8 @@ public interface ITokenProvider
     ///     Выдача токена доступа
     /// </summary>
     /// <param name="context">Контекст выдачи токена доступа</param>
-    /// <param name="returnUrl">Ссылка для возврата после авторизации</param>
     /// <returns>Токен доступа</returns>
-    Token IssueToken(TokenIssueContext context, string? returnUrl = null);
+    Token IssueToken(TokenIssueContext context);
 
     /// <summary>
     ///     Парсинг токена доступа для получения контекста пользователя

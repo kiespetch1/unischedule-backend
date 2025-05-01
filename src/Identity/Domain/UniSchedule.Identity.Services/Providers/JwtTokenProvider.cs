@@ -13,7 +13,7 @@ namespace UniSchedule.Identity.Services.Providers;
 public class JwtTokenProvider(JwtTokenSettings settings) : ITokenProvider
 {
     /// <inheritdoc />
-    public Token IssueToken(TokenIssueContext context, string? returnUrl = null)
+    public Token IssueToken(TokenIssueContext context)
     {
         var claims = ClaimsUtils.CreateClaims(context);
         var accessToken = IssueToken(claims);
@@ -24,7 +24,6 @@ public class JwtTokenProvider(JwtTokenSettings settings) : ITokenProvider
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             ExpiredAt = DateTime.UtcNow.Add(settings.Lifetime),
-            ReturnUrl = returnUrl
         };
     }
 

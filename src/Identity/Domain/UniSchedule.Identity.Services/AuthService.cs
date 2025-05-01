@@ -22,7 +22,7 @@ public class AuthService(
         var user = await GetUserAsync(u => u.Email == parameters.Login, cancellationToken);
 
         var tokenContext = tokenContextProvider.CreateContext(user);
-        var token = tokenProvider.IssueToken(tokenContext, parameters.ReturnUrl);
+        var token = tokenProvider.IssueToken(tokenContext);
 
         user.RefreshToken = token.RefreshToken;
         await context.SaveChangesAsync(cancellationToken);

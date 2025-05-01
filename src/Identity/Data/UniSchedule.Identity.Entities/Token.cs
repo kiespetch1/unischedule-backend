@@ -21,9 +21,4 @@ public class Token
     ///     Схема токена
     /// </summary>
     public string Scheme { get; set; } = "Bearer";
-
-    /// <summary>
-    ///     URL для перенаправления после успешной авторизации
-    /// </summary>
-    public string? ReturnUrl { get; set; }
 }

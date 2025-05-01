@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,19 +66,11 @@ public static class AuthExtensions
         return services;
     }
 
-    public static IServiceCollection AddAntiforgeryWithOptions(this IServiceCollection services)
-    {
-        services.AddAntiforgery(options =>
-        {
-            options.Cookie.Name = "XSRF-COOKIE";
-            options.Cookie.HttpOnly = true;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            options.HeaderName = "XSRF-TOKEN";
-        });
-
-        return services;
-    }
-
+    /// <summary>
+    ///     Задание конфигурации для корректной переадресации XSRF-заголовков запросов внутри Docker-сети
+    /// </summary>
+    /// <param name="services">Коллекция сервисов</param>
+    /// <returns>Коллекция сервисов</returns>
     public static IServiceCollection ConfigureForwardedHeaders(this IServiceCollection services)
     {
         const string dockerNetworkIp = "172.18.0.0";
@@ -91,5 +84,36 @@ public static class AuthExtensions
         });
 
         return services;
+    }
+
+    public static IServiceCollection AddAntiforgeryWithOptions(this IServiceCollection services)
+    {
+        services.AddDataProtection()
+            .SetApplicationName("UniSchedule")
+            .PersistKeysToFileSystem(new DirectoryInfo("/app/keys"));
+
+        services.AddAntiforgery(options =>
+        {
+            options.Cookie.Name = "XSRF-COOKIE";
+            options.Cookie.Domain = "streaminginfo.ru";
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.HttpOnly = false;
+            options.HeaderName = "XSRF-TOKEN";
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Установка настроек безопасности для кук
+    /// </summary>
+    public static IApplicationBuilder UseGlobalCookiePolicy(this IApplicationBuilder builder)
+    {
+        builder.UseCookiePolicy(new CookiePolicyOptions
+        {
+            MinimumSameSitePolicy = SameSiteMode.None, Secure = CookieSecurePolicy.Always
+        });
+        return builder;
     }
 }

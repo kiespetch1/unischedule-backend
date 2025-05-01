@@ -36,16 +36,14 @@ public class AccountController(
         HttpStatusCode.BadRequest,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<Result<TokenModel>> SignInAsync(SignInParameters parameters)
+    public async Task SignInAsync(SignInParameters parameters)
     {
         var token = await authenticationService.SignInAsync(parameters);
 
+        HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "streaminginfo.ru" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, Secure = true, MaxAge = TimeSpan.FromDays(30) });
-
-        var tokenModel = mapper.Map<TokenModel>(token);
-
-        return new Result<TokenModel>(tokenModel);
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "streaminginfo.ru" });
     }
 
     /// <summary>
@@ -66,23 +64,28 @@ public class AccountController(
         HttpStatusCode.Forbidden,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<Result<TokenModel>> RefreshAsync([FromBody] string expiredToken)
+    public async Task RefreshAsync()
     {
         var refreshToken = HttpContext.Request.Cookies["z-token"];
+        var expiredToken = HttpContext.Request.Cookies["x-token"];
         if (string.IsNullOrEmpty(refreshToken))
         {
             throw new NotAuthorizedException("Refresh token not found");
+        }
+
+        if (string.IsNullOrEmpty(expiredToken))
+        {
+            throw new NotAuthorizedException("Access token not found");
         }
 
         var parameters = new RefreshParameters { ExpiredToken = expiredToken, RefreshToken = refreshToken };
 
         var token = await authenticationService.RefreshAsync(parameters);
 
+        HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "streaminginfo.ru" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, Secure = true, MaxAge = TimeSpan.FromDays(30) });
-        var tokenModel = mapper.Map<TokenModel>(token);
-
-        return new Result<TokenModel>(tokenModel);
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "streaminginfo.ru" });
     }
 
     /// <summary>

@@ -58,6 +58,8 @@
       args:
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/identity:latest
+    volumes:
+      - dp-keys:/app/keys
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-identity"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -92,6 +94,8 @@
       args:
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/schedule:latest
+    volumes:
+      - dp-keys:/app/keys
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-schedule"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -121,6 +125,8 @@
       args:
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/events:latest
+    volumes:
+      - dp-keys:/app/keys
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-events"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -185,6 +191,7 @@ networks:
   shared-network:
 
 volumes:
+  dp-keys:
   postgres-data:
   rabbitmq-data:
     driver: local

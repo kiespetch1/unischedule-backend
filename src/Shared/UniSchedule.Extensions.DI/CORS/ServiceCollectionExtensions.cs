@@ -18,10 +18,12 @@ public static class ServiceCollectionExtensions
         services.AddCors(options => options.AddPolicy(corsPolicyName, builder =>
         {
             // TODO: подумать в будущем над cors
-            builder.AllowCredentials();
             builder.WithOrigins(
                 "https://streaminginfo.ru"
+                ,
+                "http://localhost:5173"
             );
+            builder.AllowCredentials();
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();
         }));

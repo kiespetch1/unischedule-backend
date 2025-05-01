@@ -59,6 +59,7 @@ public class Startup(IConfiguration configuration)
         }
 
         app.UseErrorHandler();
+        app.UseGlobalCookiePolicy();
 
         app.UseApiDocumentation(_apiDocsSettings);
 

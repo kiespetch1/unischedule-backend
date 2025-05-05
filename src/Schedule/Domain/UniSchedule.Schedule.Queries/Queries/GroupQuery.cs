@@ -4,6 +4,7 @@ using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Data;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
+using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Shared.DTO.Parameters;
 
 namespace UniSchedule.Schedule.Queries.Queries;
@@ -54,18 +55,30 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
     {
         var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
-        var lastAnnouncement = await context.Announcements
-            .OrderBy(x => x.CreatedBy)
-            .LastOrDefaultAsync(x =>
-                (x.Target != null && x.Target.IncludedGroups != null && x.Target.IncludedGroups.Contains(entity.Id)) ||
-                (x.Target != null && x.Target.ExcludedGroups != null && !x.Target.ExcludedGroups.Contains(entity.Id)) ||
-                (x.Target != null && x.Target.IncludedGrades != null &&
-                 x.Target.IncludedGrades.Contains(entity.Grade)) ||
-                (x.Target != null && x.Target.ExcludedGrades != null &&
-                 !x.Target.ExcludedGrades.Contains(entity.Grade)),
-            //TODO: аналогично нужно сделать получение для кафедр/отделений когда до них дойдет дело
-            cancellationToken);
-        entity.LastAnnouncement = lastAnnouncement;
+        var announcements = context.Announcements
+            .Where(x =>
+                x.Target != null &&
+                (x.IsTimeLimited == false || x.AvailableUntil > DateTime.UtcNow) &&
+                ((x.Target.IncludedGroups != null && x.Target.IncludedGroups.Contains(entity.Id) &&
+                  x.Target.ExcludedGroups != null && !x.Target.ExcludedGroups.Contains(entity.Id)) ||
+                 (x.Target.IncludedGrades != null && x.Target.IncludedGrades.Contains(entity.Grade) &&
+                  x.Target.ExcludedGrades != null && !x.Target.ExcludedGrades.Contains(entity.Grade)))
+            )
+            .OrderByDescending(x => x.CreatedAt);
+
+        var result = await announcements
+            .Select(x => new { All = x, TimeLimited = x.IsTimeLimited ? x : null })
+            .ToListAsync(cancellationToken);
+
+        var lastAnnouncement = result.FirstOrDefault(r => r.TimeLimited == null)?.All;
+        var lastLimitedTimeAnnouncement = result
+            .Where(r => r.TimeLimited != null)
+            .Select(r => r.TimeLimited)
+            .FirstOrDefault();
+
+        var announcementsBlock =
+            new AnnouncementsBlock { Last = lastAnnouncement, LastTimeLimited = lastLimitedTimeAnnouncement };
+        entity.AnnouncementsBlock = announcementsBlock;
 
         return entity;
     }

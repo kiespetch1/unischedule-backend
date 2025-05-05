@@ -33,7 +33,7 @@ public class GroupModel
     /// <summary>
     ///     Последнее объявление данной группы
     /// </summary>
-    public AnnouncementModel? LastAnnouncement { get; set; }
+    public AnnouncementsBlockModel? AnnouncementsBlock { get; set; }
 
     /// <summary>
     ///     Номер последней учебной недели

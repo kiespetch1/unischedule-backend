@@ -32,15 +32,17 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
             IsAnonymous = parameters.IsAnonymous,
             Target = new AnnouncementTargetInfo
             {
-                ExcludedDepartments = parameters.Target?.ExcludedDepartments,
-                ExcludedGroups = parameters.Target?.ExcludedGroups,
-                ExcludedGrades = parameters.Target?.ExcludedGrades,
-                IncludedDepartments = parameters.Target?.IncludedDepartments,
-                IncludedGroups = parameters.Target?.IncludedGroups,
-                IncludedGrades = parameters.Target?.IncludedGrades
+                ExcludedDepartments = parameters.Target?.ExcludedDepartments ?? [],
+                ExcludedGroups = parameters.Target?.ExcludedGroups ?? [],
+                ExcludedGrades = parameters.Target?.ExcludedGrades ?? [],
+                IncludedDepartments = parameters.Target?.IncludedDepartments ?? [],
+                IncludedGroups = parameters.Target?.IncludedGroups ?? [],
+                IncludedGrades = parameters.Target?.IncludedGrades ?? []
             },
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
+            IsTimeLimited = parameters.IsTimeLimited,
+            AvailableUntil = parameters.AvailableUntil,
             CreatedBy = userContextProvider.GetContext().Id,
             UpdatedBy = userContextProvider.GetContext().Id
         };
@@ -75,6 +77,8 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
             IncludedGroups = parameters.Target?.IncludedGroups,
             IncludedGrades = parameters.Target?.IncludedGrades
         };
+        announcement.IsTimeLimited = parameters.IsTimeLimited;
+        announcement.AvailableUntil = parameters.AvailableUntil;
         announcement.UpdatedAt = DateTime.UtcNow;
         announcement.UpdatedBy = userContextProvider.GetContext().Id;
 

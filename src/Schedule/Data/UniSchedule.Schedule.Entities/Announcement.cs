@@ -33,6 +33,16 @@ public class Announcement : Entity<Guid>, ICreatable, IUpdatable
     public bool IsAnonymous { get; set; }
 
     /// <summary>
+    ///     Является ли доступным ограниченное время
+    /// </summary>
+    public bool IsTimeLimited { get; set; }
+
+    /// <summary>
+    ///     Дата истечения доступности
+    /// </summary>
+    public DateTime? AvailableUntil { get; set; }
+
+    /// <summary>
     ///     Дата создания
     /// </summary>
     public DateTime CreatedAt { get; set; }

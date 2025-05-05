@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using UniSchedule.Abstractions.Entities;
+using UniSchedule.Schedule.Entities.Owned;
 
 namespace UniSchedule.Schedule.Entities;
 
@@ -29,10 +30,10 @@ public class Group : Entity<Guid>
     public required bool HasFixedSubgroups { get; set; }
 
     /// <summary>
-    ///     Последнее объявление группы
+    ///     Данные блока объявления
     /// </summary>
     [NotMapped]
-    public Announcement? LastAnnouncement { get; set; }
+    public AnnouncementsBlock AnnouncementsBlock { get; set; }
 
     /// <summary>
     ///     Номер последней учебной недели (без учета зачетных и экзаменационных)

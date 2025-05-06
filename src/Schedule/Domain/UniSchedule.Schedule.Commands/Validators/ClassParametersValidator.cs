@@ -11,15 +11,14 @@ namespace UniSchedule.Schedule.Commands.Validators;
 /// <summary>
 ///     Валидатор входных параметров пары
 /// </summary>
-public class ClassParametersValidator<TParams> : ValidatorBase<TParams>
-    where TParams : ClassCreateParameters
+public class ClassParametersValidator<TParams> : ValidatorBase<TParams> where TParams : ClassUpdateParameters
 {
-    /// <summary />
+    /// <inheritdoc />
     public ClassParametersValidator(DatabaseContext context) : base(context)
     {
-        RuleFor(x => x.DayId)
-            .Must(IsExist<Day, Guid>)
-            .WithMessage("День не найден");
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .WithMessage("Название пары не может быть пустым");
 
         RuleFor(x => x.TeacherId)
             .Must(IsExist<Teacher, Guid>)
@@ -28,18 +27,21 @@ public class ClassParametersValidator<TParams> : ValidatorBase<TParams>
         RuleFor(x => x.LocationId)
             .Must(IsExist<Location, Guid>)
             .WithMessage("Локация не найдена");
-
-        RuleFor(x => x.Name)
-            .NotEmpty()
-            .WithMessage("Название пары не может быть пустым");
     }
 }
 
 /// <summary>
 ///     Валидатор входных параметров для создания пары
 /// </summary>
-public class ClassCreateParametersValidator(DatabaseContext context)
-    : ClassParametersValidator<ClassCreateParameters>(context);
+public class ClassCreateParametersValidator : ClassParametersValidator<ClassCreateParameters>
+{
+    public ClassCreateParametersValidator(DatabaseContext context) : base(context)
+    {
+        RuleFor(x => x.DayId)
+            .Must(IsExist<Day, Guid>)
+            .WithMessage("День не найден");
+    }
+}
 
 /// <summary>
 ///     Валидатор входных параметров для обновления пары

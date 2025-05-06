@@ -59,9 +59,9 @@ public class ClassCommands(DatabaseContext context) :
         @class.Name = parameters.Name;
         @class.StartedAt = parameters.StartedAt;
         @class.FinishedAt = parameters.FinishedAt;
+        @class.Type = parameters.Type;
         @class.WeekType = parameters.WeekType;
         @class.Subgroup = parameters.Subgroup;
-        @class.DayId = parameters.DayId;
         @class.LocationId = parameters.LocationId;
         @class.TeacherId = parameters.TeacherId;
 

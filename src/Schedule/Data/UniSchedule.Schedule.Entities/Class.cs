@@ -46,7 +46,7 @@ public class Class : Entity<Guid>
     /// <summary>
     ///     Идентификатор дня
     /// </summary>
-    public required Guid DayId { get; set; }
+    public Guid DayId { get; set; }
 
     /// <summary>
     ///     День

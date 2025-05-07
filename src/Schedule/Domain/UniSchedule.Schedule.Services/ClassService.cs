@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UniSchedule.Extensions.Collections;
+using UniSchedule.Extensions.Exceptions.Base;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Services.Abstractions;
@@ -42,11 +43,12 @@ public class ClassService(DatabaseContext context) : IClassService
             .Include(x => x.Week)
             .ThenInclude(x => x.Group)
             .ThenInclude(x => x.Weeks)
-            .Include(x => x.Classes)
+            .ThenInclude(x => x.Days)
+            .ThenInclude(x => x.Classes)
             .SingleOrNotFoundAsync(dayId, cancellationToken);
 
         var oppositeWeek = sourceDay.Week.Group.Weeks
-            .SingleOrDefault(x => x.Type != sourceDay.Week.Type);
+            .SingleOrDefault(x => x.Type != sourceDay.Week.Type && x.Subgroup == sourceDay.Week.Subgroup);
 
         if (oppositeWeek is null)
         {
@@ -58,10 +60,10 @@ public class ClassService(DatabaseContext context) : IClassService
 
         if (targetDay is null)
         {
-            targetDay = new Day { DayOfWeek = sourceDay.DayOfWeek, WeekId = oppositeWeek.Id };
-            context.Days.Add(targetDay);
-            await context.SaveChangesAsync(cancellationToken);
+            throw new NotFoundException("Противоположный день не найден");
         }
+
+        var targetClasses = new List<Class>();
 
         foreach (var sourceClass in sourceDay.Classes)
         {
@@ -70,17 +72,31 @@ public class ClassService(DatabaseContext context) : IClassService
                 Name = sourceClass.Name,
                 StartedAt = sourceClass.StartedAt,
                 FinishedAt = sourceClass.FinishedAt,
+                Type = sourceClass.Type,
                 WeekType = sourceClass.WeekType,
                 Subgroup = sourceClass.Subgroup,
                 IsCancelled = sourceClass.IsCancelled,
-                DayId = targetDay.Id,
                 LocationId = sourceClass.LocationId,
                 TeacherId = sourceClass.TeacherId
             };
 
             context.Classes.Add(newClass);
+            targetClasses.Add(newClass);
         }
 
+        targetDay.Classes = targetClasses;
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ClearDayClassesAsync(Guid dayId, CancellationToken cancellationToken = default)
+    {
+        var day = await context.Days
+            .Include(x => x.Classes)
+            .SingleOrNotFoundAsync(dayId, cancellationToken);
+
+        day.Classes.Clear();
         await context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -48,9 +48,9 @@ public class AccountController(
         var token = await authenticationService.SignInAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "localhost" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = ".streaminginfo.ru" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "localhost" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
         antiforgery.GetAndStoreTokens(HttpContext);
     }
 
@@ -162,9 +162,9 @@ public class AccountController(
         var token = await authenticationService.RefreshAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "localhost" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = ".streaminginfo.ru" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "localhost" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
     }
 
     /// <summary>

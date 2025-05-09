@@ -107,7 +107,7 @@ public static class AuthExtensions
         services.AddAntiforgery(options =>
         {
             options.Cookie.Name = "XSRF-COOKIE";
-            options.Cookie.Domain = "localhost";
+            options.Cookie.Domain = ".streaminginfo.ru";
             options.Cookie.SameSite = SameSiteMode.None;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             options.Cookie.HttpOnly = false;

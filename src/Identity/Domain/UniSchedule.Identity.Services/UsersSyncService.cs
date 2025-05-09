@@ -2,7 +2,7 @@
 using UniSchedule.Abstractions.Helpers;
 using UniSchedule.Abstractions.Messaging;
 using UniSchedule.Identity.Database;
-using UniSchedule.Identity.DTO.Messages;
+using UniSchedule.Identity.DTO.Messages.Users;
 
 namespace UniSchedule.Identity.Services;
 

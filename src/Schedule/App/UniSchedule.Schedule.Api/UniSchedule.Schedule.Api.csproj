@@ -29,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Identity\Domain\UniSchedule.Identity.Services\UniSchedule.Identity.Services.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Messaging\UniSchedule.Messaging.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj"/>

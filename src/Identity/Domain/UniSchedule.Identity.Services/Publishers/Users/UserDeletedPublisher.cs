@@ -1,8 +1,8 @@
 using MassTransit;
 using UniSchedule.Abstractions.Messaging;
-using UniSchedule.Identity.DTO.Messages;
+using UniSchedule.Identity.DTO.Messages.Users;
 
-namespace UniSchedule.Identity.Services.Publishers;
+namespace UniSchedule.Identity.Services.Publishers.Users;
 
 /// <summary>
 ///     Сервис для удаления пользователей через брокер сообщений

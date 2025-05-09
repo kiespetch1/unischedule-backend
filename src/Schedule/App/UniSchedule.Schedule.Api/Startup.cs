@@ -11,7 +11,10 @@ using UniSchedule.Extensions.DI.Middleware;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
+using UniSchedule.Extensions.DI.Sync;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Identity.DTO.Messages.Groups;
+using UniSchedule.Identity.Services.Publishers.Groups;
 using UniSchedule.Messaging;
 using UniSchedule.Schedule.Commands;
 using UniSchedule.Schedule.Database;
@@ -33,13 +36,20 @@ public class Startup(IConfiguration configuration)
         services.AddDatabase<DatabaseContext>(connectionString!);
         services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
+        services.AddSyncData<GroupsSyncService>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();
+            configure.AddPublisher<GroupCreatedPublisher, GroupMqCreateParameters>();
+            configure.AddPublisher<GroupDeletedPublisher, GroupMqDeleteParameters>();
+            configure.AddPublisher<GroupsSyncPublisher, GroupsMqSyncParameters>();
             configure.AddUsersConsumers();
         }, messageConfigure =>
         {
             messageConfigure.MessageConfigure<EventCreateParameters>();
+            messageConfigure.MessageConfigure<GroupMqCreateParameters>();
+            messageConfigure.MessageConfigure<GroupMqDeleteParameters>();
+            messageConfigure.MessageConfigure<GroupsMqSyncParameters>();
         });
 
         services.AddCommands();

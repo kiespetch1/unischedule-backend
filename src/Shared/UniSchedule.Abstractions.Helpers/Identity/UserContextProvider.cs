@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using UniSchedule.Identity.Shared;
 
 namespace UniSchedule.Abstractions.Helpers.Identity;
 
@@ -20,8 +21,75 @@ public class UserContextProvider(IHttpContextAccessor httpContextAccessor) : IUs
         var isAuthenticated = context?.User.Identity?.IsAuthenticated ?? false;
         var claims = context?.User.Claims.ToList();
 
-        return !isAuthenticated || claims == null
-            ? new UserContext()
-            : ClaimsUtils.CreateContext(claims);
+        if (!isAuthenticated || claims == null)
+        {
+            return new UserContext();
+        }
+        else
+        {
+            var result = ClaimsUtils.CreateContext(claims);
+            result.Role = result.Role.Length <= 2 ? string.Empty : result.Role[1..^1];
+
+            return result;
+        }
+    }
+
+    /// <inheritdoc />
+    public UserPermissions GetPermissions()
+    {
+        var role = GetContext().Role;
+
+        return role switch
+        {
+            nameof(RoleOption.Staff) or nameof(RoleOption.GroupLeader) =>
+                new UserPermissions
+                {
+                    CanGetCurrentUser = true,
+                    CanCreateAnnouncement = true,
+                    CanUpdateAnnouncement = true,
+                    CanDeleteAnnouncement = true,
+                    CanCreateClass = true,
+                    CanUpdateClass = true,
+                    CanDeleteClass = true,
+                    CanCancelClass = true,
+                    CanRestoreClass = true,
+                    CanCopyClass = true,
+                    CanCreateLocation = true,
+                    CanUpdateLocation = true,
+                    CanDeleteLocation = true,
+                    CanCreateTeacher = true,
+                    CanUpdateTeacher = true,
+                    CanDeleteTeacher = true
+                },
+            nameof(RoleOption.Admin) =>
+                new UserPermissions
+                {
+                    CanRegisterUser = true,
+                    CanUpdateUser = true,
+                    CanGetCurrentUser = true,
+                    CanCreateAnnouncement = true,
+                    CanUpdateAnnouncement = true,
+                    CanDeleteAnnouncement = true,
+                    CanCreateClass = true,
+                    CanUpdateClass = true,
+                    CanDeleteClass = true,
+                    CanCancelClass = true,
+                    CanRestoreClass = true,
+                    CanCopyClass = true,
+                    CanCreateGroup = true,
+                    CanUpdateGroup = true,
+                    CanDeleteGroup = true,
+                    CanUpdateGrades = true,
+                    CanCreateLocation = true,
+                    CanUpdateLocation = true,
+                    CanDeleteLocation = true,
+                    CanCreateTeacher = true,
+                    CanUpdateTeacher = true,
+                    CanDeleteTeacher = true,
+                    CanCreateWeek = true,
+                    CanDeleteWeek = true
+                },
+            _ => new UserPermissions()
+        };
     }
 }

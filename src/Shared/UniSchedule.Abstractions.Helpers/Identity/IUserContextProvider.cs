@@ -12,4 +12,10 @@ public interface IUserContextProvider
     /// </summary>
     /// <returns>Контекст пользователя <see cref="UserContext" /></returns>
     public UserContext GetContext();
+
+    /// <summary>
+    ///     Получает разрешения пользователя
+    /// </summary>
+    /// <returns></returns>
+    public UserPermissions GetPermissions(); 
 }

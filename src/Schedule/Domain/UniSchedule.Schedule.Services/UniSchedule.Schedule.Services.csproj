@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Identity\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
         <ProjectReference Include="..\..\Data\UniSchedule.Schedule.Database\UniSchedule.Schedule.Database.csproj"/>
     </ItemGroup>

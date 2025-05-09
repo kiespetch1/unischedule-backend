@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using UniSchedule.Abstractions.Helpers.Identity;
-using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Services.Abstractions;
 using UniSchedule.Identity.Services.Providers;
 
@@ -17,7 +15,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>
     /// <returns>Обновленная коллекция сервисов</returns>
-    public static IServiceCollection AddDomainServices(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddTransient<ITokenContextProvider, TokenContextProvider>();
         services.AddTransient<ITokenProvider, JwtTokenProvider>();

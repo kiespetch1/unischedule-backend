@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.DTO.Messages;
+﻿namespace UniSchedule.Identity.DTO.Messages.Users;
 
 /// <summary>
 ///     Модель пользователя для передачи через брокер сообщений

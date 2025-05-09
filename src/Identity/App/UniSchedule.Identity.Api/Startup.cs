@@ -13,11 +13,12 @@ using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.DI.Sync;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Identity.Commands;
 using UniSchedule.Identity.Database;
 using UniSchedule.Identity.Database.Helpers;
-using UniSchedule.Identity.DTO.Messages;
+using UniSchedule.Identity.DTO.Messages.Users;
 using UniSchedule.Identity.Services;
-using UniSchedule.Identity.Services.Publishers;
+using UniSchedule.Identity.Services.Publishers.Users;
 using UniSchedule.Messaging;
 using UniSchedule.Validation;
 
@@ -46,6 +47,7 @@ public class Startup(IConfiguration configuration)
             configure.AddPublisher<UserUpdatedPublisher, UserMqUpdateParameters>();
             configure.AddPublisher<UserDeletedPublisher, UserMqDeleteParameters>();
             configure.AddPublisher<UsersSyncPublisher, UsersMqSyncParameters>();
+            configure.AddGroupsConsumers();
         }, messageConfigure =>
         {
             messageConfigure.MessageConfigure<EventCreateParameters>();
@@ -55,8 +57,9 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<UsersMqSyncParameters>();
         });
 
+        services.AddCommands();
+        services.AddServices();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddDomainServices();
         
         services.AddValidation();
         services.AddAuthorization();

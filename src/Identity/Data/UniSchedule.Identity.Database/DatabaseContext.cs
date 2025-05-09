@@ -36,6 +36,11 @@ public class DatabaseContext : AuditableDbContext
     /// </summary>
     public DbSet<User> Users { get; set; }
 
+    /// <summary>
+    ///     Группы
+    /// </summary>
+    public DbSet<Group> Groups { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

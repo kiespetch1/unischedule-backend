@@ -39,7 +39,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
         var claim = context.HttpContext.User.Claims.SingleOrDefault(c =>
             c.Type is ClaimTypes.Role or System.Security.Claims.ClaimTypes.Role);
-        if (claim == null)
+        if (Roles.Count > 0 && claim == null)
         {
             throw new NoAccessRightsException();
         }
@@ -55,7 +55,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
             roles = new List<string> { claim.Value };
         }
 
-        if (!roles.Any(role => Roles.Contains(role.Trim('"'))))
+        if (Roles.Count > 0 && !roles.Any(role => Roles.Contains(role.Trim('"'))))
         {
             throw new NoAccessRightsException();
         }

@@ -7,13 +7,13 @@ namespace UniSchedule.Identity.Api.Mapping;
 /// <summary>
 ///     Профиль маппера для <see cref="UserContext" />
 /// </summary>
-public class UserContextMappingProfile : MappingProfileBase
+public class UserPermissionsMappingProfile : MappingProfileBase
 {
     /// <summary />
-    public UserContextMappingProfile()
+    public UserPermissionsMappingProfile()
     {
-        CreateMap<UserContext, UserContextModel>();
+        CreateMap<UserPermissions, UserPermissionsModel>();
 
-        CreateMapForCollectionResult<UserContext, UserContextModel>();
+        CreateMapForCollectionResult<UserPermissions, UserPermissionsModel>();
     }
 }

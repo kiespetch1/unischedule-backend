@@ -47,6 +47,18 @@ public static class AuthExtensions
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("x-token"))
+                        {
+                            context.Token = context.Request.Cookies["x-token"];
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
         services.AddAuthorization();
 
@@ -95,7 +107,7 @@ public static class AuthExtensions
         services.AddAntiforgery(options =>
         {
             options.Cookie.Name = "XSRF-COOKIE";
-            options.Cookie.Domain = ".streaminginfo.ru";
+            options.Cookie.Domain = "localhost";
             options.Cookie.SameSite = SameSiteMode.None;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             options.Cookie.HttpOnly = false;

@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using UniSchedule.Messaging.Consumers.Groups;
 using UniSchedule.Messaging.Consumers.Users;
 
 namespace UniSchedule.Messaging;
@@ -18,6 +19,19 @@ public static class ConsumerRegistrationExtensions
         configuration.AddBatchConsumer<UpdateUserConsumer, UpdateUserConsumerDefinition>();
         configuration.AddBatchConsumer<DeleteUserConsumer, DeleteUserConsumerDefinition>();
         configuration.AddBatchConsumer<SyncUsersConsumer, SyncUsersConsumerDefinition>();
+
+        return configuration;
+    }
+
+    /// <summary>
+    ///     Добавление консьюмеров для работы с группами
+    /// </summary>
+    public static IBusRegistrationConfigurator AddGroupsConsumers(
+        this IBusRegistrationConfigurator configuration)
+    {
+        configuration.AddBatchConsumer<CreateGroupConsumer, CreateGroupConsumerDefinition>();
+        configuration.AddBatchConsumer<DeleteGroupConsumer, DeleteGroupConsumerDefinition>();
+        configuration.AddBatchConsumer<SyncGroupsConsumer, SyncGroupsConsumerDefinition>();
 
         return configuration;
     }

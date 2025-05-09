@@ -1,9 +1,9 @@
-namespace UniSchedule.Identity.DTO.Messages;
+﻿namespace UniSchedule.Identity.DTO.Messages.Groups;
 
 /// <summary>
 ///     Параметры для удаления пользователя в других сервисах через брокер сообщений
 /// </summary>
-public class UserMqDeleteParameters
+public class GroupMqDeleteParameters
 {
     /// <summary>
     ///     Идентификатор пользователя

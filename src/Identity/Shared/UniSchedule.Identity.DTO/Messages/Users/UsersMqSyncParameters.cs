@@ -1,4 +1,4 @@
-﻿namespace UniSchedule.Identity.DTO.Messages;
+﻿namespace UniSchedule.Identity.DTO.Messages.Users;
 
 /// <summary>
 ///     Параметры для синхронизации пользователей через брокера сообщений

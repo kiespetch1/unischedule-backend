@@ -49,7 +49,9 @@ public static class ClaimsUtils
             .Where(claim => claim.Type == ClaimTypes.ManagedGroupIds)
             .Select(claim => Guid.Parse(claim.Value))
             .ToList();
-        var groupId = Guid.Parse(claims.Single(claim => claim.Type.Contains(ClaimTypes.GroupId)).Value);
+        var groupId = Guid.TryParse(claims.FirstOrDefault(c => c.Type == "group_id")?.Value, out var gid)
+            ? gid
+            : (Guid?)null;
         var role = claims.Single(claim => claim.Type.Contains(ClaimTypes.Role)).Value;
 
         return new UserContext(

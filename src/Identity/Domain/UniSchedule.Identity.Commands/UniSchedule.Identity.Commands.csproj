@@ -7,7 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Schedule\Shared\UniSchedule.Schedule.DTO\UniSchedule.Schedule.DTO.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Commands\UniSchedule.Abstractions.Commands.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj"/>
         <ProjectReference Include="..\..\Data\UniSchedule.Identity.Database\UniSchedule.Identity.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj"/>
     </ItemGroup>

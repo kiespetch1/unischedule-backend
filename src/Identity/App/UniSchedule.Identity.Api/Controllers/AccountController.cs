@@ -1,14 +1,18 @@
-﻿using System.Net;
+using System.Net;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
+using UniSchedule.Abstractions.Commands;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.Attributes;
 using UniSchedule.Extensions.Data;
 using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.DTO.Parameters;
+using UniSchedule.Identity.Entities;
 using UniSchedule.Identity.Services.Abstractions;
+using UniSchedule.Identity.Shared;
+using UniSchedule.Identity.Shared.Attributes;
 
 namespace UniSchedule.Identity.Api.Controllers;
 
@@ -20,6 +24,9 @@ namespace UniSchedule.Identity.Api.Controllers;
 public class AccountController(
     IAuthService authenticationService,
     IUserContextProvider userContextProvider,
+    ICreateCommand<User, RegisterParameters, Guid> create,
+    IUpdateCommand<User, UserUpdateParameters, Guid> update,
+    IAntiforgery antiforgery,
     IMapper mapper) : ControllerBase
 {
     /// <summary>
@@ -41,9 +48,82 @@ public class AccountController(
         var token = await authenticationService.SignInAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "localhost" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "localhost" });
+        antiforgery.GetAndStoreTokens(HttpContext);
+    }
+
+    /// <summary>
+    ///     Регистрация пользователя
+    /// </summary>
+    /// <param name="parameters">Параметры регистрации</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Идентификатор созданного пользователя</returns>
+    /// <response code="200">Успешная регистрация</response>
+    /// <response code="400">Некорректные данные</response>
+    /// <response code="404">Роль не найдена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPost("register")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
+    public async Task<Result<Guid>> RegisterAsync(
+        RegisterParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        var userId = await create.ExecuteAsync(parameters, cancellationToken);
+
+        return new Result<Guid>(userId);
+    }
+
+    /// <summary>
+    ///     Выход из системы
+    /// </summary>
+    /// <response code="200">Успешный выход из системы</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPost("sign_out")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.InternalServerError)]
+    public new void SignOut()
+    {
+        Response.Cookies.Delete("x-token");
+        Response.Cookies.Delete("z-token");
+        Response.Cookies.Delete("XSRF-COOKIE");
+    }
+
+    /// <summary>
+    ///     Обновление данных пользователя
+    /// </summary>
+    /// <param name="id">Идентификатор пользователя</param>
+    /// <param name="parameters">Параметры обновления</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Результат операции</returns>
+    /// <response code="200">Успешное обновление данных</response>
+    /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="403">Доступ запрещен</response>
+    /// <response code="404">Пользователь или роль не найдены</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPut("update/{id}")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.Forbidden,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin)]
+    public async Task UpdateUserAsync(
+        Guid id,
+        UserUpdateParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        await update.ExecuteAsync(id, parameters, cancellationToken);
     }
 
     /// <summary>
@@ -79,13 +159,25 @@ public class AccountController(
         }
 
         var parameters = new RefreshParameters { ExpiredToken = expiredToken, RefreshToken = refreshToken };
-
         var token = await authenticationService.RefreshAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromMinutes(30), Domain = "localhost" });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = "localhost" });
+    }
+
+    /// <summary>
+    ///     Обновление antiforgery токена
+    /// </summary>
+    /// <response code="200">Успешное обновление токена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPost("antiforgery")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.InternalServerError)]
+    public void RefreshAntiforgery()
+    {
     }
 
     /// <summary>
@@ -101,11 +193,32 @@ public class AccountController(
         HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize]
-    public Task<Result<UserContextModel>> GetCurrentAsync()
+    public Result<UserContextModel> GetCurrent()
     {
         var currentUserContext = userContextProvider.GetContext();
         var user = mapper.Map<UserContextModel>(currentUserContext);
 
-        return Task.FromResult(new Result<UserContextModel>(user));
+        return new Result<UserContextModel>(user);
+    }
+
+    /// <summary>
+    ///     Получение разрешений о текущем пользователе
+    /// </summary>
+    /// <returns>Модель разрешений пользователя</returns>
+    /// <response code="200">Успешное получение информации</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpGet("me/permissions")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.InternalServerError)]
+    [Authorize]
+    public Result<UserPermissions> GetPermissions()
+    {
+        var currentUserPermissions = userContextProvider.GetPermissions();
+        var user = mapper.Map<UserPermissions>(currentUserPermissions);
+
+        return new Result<UserPermissions>(user);
     }
 }

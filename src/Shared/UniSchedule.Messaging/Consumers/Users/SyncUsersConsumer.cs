@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using UniSchedule.Entities;
-using UniSchedule.Identity.DTO.Messages;
+using UniSchedule.Identity.DTO.Messages.Users;
 
 namespace UniSchedule.Messaging.Consumers.Users;
 

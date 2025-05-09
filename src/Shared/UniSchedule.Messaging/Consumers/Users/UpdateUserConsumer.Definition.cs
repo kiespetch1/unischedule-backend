@@ -1,5 +1,5 @@
 using UniSchedule.Abstractions.Messaging;
-using UniSchedule.Identity.DTO.Messages;
+using UniSchedule.Identity.DTO.Messages.Users;
 
 namespace UniSchedule.Messaging.Consumers.Users;
 

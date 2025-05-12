@@ -172,7 +172,7 @@ public class AccountController(
     /// </summary>
     /// <response code="200">Успешное обновление токена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("antiforgery")]
+    [HttpGet("antiforgery")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]

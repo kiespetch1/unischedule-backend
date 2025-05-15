@@ -91,9 +91,9 @@ public class AccountController(
         HttpStatusCode.InternalServerError)]
     public new void SignOut()
     {
-        Response.Cookies.Delete("x-token");
-        Response.Cookies.Delete("z-token");
-        Response.Cookies.Delete("XSRF-COOKIE");
+        Response.Cookies.Delete("x-token", new CookieOptions { Domain = ".streaminginfo.ru" });
+        Response.Cookies.Delete("z-token", new CookieOptions { Domain = ".streaminginfo.ru" });
+        Response.Cookies.Delete("XSRF-COOKIE", new CookieOptions { Domain = ".streaminginfo.ru" });
     }
 
     /// <summary>

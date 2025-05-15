@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UniSchedule.Extensions.Basic;
 using UniSchedule.Extensions.DI.Database;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Identity.Entities;
@@ -28,7 +29,7 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
         var existingEntities = await context.Roles
             .ToListAsync();
         var entities = Enum.GetValues<RoleOption>()
-            .Select(value => new Role { Name = value.ToString() })
+            .Select(value => new Role { Id = value.GetId(), Name = value.ToString() })
             .ToList();
 
         var entitiesToCreate = entities.Where(a =>

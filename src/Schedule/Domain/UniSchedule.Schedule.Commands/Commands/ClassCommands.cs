@@ -29,6 +29,7 @@ public class ClassCommands(DatabaseContext context) :
             DayId = parameters.DayId,
             Name = parameters.Name,
             TeacherId = parameters.TeacherId,
+            Type = parameters.Type,
             LocationId = parameters.LocationId,
             Subgroup = parameters.Subgroup,
             WeekType = parameters.WeekType,

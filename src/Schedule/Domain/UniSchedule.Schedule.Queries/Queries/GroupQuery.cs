@@ -53,33 +53,53 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
     /// <inheritdoc />
     public override async Task<Group> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await Query.SingleOrNotFoundAsync(id, cancellationToken);
+        var group = await Query.SingleOrNotFoundAsync(id, cancellationToken);
 
-        var announcements = context.Announcements
-            .Where(x =>
-                x.Target != null &&
-                (x.IsTimeLimited == false || x.AvailableUntil > DateTime.UtcNow) &&
-                ((x.Target.IncludedGroups != null && x.Target.IncludedGroups.Contains(entity.Id) &&
-                  x.Target.ExcludedGroups != null && !x.Target.ExcludedGroups.Contains(entity.Id)) ||
-                 (x.Target.IncludedGrades != null && x.Target.IncludedGrades.Contains(entity.Grade) &&
-                  x.Target.ExcludedGrades != null && !x.Target.ExcludedGrades.Contains(entity.Grade)))
+        var announcements = await context.Announcements
+            .Where(a =>
+                (!a.IsTimeLimited || a.AvailableUntil > DateTime.UtcNow)
+                && (
+                    a.Target == null
+                    || (
+                        (a.Target.IncludedGroups == null
+                         || a.Target.IncludedGroups.Contains(group.Id))
+                        && (a.Target.ExcludedGroups == null
+                            || !a.Target.ExcludedGroups.Contains(group.Id))
+                    )
+                    || (
+                        (a.Target.IncludedGrades == null
+                         || a.Target.IncludedGrades.Contains(group.Grade))
+                        && (a.Target.ExcludedGrades == null
+                            || !a.Target.ExcludedGrades.Contains(group.Grade))
+                    )
+                )
             )
-            .OrderByDescending(x => x.CreatedAt);
-
-        var result = await announcements
-            .Select(x => new { All = x, TimeLimited = x.IsTimeLimited ? x : null })
+            .OrderByDescending(a => a.CreatedAt)
             .ToListAsync(cancellationToken);
 
-        var lastAnnouncement = result.FirstOrDefault(r => r.TimeLimited == null)?.All;
-        var lastLimitedTimeAnnouncement = result
-            .Where(r => r.TimeLimited != null)
-            .Select(r => r.TimeLimited)
-            .FirstOrDefault();
+        var lastAnnouncement = announcements.FirstOrDefault(a => !a.IsTimeLimited);
+        var lastTimeLimitedAnnouncement = announcements.FirstOrDefault(a => a.IsTimeLimited);
 
-        var announcementsBlock =
-            new AnnouncementsBlock { Last = lastAnnouncement, LastTimeLimited = lastLimitedTimeAnnouncement };
-        entity.AnnouncementsBlock = announcementsBlock;
+        if (lastAnnouncement != null)
+        {
+            var creator =
+                await context.Users.SingleOrDefaultAsync(x => x.Id == lastAnnouncement.CreatedBy, cancellationToken);
+            lastAnnouncement.Creator = creator;
+        }
 
-        return entity;
+        if (lastTimeLimitedAnnouncement != null)
+        {
+            var creator = await context.Users.SingleOrDefaultAsync(x => x.Id == lastTimeLimitedAnnouncement.CreatedBy,
+                cancellationToken);
+            lastTimeLimitedAnnouncement.Creator = creator;
+        }
+
+        group.AnnouncementsBlock = new AnnouncementsBlock
+        {
+            Last = lastAnnouncement, LastTimeLimited = lastTimeLimitedAnnouncement
+        };
+
+
+        return group;
     }
 }

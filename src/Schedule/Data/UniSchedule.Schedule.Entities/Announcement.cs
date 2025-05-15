@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using UniSchedule.Abstractions.Entities;
 using UniSchedule.Abstractions.Entities.Auditable;
 using UniSchedule.Entities;
 using UniSchedule.Schedule.Entities.Enums;
@@ -10,7 +9,7 @@ namespace UniSchedule.Schedule.Entities;
 /// <summary>
 ///     Объявление
 /// </summary>
-public class Announcement : Entity<Guid>, ICreatable, IUpdatable
+public class Announcement : AuditableEntity<Guid>
 {
     /// <summary>
     ///     Текст объявления

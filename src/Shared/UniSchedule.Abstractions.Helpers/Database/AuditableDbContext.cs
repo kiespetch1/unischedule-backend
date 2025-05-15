@@ -48,6 +48,12 @@ public class AuditableDbContext : DbContext, IMigrationDatabase
         return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
+    /// <inheritdoc />
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(new AuditableInterceptor(_userProvider, _publisher));
+    }
+
     /// <summary>
     ///     Обходит все изменённые сущности с атрибутом <see cref="AuditableAttribute" />
     ///     и публикует для них события аудита через IAuditEventPublisher.

@@ -72,8 +72,10 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
                 .ToArrayAsync();
 
             var admin = CreateAdmin(roles);
+            var testUser = CreateTestUser(roles);
 
             await context.AddAsync(admin);
+            await context.AddAsync(testUser);
             await context.SaveChangesAsync();
         }
     }
@@ -104,5 +106,30 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
         return user;
     }
 
+    /// <summary>
+    ///     Создание тестового пользователя
+    /// </summary>
+    /// <param name="roles">Список ролей</param>
+    /// <returns>Модель пользователя</returns>
+    private User CreateTestUser(params Role[] roles)
+    {
+        var salt = PasswordUtils.GenerateSequence();
+        var role = roles.Single(x => x.Name == RoleOption.Admin.ToString());
+
+        var user = new User
+        {
+            Surname = "Тест",
+            Name = "Тест",
+            Patronymic = "Тест",
+            Email = "test@test.ru",
+            Role = role,
+            RoleId = role.Id,
+            GroupId = Guid.Empty,
+            ManagedGroupIds = [Guid.Empty],
+            Password = new PasswordInfo { Hash = PasswordUtils.HashPassword("test12345", salt), Salt = salt }
+        };
+
+        return user;
+    }
     #endregion
 }

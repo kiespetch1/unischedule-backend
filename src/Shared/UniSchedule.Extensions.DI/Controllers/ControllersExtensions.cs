@@ -24,7 +24,7 @@ public static class ControllersExtensions
         services.AddControllers(options =>
             {
                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
-                options.Filters.Add<ApiAntiforgeryTokenAuthorizationFilter>();
+                // options.Filters.Add<ApiAntiforgeryTokenAuthorizationFilter>();
             })
             .AddNewtonsoftJson(options =>
             {

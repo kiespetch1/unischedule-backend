@@ -42,7 +42,10 @@ public static partial class QueryableExtensions
     {
         var totalCount = await query.CountAsync(cancellationToken);
 
-        query = query.OrderBy(pageContext.SortBy, pageContext.SortOrder);
+        if (pageContext.SortBy != null)
+        {
+            query = query.OrderBy(pageContext.SortBy, pageContext.SortOrder);
+        }
 
         if (pageContext.Offset.HasValue)
         {
@@ -200,5 +203,25 @@ public static partial class QueryableExtensions
         var excepted = ids.Except(entityIds);
 
         return !excepted.Any();
+    }
+
+    /// <summary>
+    ///     Include при условии
+    /// </summary>
+    /// <param name="query">Коллекция <see cref="IQueryable{T}" /></param>
+    /// <param name="condition">Условие</param>
+    /// <param name="navigationPropertyPath">Путь к свойству</param>
+    /// <typeparam name="TEntity">Тип элементов в коллекции</typeparam>
+    /// <typeparam name="TProperty">Вложенный объект, по которому делается Include</typeparam>
+    /// <returns>Коллекция с вложенными данными</returns>
+    public static IQueryable<TEntity> IncludeIf<TEntity, TProperty>(
+        this IQueryable<TEntity> query,
+        bool condition,
+        Expression<Func<TEntity, TProperty>> navigationPropertyPath)
+        where TEntity : class
+    {
+        return condition
+            ? query.Include(navigationPropertyPath)
+            : query;
     }
 }

@@ -64,6 +64,6 @@ public class ClassQuery(DatabaseContext context) : EFQuery<Class, Guid, ClassQue
             query = query.Where(x => x.IsCancelled == parameters.IsCancelled.Value);
         }
 
-        return await query.ToCollectionResultAsync(cancellationToken);
+        return await query.ToCollectionResultAsync(parameters, cancellationToken);
     }
 }

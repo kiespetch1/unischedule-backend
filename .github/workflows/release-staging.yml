@@ -89,7 +89,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: |
             docker-compose.yaml
-          target: "~/unischedule"
+          target: "~/unischedule-staging"
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
@@ -98,7 +98,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd unischedule
+            cd unischedule-staging
             docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" -p "${{ secrets.GHCR_TOKEN }}"
             cat <<EOF > .env
             ASPNETCORE_ENVIRONMENT=Staging

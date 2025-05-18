@@ -47,7 +47,7 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
             query = query.Where(x => x.HasFixedSubgroups == parameters.HasFixedSubgroups);
         }
 
-        return await query.ToCollectionResultAsync(cancellationToken);
+        return await query.ToCollectionResultAsync(parameters, cancellationToken);
     }
 
     /// <inheritdoc />

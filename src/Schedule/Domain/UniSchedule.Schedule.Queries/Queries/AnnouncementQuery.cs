@@ -101,7 +101,7 @@ public class AnnouncementQuery(DatabaseContext context)
             query = query.Where(x => x.IsAnonymous == parameters.IsAnonymous.Value);
         }
 
-        var result = await query.ToCollectionResultAsync(cancellationToken);
+        var result = await query.ToCollectionResultAsync(parameters, cancellationToken);
 
         if (result.Data.Any(x => x.IsAnonymous == false))
         {

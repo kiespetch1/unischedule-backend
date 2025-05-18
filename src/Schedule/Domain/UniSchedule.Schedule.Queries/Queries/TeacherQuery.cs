@@ -32,6 +32,6 @@ public class TeacherQuery(DatabaseContext context) : EFQuery<Teacher, Guid, Teac
             query = query.Where(x => x.FullName.Contains(parameters.Search));
         }
 
-        return await query.ToCollectionResultAsync(cancellationToken);
+        return await query.ToCollectionResultAsync(parameters, cancellationToken);
     }
 }

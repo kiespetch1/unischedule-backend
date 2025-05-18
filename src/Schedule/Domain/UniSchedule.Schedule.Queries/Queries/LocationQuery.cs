@@ -40,6 +40,6 @@ public class LocationQuery(DatabaseContext context) : EFQuery<Location, Guid, Lo
             query = query.Where(x => x.Type == parameters.LocationType);
         }
 
-        return await query.ToCollectionResultAsync(cancellationToken);
+        return await query.ToCollectionResultAsync(parameters, cancellationToken);
     }
 }

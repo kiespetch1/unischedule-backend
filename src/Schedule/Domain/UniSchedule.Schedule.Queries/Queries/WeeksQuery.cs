@@ -46,7 +46,7 @@ public class WeeksQuery(DatabaseContext context) : EFQuery<Week, Guid, WeekQuery
             query = query.Where(x => x.Type == parameters.Type.Value);
         }
 
-        return await query.ToCollectionResultAsync(cancellationToken);
+        return await query.ToCollectionResultAsync(parameters, cancellationToken);
     }
 
     /// <inheritdoc />

@@ -105,7 +105,7 @@ public class AnnouncementQuery(DatabaseContext context)
 
         if (result.Data.Any(x => x.IsAnonymous == false))
         {
-            return await GetUserInfoAsync(result, cancellationToken)!;
+            return await GetUserInfoAsync(result, cancellationToken);
         }
 
         return result;

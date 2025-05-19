@@ -25,7 +25,8 @@ public class GroupCommands(DatabaseContext context, ICreateCommand<Week, WeekCre
             Name = parameters.Name,
             Grade = parameters.Grade,
             HasSubgroups = parameters.HasSubgroups,
-            HasFixedSubgroups = parameters.HasFixedSubgroups
+            HasFixedSubgroups = parameters.HasFixedSubgroups,
+            LastAcademicWeekNumber = parameters.LastAcademicWeekNumber
         };
         await context.Groups.AddAsync(group, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
@@ -47,6 +48,7 @@ public class GroupCommands(DatabaseContext context, ICreateCommand<Week, WeekCre
         group.Grade = parameters.Grade;
         group.HasSubgroups = parameters.HasSubgroups;
         group.HasFixedSubgroups = parameters.HasFixedSubgroups;
+        group.LastAcademicWeekNumber = parameters.LastAcademicWeekNumber;
 
         await context.SaveChangesAsync(cancellationToken);
     }

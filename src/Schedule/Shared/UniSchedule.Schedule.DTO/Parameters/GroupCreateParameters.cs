@@ -24,4 +24,9 @@ public class GroupCreateParameters
     ///     Имеет ли четкое разделение на подгруппы
     /// </summary>
     public required bool HasFixedSubgroups { get; set; }
+
+    /// <summary>
+    ///     Номер последней учебной недели (без учета зачетных и экзаменационных)
+    /// </summary>
+    public int LastAcademicWeekNumber { get; set; } = 16;
 }

@@ -126,7 +126,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Bot.Api", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{A615B751-1A30-4D9D-B157-8B7195D7BC69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Bot.Entities", "src\Bot\Data\UniSchdeule.Bot.Entities\UniSchedule.Bot.Entities.csproj", "{AD40D243-33EF-49CC-A9F7-9AE5A1FF8A2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Bot.Entities", "src\Bot\Data\UniSchedule.Bot.Entities\UniSchedule.Bot.Entities.csproj", "{AD40D243-33EF-49CC-A9F7-9AE5A1FF8A2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

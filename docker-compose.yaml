@@ -161,8 +161,8 @@
       RabbitMqSettings__Host: ${RabbitMqSettings__Host}
       RabbitMqSettings__Username: ${RabbitMqSettings__Username}
       RabbitMqSettings__Password: ${RabbitMqSettings__Password}
-      VkApiSettings_ConfirmationCode: ${VkApiSettings_ConfirmationCode}
-      VkApiSettings_AccessToken: ${VkApiSettings_AccessToken}
+      VkApiSettings__ConfirmationCode: ${VkApiSettings__ConfirmationCode}
+      VkApiSettings__AccessToken: ${VkApiSettings__AccessToken}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bot.rule=Host(`bot.${CURRENT_DOMAIN}`)"

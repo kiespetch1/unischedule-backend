@@ -131,8 +131,8 @@ jobs:
             VITE_IDENTITY_URL=${{ secrets.VITE_IDENTITY_URL }}
             VITE_SCHEDULE_URL=${{ secrets.VITE_SCHEDULE_URL }}
             VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
-            VkApiSettings_ConfirmationCode=${{ secrets.VkApiSettings_ConfirmationCode }}
-            VkApiSettings_AccessToken=${{ secrets.VkApiSettings_AccessToken }}
+            VkApiSettings__ConfirmationCode=${{ secrets.VkApiSettings__ConfirmationCode }}
+            VkApiSettings__AccessToken=${{ secrets.VkApiSettings__AccessToken }}
             EOF
             docker compose pull
             docker compose up -d

@@ -19,8 +19,8 @@ public static class ServiceCollectionExtensions
         {
             // TODO: подумать в будущем над cors
             builder.WithOrigins(
-                "https://streaminginfo.ru"
-                ,
+                "https://streaminginfo.ru",
+                "https://api.vk.com",
                 "http://localhost:5173"
             );
             builder.AllowCredentials();

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Schedule\Data\UniSchedule.Schedule.Entities\UniSchedule.Schedule.Entities.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Entities\UniSchedule.Abstractions.Entities.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Messaging\UniSchedule.Abstractions.Messaging.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Publishers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit.Abstractions" Version="8.3.6" />
+    </ItemGroup>
+
+</Project>

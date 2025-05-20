@@ -13,10 +13,21 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Bot\Shared\UniSсhedule.Bot.Shared\UniSсhedule.Bot.Shared.csproj" />
         <ProjectReference Include="..\..\Identity\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj"/>
         <ProjectReference Include="..\UniSchedule.Entities\UniSchedule.Entities.csproj"/>
         <ProjectReference Include="..\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
         <ProjectReference Include="..\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Consumers\Announcements\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Consumers\Announcements\CreateAnnouncementConsumer.Definition.cs">
+        <DependentUpon>CreateAnnouncementConsumer.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

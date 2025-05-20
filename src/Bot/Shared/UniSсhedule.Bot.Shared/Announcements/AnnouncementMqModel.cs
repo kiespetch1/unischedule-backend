@@ -1,20 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using UniSchedule.Abstractions.Entities.Auditable;
-using UniSchedule.Entities;
+﻿using UniSchedule.Abstractions.Entities;
 using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Entities.Owned;
 
-namespace UniSchedule.Schedule.Entities;
+namespace UniSсhedule.Bot.Shared.Announcements;
 
 /// <summary>
-///     Объявление
+///     Модель объявления для передачи через брокер сообщений
 /// </summary>
-public class Announcement : AuditableEntity<Guid>
+public class AnnouncementMqModel : Entity<Guid>
 {
     /// <summary>
     ///     Текст объявления
     /// </summary>
-    public required string Message { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     ///     Информация о получателях
@@ -40,16 +38,4 @@ public class Announcement : AuditableEntity<Guid>
     ///     Дата истечения доступности
     /// </summary>
     public DateTime? AvailableUntil { get; set; }
-
-    /// <summary>
-    ///     Данные пользователя создавшего объявление
-    /// </summary>
-    [NotMapped]
-    public User? Creator { get; set; }
-
-    /// <summary>
-    ///     Данные пользователя обновившего объявление
-    /// </summary>
-    [NotMapped]
-    public User? Updater { get; set; }
 }

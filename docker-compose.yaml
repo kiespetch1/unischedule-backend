@@ -150,6 +150,31 @@
     networks:
       - shared-network
 
+  bot:
+    build:
+      context: .
+      args:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    image: ghcr.io/kiespetch1/bot:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      RabbitMqSettings__Host: ${RabbitMqSettings__Host}
+      RabbitMqSettings__Username: ${RabbitMqSettings__Username}
+      RabbitMqSettings__Password: ${RabbitMqSettings__Password}
+      VkApiSettings_ConfirmationCode: ${VkApiSettings_ConfirmationCode}
+      VkApiSettings_AccessToken: ${VkApiSettings_AccessToken}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.events.rule=Host(`bot.${CURRENT_DOMAIN}`)"
+      - "traefik.http.routers.events.entrypoints=https"
+      - "traefik.http.routers.events.tls.certresolver=letsencrypt"
+      - "traefik.http.services.events.loadbalancer.server.port=80"
+      - "traefik.docker.network=unischedule_shared-network"
+    depends_on:
+      - rabbitmq
+    networks:
+      - shared-network
+
   postgres:
     container_name: us-postgres
     image: postgres:16.3-alpine

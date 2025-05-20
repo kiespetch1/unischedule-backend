@@ -39,13 +39,9 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
                 IncludedGroups = parameters.Target?.IncludedGroups ?? [],
                 IncludedGrades = parameters.Target?.IncludedGrades ?? []
             },
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
+            Priority = parameters.Priority,
             IsTimeLimited = parameters.IsTimeLimited,
-            AvailableUntil = parameters.AvailableUntil,
-            CreatedBy = userContextProvider.GetContext().Id,
-            UpdatedBy = userContextProvider.GetContext().Id
-        };
+            AvailableUntil = parameters.AvailableUntil };
 
         context.Announcements.Add(announcement);
         await context.SaveChangesAsync(cancellationToken);
@@ -77,10 +73,9 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
             IncludedGroups = parameters.Target?.IncludedGroups,
             IncludedGrades = parameters.Target?.IncludedGrades
         };
+        announcement.Priority = parameters.Priority;
         announcement.IsTimeLimited = parameters.IsTimeLimited;
         announcement.AvailableUntil = parameters.AvailableUntil;
-        announcement.UpdatedAt = DateTime.UtcNow;
-        announcement.UpdatedBy = userContextProvider.GetContext().Id;
 
         await context.SaveChangesAsync(cancellationToken);
     }

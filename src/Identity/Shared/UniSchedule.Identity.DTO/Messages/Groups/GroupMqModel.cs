@@ -3,7 +3,7 @@
 namespace UniSchedule.Identity.DTO.Messages.Groups;
 
 /// <summary>
-///     Учебная группа
+///     Модель учебной группы для передачи через брокер сообщений
 /// </summary>
 public class GroupMqModel : Entity<Guid>
 {

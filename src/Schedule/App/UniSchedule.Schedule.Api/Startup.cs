@@ -21,6 +21,7 @@ using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Queries;
 using UniSchedule.Schedule.Services;
 using UniSchedule.Validation;
+using UniSсhedule.Bot.Shared.Announcements;
 
 namespace UniSchedule.Schedule.Api;
 
@@ -43,6 +44,7 @@ public class Startup(IConfiguration configuration)
             configure.AddPublisher<GroupCreatedPublisher, GroupMqCreateParameters>();
             configure.AddPublisher<GroupDeletedPublisher, GroupMqDeleteParameters>();
             configure.AddPublisher<GroupsSyncPublisher, GroupsMqSyncParameters>();
+            configure.AddAnnouncementsConsumers();
             configure.AddUsersConsumers();
         }, messageConfigure =>
         {
@@ -50,6 +52,8 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<GroupMqCreateParameters>();
             messageConfigure.MessageConfigure<GroupMqDeleteParameters>();
             messageConfigure.MessageConfigure<GroupsMqSyncParameters>();
+            messageConfigure.MessageConfigure<AnnouncementMqCreateParameters>();
+            // TODO: конфиг для пользователей?
         });
 
         services.AddCommands();

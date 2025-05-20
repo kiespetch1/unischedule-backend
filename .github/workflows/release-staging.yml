@@ -54,6 +54,16 @@ jobs:
             ghcr.io/kiespetch1/events:${{ github.event.release.tag_name }}
             ghcr.io/kiespetch1/events:latest
 
+      - name: Build and push Bot Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: src/Bot/App/UniSchedule.Bot.Api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/kiespetch1/bot:${{ github.event.release.tag_name }}
+            ghcr.io/kiespetch1/bot:latest
+
       - name: Checkout frontend repository
         uses: actions/checkout@v3
         with:
@@ -121,6 +131,8 @@ jobs:
             VITE_IDENTITY_URL=${{ secrets.VITE_IDENTITY_URL }}
             VITE_SCHEDULE_URL=${{ secrets.VITE_SCHEDULE_URL }}
             VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
+            VkApiSettings_ConfirmationCode=${{ secrets.VkApiSettings_ConfirmationCode }}
+            VkApiSettings_AccessToken=${{ secrets.VkApiSettings_AccessToken }}
             EOF
             docker compose pull
             docker compose up -d

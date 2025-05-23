@@ -98,11 +98,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
 
-          source: |
-            docker-compose.yml
-            monitoring/docker-compose.monitoring.yml
-            monitoring/prometheus/
-            monitoring/grafana/
+          source: "docker-compose.yml,monitoring/docker-compose.monitoring.yml,monitoring/prometheus/,monitoring/grafana/"
           target: "~/unischedule-staging"
 
           strip_components: 1

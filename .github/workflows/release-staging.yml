@@ -14,6 +14,9 @@ jobs:
       - name: Deploy of release ${{ github.event.release.tag_name }} started
         run: echo Deploy of release ${{ github.event.release.tag_name }} started
 
+      - name: Checkout backend repo
+        uses: actions/checkout@v3
+
       - name: Analyze changes
         uses: dorny/paths-filter@v3
         id: filter
@@ -27,9 +30,6 @@ jobs:
               - 'src/Events/**'
             bot:
               - 'src/Bot/**'
-
-      - name: Checkout backend repo
-        uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2

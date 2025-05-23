@@ -138,7 +138,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Helpers", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monitoring", "monitoring", "{6CE5922F-03B2-4966-86CE-7DAFD2B06E74}"
 	ProjectSection(SolutionItems) = preProject
-		monitoring\docker-compose.monitoring.yml = monitoring\docker-compose.monitoring.yml
+		monitoring\docker-compose.monitoring.yaml = monitoring\docker-compose.monitoring.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{29CFEBF8-5476-4764-84C8-F9EE2782D1DB}"

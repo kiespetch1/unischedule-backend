@@ -156,7 +156,6 @@ jobs:
             GRAFANA_USER=${{ secrets.GRAFANA_USER }}
             GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
             EOF
-            ls
-            docker compose -f docker-compose.yml -f docker-compose.monitoring.yml pull
-            docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
+            docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml pull
+            docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml up -d
             

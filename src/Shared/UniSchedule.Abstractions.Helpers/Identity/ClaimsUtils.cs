@@ -50,10 +50,11 @@ public static class ClaimsUtils
             .Select(claim => Guid.Parse(claim.Value))
             .ToList();
         var groupId = Guid.Parse(claims.Single(claim => claim.Type.Contains(ClaimTypes.GroupId)).Value);
-        var rawRole = claims.Single(c => c.Type == ClaimTypes.Role).Value;
+        var rawRole = claims
+            .Single(c => c.Type is "role" or "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
         var role = JsonSerializer.Deserialize<string>(rawRole)
                    ?? throw new InvalidOperationException("Клейм роли имеет неверный формат");
-        
+
         return new UserContext(
             userId,
             surname,

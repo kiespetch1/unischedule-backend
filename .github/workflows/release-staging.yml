@@ -156,6 +156,8 @@ jobs:
             GRAFANA_USER=${{ secrets.GRAFANA_USER }}
             GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
             EOF
+            docker network create unischedule-staging_shared-network || true
+            docker network create unischedule-staging_monitoring || true
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml pull
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml up -d
             

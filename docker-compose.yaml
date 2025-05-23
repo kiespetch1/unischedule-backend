@@ -225,8 +225,10 @@
 networks:
   shared-network:
     name: unischedule-staging_shared-network
+    external: true
   monitoring:
     driver: bridge
+    external: true
     name: unischedule-staging_monitoring
 
 volumes:

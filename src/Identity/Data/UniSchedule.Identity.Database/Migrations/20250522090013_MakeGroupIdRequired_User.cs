@@ -13,7 +13,7 @@ namespace UniSchedule.Identity.Database.Migrations
         {
             migrationBuilder.Sql(@"
                 UPDATE ""Users""
-                SET    ""GroupId"" = '340cb1cf-b29f-4d21-b0b5-6a5f68e26647'::uuid
+                SET    ""GroupId"" = 'e7a5eab4-d0ee-4c92-a78c-e0bd52d97aef'::uuid
                 WHERE  ""GroupId"" IS NULL
                 OR  ""GroupId"" = '00000000-0000-0000-0000-000000000000'::uuid;
             ");

@@ -136,6 +136,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Bot.Database", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniSchedule.Helpers", "src\Shared\UniSchedule.Helpers\UniSchedule.Helpers.csproj", "{49305547-14F1-461D-9B8D-D152E17F1903}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monitoring", "monitoring", "{6CE5922F-03B2-4966-86CE-7DAFD2B06E74}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\docker-compose.monitoring.yml = monitoring\docker-compose.monitoring.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{29CFEBF8-5476-4764-84C8-F9EE2782D1DB}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\prometheus\prometheus.yml = monitoring\prometheus\prometheus.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{B1546B39-DFBB-49BB-B98F-B7E9FDF13092}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provisioning", "provisioning", "{CC54E8EA-543C-4EBB-8585-8E34E80493B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datasources", "datasources", "{5F6C88EF-5697-40A6-8D75-A85E7B5049E2}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\grafana\provisioning\datasources\prometheus.yml = monitoring\grafana\provisioning\datasources\prometheus.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{F222508A-796E-42AD-B9A2-C18D2A167630}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\grafana\provisioning\dashboards\dashboard.yml = monitoring\grafana\provisioning\dashboards\dashboard.yml
+		monitoring\grafana\provisioning\dashboards\otel_metrics.json = monitoring\grafana\provisioning\dashboards\otel_metrics.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -367,5 +392,11 @@ Global
 		{63D95765-8927-4CFC-8690-FE0A09C8DE69} = {1776A4E2-1334-45D9-B116-E1E608B0D475}
 		{991FF2E9-7647-48D2-8B3A-7D11D61E2E10} = {A615B751-1A30-4D9D-B157-8B7195D7BC69}
 		{49305547-14F1-461D-9B8D-D152E17F1903} = {60700355-FEA6-4338-92F4-2D964ACFF249}
+		{6CE5922F-03B2-4966-86CE-7DAFD2B06E74} = {28107316-B0FA-45FD-B62C-6A7BDB53861A}
+		{29CFEBF8-5476-4764-84C8-F9EE2782D1DB} = {6CE5922F-03B2-4966-86CE-7DAFD2B06E74}
+		{B1546B39-DFBB-49BB-B98F-B7E9FDF13092} = {6CE5922F-03B2-4966-86CE-7DAFD2B06E74}
+		{CC54E8EA-543C-4EBB-8585-8E34E80493B4} = {B1546B39-DFBB-49BB-B98F-B7E9FDF13092}
+		{5F6C88EF-5697-40A6-8D75-A85E7B5049E2} = {CC54E8EA-543C-4EBB-8585-8E34E80493B4}
+		{F222508A-796E-42AD-B9A2-C18D2A167630} = {CC54E8EA-543C-4EBB-8585-8E34E80493B4}
 	EndGlobalSection
 EndGlobal

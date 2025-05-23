@@ -5,17 +5,16 @@
     restart: unless-stopped
     command:
       - "--log.level=DEBUG"
-      - "--entryPoints.http.address=:80"
-      - "--entryPoints.https.address=:443"
-      - "--entryPoints.vite.address=:3000"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.vite.address=:3001"
 
-      - "--entryPoints.http.http.redirections.entryPoint.to=https"
-      - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
-      - "--entryPoints.http.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.http.http.redirections.entrypoint.to=https"
+      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.http.http.redirections.entrypoint.permanent=true"
 
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=unischedule-staging_shared-network"
       - "--api=true"
 
       - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
@@ -23,6 +22,8 @@
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
       - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+
+      - "--metrics.prometheus=true"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=unischedule-staging_shared-network"
@@ -39,6 +40,7 @@
       - ./letsencrypt:/letsencrypt
     networks:
       - shared-network
+      - monitoring
 
   frontend:
     image: ghcr.io/kiespetch1/frontend:latest
@@ -47,9 +49,10 @@
       - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
       - "traefik.http.routers.frontend.entrypoints=https"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3001"
       - "traefik.docker.network=unischedule-staging_shared-network"
     networks:
+      - monitoring
       - shared-network
 
   identity:
@@ -88,6 +91,7 @@
       - rabbitmq
     networks:
       - shared-network
+      - monitoring
 
   schedule:
     build:
@@ -119,6 +123,7 @@
       - rabbitmq
     networks:
       - shared-network
+      - monitoring
 
   events:
     build:
@@ -150,6 +155,7 @@
       - rabbitmq
     networks:
       - shared-network
+      - monitoring
 
   bot:
     build:
@@ -175,6 +181,7 @@
       - rabbitmq
     networks:
       - shared-network
+      - monitoring
 
   postgres:
     container_name: us-postgres
@@ -189,6 +196,7 @@
       - "5432:5432"
     networks:
       - shared-network
+      - monitoring
 
   rabbitmq:
     container_name: us-rabbitmq
@@ -205,6 +213,7 @@
       - "15672:15672"
     networks:
       - shared-network
+      - monitoring
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.rabbitmq.rule=Host(`rabbit.${CURRENT_DOMAIN}`)"
@@ -215,6 +224,10 @@
 
 networks:
   shared-network:
+    name: unischedule-staging_shared-network
+  monitoring:
+    driver: bridge
+    name: unischedule-staging_monitoring
 
 volumes:
   dp-keys:

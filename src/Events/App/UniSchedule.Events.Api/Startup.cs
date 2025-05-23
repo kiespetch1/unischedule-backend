@@ -10,6 +10,7 @@ using UniSchedule.Extensions.DI.CORS;
 using UniSchedule.Extensions.DI.Database;
 using UniSchedule.Extensions.DI.Messaging.Settings;
 using UniSchedule.Extensions.DI.Middleware;
+using UniSchedule.Extensions.DI.Monitoring;
 using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
@@ -52,7 +53,9 @@ public class Startup(IConfiguration configuration)
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
-        services.AddUserContextProvider(); 
+        services.AddUserContextProvider();
+
+        services.AddServiceMonitoring();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -71,6 +74,7 @@ public class Startup(IConfiguration configuration)
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors(EnvironmentUtils.DefaultId.ToString());
+        app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
         app.UseAuthentication();
         app.UseAuthorization();

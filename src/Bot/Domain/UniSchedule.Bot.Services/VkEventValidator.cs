@@ -25,6 +25,11 @@ public class VkEventValidator
                 "Неверный формат объекта для события \"Подтверждение\""));
         }
 
+        if (@event is { Type: VkResponseType.Confirmation, Object: null })
+        {
+            return result;
+        }
+
         if (@event.Version != vkSettings.Version)
         {
             result.Errors.Add(new ValidationFailure(nameof(@event.Version), "Неподдерживаемая версия VK API"));

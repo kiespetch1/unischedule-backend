@@ -91,15 +91,21 @@ jobs:
       - name: Checkout backend repo
         uses: actions/checkout@v3
 
-      - name: Copy docker-compose.yml to VPS
+      - name: Copy docker-compose files and monitoring configs to VPS
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+
           source: |
-            docker-compose.yaml
+            docker-compose.yml
+            monitoring/docker-compose.monitoring.yml
+            monitoring/prometheus/
+            monitoring/grafana/
           target: "~/unischedule-staging"
+
+          strip_components: 1
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
@@ -137,6 +143,6 @@ jobs:
             GRAFANA_USER=${{ secrets.GRAFANA_USER }}
             GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
             EOF
-            docker compose -f docker-compose.yml -f monitoring/docker-compose.monitoring.yml pull
-            docker compose -f docker-compose.yml -f monitoring/docker-compose.monitoring.yml up -d
+            docker compose -f docker-compose.yml -f docker-compose.monitoring.yml pull
+            docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
             

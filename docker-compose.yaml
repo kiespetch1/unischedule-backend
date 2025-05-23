@@ -111,6 +111,7 @@
       JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
       JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
       JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
+      CookieSettings__Domain: ${CookieSettings__Domain}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.schedule.rule=Host(`schedule.${CURRENT_DOMAIN}`)"
@@ -143,6 +144,7 @@
       JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
       JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
       JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
+      CookieSettings__Domain: ${CookieSettings__Domain}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.events.rule=Host(`events.${CURRENT_DOMAIN}`)"
@@ -170,6 +172,7 @@
       RabbitMqSettings__Password: ${RabbitMqSettings__Password}
       VkApiSettings__ConfirmationCode: ${VkApiSettings__ConfirmationCode}
       VkApiSettings__AccessToken: ${VkApiSettings__AccessToken}
+      CookieSettings__Domain: ${CookieSettings__Domain}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bot.rule=Host(`bot.${CURRENT_DOMAIN}`)"

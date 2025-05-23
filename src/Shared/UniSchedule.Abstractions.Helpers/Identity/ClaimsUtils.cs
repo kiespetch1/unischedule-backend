@@ -40,6 +40,10 @@ public static class ClaimsUtils
     /// <returns>Контекст пользователя</returns>
     public static UserContext CreateContext(List<Claim> claims)
     {
+        // Временная отладка - выводим все claims
+        var claimsInfo = string.Join("; ", claims.Select(c => $"{c.Type}={c.Value}"));
+        Console.WriteLine($"Claims: {claimsInfo}");
+        
         var userId = Guid.Parse(claims.Single(claim => claim.Type == ClaimTypes.UserId).Value);
         var surname = claims.Single(claim => claim.Type == ClaimTypes.Surname).Value;
         var name = claims.Single(claim => claim.Type == ClaimTypes.Name).Value;
@@ -50,14 +54,23 @@ public static class ClaimsUtils
             .Select(claim => Guid.Parse(claim.Value))
             .ToList();
         var groupId = Guid.Parse(claims.Single(claim => claim.Type.Contains(ClaimTypes.GroupId)).Value);
+
+        // Отладка для роли
+        var roleClaims = claims.Where(c => c.Type.Contains("role")).ToList();
+        Console.WriteLine($"Role claims found: {roleClaims.Count}");
+        foreach (var rc in roleClaims)
+        {
+            Console.WriteLine($"Role claim: Type='{rc.Type}', Value='{rc.Value}'");
+        }
+        
         var rawRole = claims
                           .SingleOrDefault(c =>
-                              c.Type is ClaimTypes.Role or "role"
-                                  or "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value
-                      ?? throw new InvalidOperationException("Клейм роли не найден");
+                              c.Type == ClaimTypes.Role || c.Type == "role" || c.Type ==
+                              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value
+                      ?? throw new InvalidOperationException($"Клейм роли не найден. Доступные claims: {claimsInfo}");
         var role = JsonSerializer.Deserialize<string>(rawRole)
                    ?? throw new InvalidOperationException("Клейм роли имеет неверный формат");
-
+        
         return new UserContext(
             userId,
             surname,

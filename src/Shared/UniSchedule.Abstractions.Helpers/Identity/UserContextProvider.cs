@@ -28,7 +28,6 @@ public class UserContextProvider(IHttpContextAccessor httpContextAccessor) : IUs
         else
         {
             var result = ClaimsUtils.CreateContext(claims);
-            result.Role = result.Role.Length <= 2 ? string.Empty : result.Role[1..^1];
 
             return result;
         }

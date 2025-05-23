@@ -17,7 +17,7 @@ public static class ClaimTypes
 
     public const string Patronymic = "patronymic";
 
-    public const string Role = System.Security.Claims.ClaimTypes.Role;
+    public const string Role = "role";
 
     public const string ManagedGroupIds = "managed_group_ids";
 

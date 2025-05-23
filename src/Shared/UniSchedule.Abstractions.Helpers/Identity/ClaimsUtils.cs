@@ -43,7 +43,7 @@ public static class ClaimsUtils
         var userId = Guid.Parse(claims.Single(claim => claim.Type == ClaimTypes.UserId).Value);
         var surname = claims.Single(claim => claim.Type == ClaimTypes.Surname).Value;
         var name = claims.Single(claim => claim.Type == ClaimTypes.Name).Value;
-        var patronymic = claims.Single(claim => claim.Type == ClaimTypes.Patronymic).Value;
+        var patronymic = claims.SingleOrDefault(claim => claim.Type == ClaimTypes.Patronymic)?.Value ?? string.Empty;
         var email = claims.Single(claim => claim.Type.Contains(ClaimTypes.Email)).Value;
         var managedGroupIds = claims
             .Where(claim => claim.Type == ClaimTypes.ManagedGroupIds)
@@ -51,7 +51,10 @@ public static class ClaimsUtils
             .ToList();
         var groupId = Guid.Parse(claims.Single(claim => claim.Type.Contains(ClaimTypes.GroupId)).Value);
         var rawRole = claims
-            .Single(c => c.Type is "role" or "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
+                          .SingleOrDefault(c =>
+                              c.Type is ClaimTypes.Role or "role"
+                                  or "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value
+                      ?? throw new InvalidOperationException("Клейм роли не найден");
         var role = JsonSerializer.Deserialize<string>(rawRole)
                    ?? throw new InvalidOperationException("Клейм роли имеет неверный формат");
 

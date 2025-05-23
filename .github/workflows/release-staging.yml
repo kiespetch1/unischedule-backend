@@ -17,20 +17,6 @@ jobs:
       - name: Checkout backend repo
         uses: actions/checkout@v3
 
-      - name: Analyze changes
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            identity:
-              - 'src/Identity/**'
-            schedule:
-              - 'src/Schedule/**'
-            events:
-              - 'src/Events/**'
-            bot:
-              - 'src/Bot/**'
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:

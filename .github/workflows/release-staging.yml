@@ -111,7 +111,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd unischedule-staging
-            docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin ${{ secrets.GHCR_TOKEN }}
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
             cat <<EOF > .env
             ASPNETCORE_ENVIRONMENT=Staging
             POSTGRES_USER=${{ secrets.POSTGRES_USER }}

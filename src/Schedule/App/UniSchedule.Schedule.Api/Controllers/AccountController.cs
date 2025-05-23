@@ -20,7 +20,5 @@ public class AccountController : ControllerBase
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]
-    public void RefreshAntiforgery()
-    {
-    }
+    public void RefreshAntiforgery() { }
 }

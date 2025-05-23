@@ -49,6 +49,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Identity Image
+        if: ${{ steps.filter.outputs.identity == 'true' || steps.filter.outputs.shared == 'true' }}
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -59,6 +60,7 @@ jobs:
             ghcr.io/kiespetch1/identity:latest
 
       - name: Build and push Schedule Image
+        if: ${{ steps.filter.outputs.schedule == 'true' || steps.filter.outputs.shared == 'true' }}
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -69,6 +71,7 @@ jobs:
             ghcr.io/kiespetch1/schedule:latest
 
       - name: Build and push Events Image
+        if: ${{ steps.filter.outputs.events == 'true' || steps.filter.outputs.shared == 'true' }}
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -79,6 +82,7 @@ jobs:
             ghcr.io/kiespetch1/events:latest
 
       - name: Build and push Bot Image
+        if: ${{ steps.filter.outputs.bot == 'true' || steps.filter.outputs.shared == 'true' }}
         uses: docker/build-push-action@v4
         with:
           context: .

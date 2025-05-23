@@ -14,6 +14,7 @@ using UniSchedule.Extensions.DI.Settings.ApiDocumentation;
 using UniSchedule.Extensions.DI.Settings.Auth;
 using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.Utils;
+using UniSchedule.Identity.Entities.Settings;
 using UniSchedule.Messaging;
 using UniSchedule.Validation;
 
@@ -26,8 +27,12 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.ConfigureForwardedHeaders();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
+        
+        var cookieSettings = configuration.GetSectionAs<CookieSettings>();
+        services.AddSingleton(cookieSettings);
+        
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                               throw new InvalidOperationException("DefaultConnection is missing");
         services.AddDatabase<DatabaseContext>(connectionString!);
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
         services.AddRabbitMq(rabbitMqSettings, x =>
@@ -39,7 +44,7 @@ public class Startup(IConfiguration configuration)
         services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddValidation();
         services.AddAuthorization();
-        services.AddAntiforgeryWithOptions();
+        services.AddAntiforgeryWithOptions(cookieSettings);
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);

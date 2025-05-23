@@ -18,12 +18,12 @@ namespace UniSchedule.Identity.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.12")
+                .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UniSchedule.Identity.Entities.Group", b =>
+            modelBuilder.Entity("UniSchedule.Entities.Group", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,6 +32,9 @@ namespace UniSchedule.Identity.Database.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("UsedMessenger")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -63,7 +66,7 @@ namespace UniSchedule.Identity.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("GroupId")
+                    b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
 
                     b.Property<List<Guid>>("ManagedGroupIds")
@@ -88,6 +91,8 @@ namespace UniSchedule.Identity.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
@@ -95,6 +100,12 @@ namespace UniSchedule.Identity.Database.Migrations
 
             modelBuilder.Entity("UniSchedule.Identity.Entities.User", b =>
                 {
+                    b.HasOne("UniSchedule.Entities.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("UniSchedule.Identity.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -121,6 +132,8 @@ namespace UniSchedule.Identity.Database.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
                         });
+
+                    b.Navigation("Group");
 
                     b.Navigation("Password")
                         .IsRequired();

@@ -33,6 +33,9 @@ namespace UniSchedule.Schedule.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("MessengerId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -63,6 +66,9 @@ namespace UniSchedule.Schedule.Database.Migrations
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsAddedUsingBot")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsAnonymous")
                         .HasColumnType("boolean");
@@ -176,6 +182,9 @@ namespace UniSchedule.Schedule.Database.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("UsedMessenger")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

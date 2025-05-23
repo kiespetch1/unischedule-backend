@@ -10,11 +10,13 @@ namespace UniSchedule.Abstractions.Helpers.Database;
 /// <summary>
 ///     Перехватчик запросов на сохранение изменений в БД
 /// </summary>
-public class AuditableInterceptor(IUserContextProvider? userProvider, IPublisher<EventCreateParameters>? publisher = null)
+public class AuditableInterceptor(
+    IUserContextProvider? userProvider,
+    IPublisher<EventCreateParameters>? publisher = null)
     : SaveChangesInterceptor
 {
-    private Guid ActorId => userProvider?.GetContext().Id ?? Guid.Empty;  
-    
+    private Guid ActorId => userProvider?.GetContext().Id ?? Guid.Empty;
+
     /// <inheritdoc />
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,
@@ -56,7 +58,7 @@ public class AuditableInterceptor(IUserContextProvider? userProvider, IPublisher
         foreach (var entry in createdEntries)
         {
             entry.Entity.CreatedAt = DateTime.UtcNow;
-            entry.Entity.CreatedBy = ActorId;
+            entry.Entity.CreatedBy ??= ActorId;
         }
     }
 

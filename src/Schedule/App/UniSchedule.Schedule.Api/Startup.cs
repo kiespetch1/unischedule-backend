@@ -14,6 +14,7 @@ using UniSchedule.Extensions.DI.Swagger;
 using UniSchedule.Extensions.DI.Sync;
 using UniSchedule.Extensions.Utils;
 using UniSchedule.Identity.DTO.Messages.Groups;
+using UniSchedule.Identity.Entities.Settings;
 using UniSchedule.Identity.Services.Publishers.Groups;
 using UniSchedule.Messaging;
 using UniSchedule.Schedule.Commands;
@@ -21,7 +22,7 @@ using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Queries;
 using UniSchedule.Schedule.Services;
 using UniSchedule.Validation;
-using UniSсhedule.Bot.Shared.Announcements;
+using UniSchedule.Bot.Shared.Announcements;
 
 namespace UniSchedule.Schedule.Api;
 
@@ -32,12 +33,16 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.ConfigureForwardedHeaders();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDatabase<DatabaseContext>(connectionString!);
+        var cookieSettings = configuration.GetSectionAs<CookieSettings>();
+        services.AddSingleton(cookieSettings);
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                               throw new InvalidOperationException("DefaultConnection is missing");
+        services.AddDatabase<DatabaseContext>(connectionString);
         services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
-        var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
         services.AddSyncData<GroupsSyncService>();
+        var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();
@@ -53,17 +58,16 @@ public class Startup(IConfiguration configuration)
             messageConfigure.MessageConfigure<GroupMqDeleteParameters>();
             messageConfigure.MessageConfigure<GroupsMqSyncParameters>();
             messageConfigure.MessageConfigure<AnnouncementMqCreateParameters>();
-            // TODO: конфиг для пользователей?
         });
 
         services.AddCommands();
         services.AddQueries();
         services.AddServices();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        
+
         services.AddValidation();
         services.AddAuthorization();
-        services.AddAntiforgeryWithOptions();
+        services.AddAntiforgeryWithOptions(cookieSettings);
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);
@@ -71,7 +75,7 @@ public class Startup(IConfiguration configuration)
 
         var authSettings = configuration.GetSectionAs<JwtTokenSettings>();
         services.AddAuthConfiguration(authSettings);
-        services.AddUserContextProvider(); 
+        services.AddUserContextProvider();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

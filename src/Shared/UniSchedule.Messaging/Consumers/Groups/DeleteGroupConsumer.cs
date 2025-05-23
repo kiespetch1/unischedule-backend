@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using UniSchedule.Entities;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Identity.DTO.Messages.Groups;
 using UniSchedule.Identity.Entities;

@@ -6,12 +6,12 @@ using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Commands.Commands;
+namespace UniSchedule.Schedule.Commands;
 
 /// <summary>
 ///     Команды для работы с объявлениями
 /// </summary>
-public class AnnouncementCommands(DatabaseContext context, IUserContextProvider userContextProvider) :
+public class AnnouncementCommands(DatabaseContext context) :
     ICreateCommand<Announcement, AnnouncementCreateParameters, Guid>,
     IUpdateCommand<Announcement, AnnouncementUpdateParameters, Guid>,
     IDeleteCommand<Announcement, Guid>
@@ -41,7 +41,8 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
             },
             Priority = parameters.Priority,
             IsTimeLimited = parameters.IsTimeLimited,
-            AvailableUntil = parameters.AvailableUntil };
+            AvailableUntil = parameters.AvailableUntil
+        };
 
         context.Announcements.Add(announcement);
         await context.SaveChangesAsync(cancellationToken);
@@ -66,12 +67,12 @@ public class AnnouncementCommands(DatabaseContext context, IUserContextProvider 
         announcement.IsAnonymous = parameters.IsAnonymous;
         announcement.Target = new AnnouncementTargetInfo
         {
-            ExcludedDepartments = parameters.Target?.ExcludedDepartments,
-            ExcludedGroups = parameters.Target?.ExcludedGroups,
-            ExcludedGrades = parameters.Target?.ExcludedGrades,
-            IncludedDepartments = parameters.Target?.IncludedDepartments,
-            IncludedGroups = parameters.Target?.IncludedGroups,
-            IncludedGrades = parameters.Target?.IncludedGrades
+            ExcludedDepartments = parameters.Target?.ExcludedDepartments ?? [],
+            ExcludedGroups = parameters.Target?.ExcludedGroups ?? [],
+            ExcludedGrades = parameters.Target?.ExcludedGrades ?? [],
+            IncludedDepartments = parameters.Target?.IncludedDepartments ?? [],
+            IncludedGroups = parameters.Target?.IncludedGroups ?? [],
+            IncludedGrades = parameters.Target?.IncludedGrades ?? []
         };
         announcement.Priority = parameters.Priority;
         announcement.IsTimeLimited = parameters.IsTimeLimited;

@@ -1,8 +1,8 @@
 using MassTransit;
 using UniSchedule.Abstractions.Messaging;
-using UniSсhedule.Bot.Shared.Announcements;
+using UniSchedule.Bot.Shared.Announcements;
 
-namespace UniSсhedule.Bot.Shared.Publishers;
+namespace UniSchedule.Bot.Shared.Publishers;
 
 /// <summary>
 ///     Сервис для публикации объявлений в брокер сообщений

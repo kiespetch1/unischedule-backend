@@ -16,6 +16,10 @@ public class ClassParametersValidator<TParams> : ValidatorBase<TParams> where TP
     /// <inheritdoc />
     public ClassParametersValidator(DatabaseContext context) : base(context)
     {
+        RuleFor(p => p.StartedAt)
+            .LessThan(p => p.FinishedAt)
+            .WithMessage("Дата начала должна быть раньше даты окончания");
+        
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Название пары не может быть пустым");

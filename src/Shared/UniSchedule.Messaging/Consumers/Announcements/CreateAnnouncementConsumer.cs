@@ -1,6 +1,6 @@
 using MassTransit;
 using UniSchedule.Schedule.Entities;
-using UniSсhedule.Bot.Shared.Announcements;
+using UniSchedule.Bot.Shared.Announcements;
 
 namespace UniSchedule.Messaging.Consumers.Announcements;
 
@@ -25,7 +25,9 @@ public class CreateAnnouncementConsumer(IDbContextAccessor dbContextAccessor) : 
                 Priority = parameter.Priority,
                 IsAnonymous = parameter.IsAnonymous,
                 IsTimeLimited = parameter.IsTimeLimited,
-                AvailableUntil = parameter.AvailableUntil
+                AvailableUntil = parameter.AvailableUntil,
+                IsAddedUsingBot = parameter.IsAddedUsingBot,
+                CreatedBy = parameter.CreatedBy
             };
 
             await dbContext.Set<Announcement>().AddAsync(announcement);

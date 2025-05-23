@@ -22,7 +22,7 @@ public class UserContext
         string patronymic,
         string email,
         List<Guid> managedGroupIds,
-        Guid? groupId,
+        Guid groupId,
         string role) : this()
     {
         IsAuthenticated = true;
@@ -74,7 +74,7 @@ public class UserContext
     /// <summary>
     ///     Идентификатор группы
     /// </summary>
-    public Guid? GroupId { get; set; }
+    public Guid GroupId { get; set; }
 
     /// <summary>
     ///     Список идентификаторов групп, которыми управляет пользователь

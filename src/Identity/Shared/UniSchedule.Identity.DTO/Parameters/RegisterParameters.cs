@@ -38,10 +38,15 @@ public class RegisterParameters
     /// <summary>
     ///     Идентификатор группы
     /// </summary>
-    public Guid? GroupId { get; set; }
+    public required Guid GroupId { get; set; }
 
     /// <summary>
     ///     Список идентификаторов групп, которыми управляет пользователь
     /// </summary>
     public List<Guid>? ManagedGroupIds { get; set; }
+
+    /// <summary>
+    ///     Идентификатор пользователя в мессенджере
+    /// </summary>
+    public string? MessengerId { get; set; }
 }

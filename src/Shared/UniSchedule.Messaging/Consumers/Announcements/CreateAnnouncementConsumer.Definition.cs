@@ -1,5 +1,5 @@
 using UniSchedule.Abstractions.Messaging;
-using UniSсhedule.Bot.Shared.Announcements;
+using UniSchedule.Bot.Shared.Announcements;
 
 namespace UniSchedule.Messaging.Consumers.Announcements;
 

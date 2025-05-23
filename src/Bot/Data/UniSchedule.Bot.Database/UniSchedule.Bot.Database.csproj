@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.12" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Helpers\UniSchedule.Abstractions.Helpers.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Messaging\UniSchedule.Abstractions.Messaging.csproj" />
+      <ProjectReference Include="..\UniSchedule.Bot.Entities\UniSchedule.Bot.Entities.csproj" />
+    </ItemGroup>
+
+</Project>

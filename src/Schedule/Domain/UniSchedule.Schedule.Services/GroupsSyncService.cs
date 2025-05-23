@@ -16,7 +16,7 @@ public class GroupsSyncService(DatabaseContext context, IPublisher<GroupsMqSyncP
     {
         var groups = await context.Groups
             .AsNoTracking()
-            .Select(u => new GroupMqModel { Id = u.Id, Name = u.Name })
+            .Select(g => new GroupMqModel { Id = g.Id, Name = g.Name, UsedMessenger = g.UsedMessenger })
             .ToListAsync();
 
         var data = new GroupsMqSyncParameters { Groups = groups };

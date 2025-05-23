@@ -4,7 +4,7 @@ using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Commands.Commands;
+namespace UniSchedule.Schedule.Commands;
 
 /// <summary>
 ///     Команды для работы с преподавателями
@@ -59,6 +59,7 @@ public class TeacherCommands(DatabaseContext context) :
     public async Task ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var teacher = await context.Teachers.SingleOrNotFoundAsync(id, cancellationToken);
+        // TODO: к моменту когда будет необходимо удаление, добавить инклюд для удаления с другими сущностями, и предупреждение о этом
 
         context.Teachers.Remove(teacher);
         await context.SaveChangesAsync(cancellationToken);

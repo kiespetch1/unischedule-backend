@@ -75,6 +75,7 @@
       AdminCredentials__Surname: ${AdminCredentials__Surname}
       AdminCredentials__Name: ${AdminCredentials__Name}
       AdminCredentials__Patronymic: ${AdminCredentials__Patronymic}
+      CookieSettings__Domain: ${CookieSettings__Domain}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.identity.rule=Host(`identity.${CURRENT_DOMAIN}`)"

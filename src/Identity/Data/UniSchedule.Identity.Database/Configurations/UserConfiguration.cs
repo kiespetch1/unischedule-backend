@@ -15,5 +15,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(x => x.Id);
 
         builder.OwnsOne(x => x.Password);
+        
+        builder.HasOne(x => x.Group);
     }
 }

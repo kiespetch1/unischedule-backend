@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using UniSchedule.Abstractions.Entities;
+using UniSchedule.Entities;
 using UniSchedule.Schedule.Entities.Owned;
 
 namespace UniSchedule.Schedule.Entities;
@@ -33,7 +34,7 @@ public class Group : Entity<Guid>
     ///     Данные блока объявления
     /// </summary>
     [NotMapped]
-    public AnnouncementsBlock AnnouncementsBlock { get; set; }
+    public AnnouncementsBlock? AnnouncementsBlock { get; set; }
 
     /// <summary>
     ///     Номер последней учебной недели (без учета зачетных и экзаменационных)
@@ -44,4 +45,9 @@ public class Group : Entity<Guid>
     ///     Недели группы
     /// </summary>
     public ICollection<Week> Weeks { get; set; }
+
+    /// <summary>
+    ///     Используемый мессенджер
+    /// </summary>
+    public MessengerType UsedMessenger { get; set; } = MessengerType.None;
 }

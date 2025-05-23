@@ -24,6 +24,11 @@ public class User : Entity<Guid>
     /// </summary>
     public required string Email { get; set; }
 
+    /// <summary>
+    ///     Идентификатор пользователя в мессенджере
+    /// </summary>
+    public string? MessengerId { get; set; }
+
     /// <inheritdoc />
     public override string ToString()
     {

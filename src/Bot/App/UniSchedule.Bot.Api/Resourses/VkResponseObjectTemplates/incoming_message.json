@@ -1,0 +1,55 @@
+﻿{
+  "message": {
+    "id": true,
+    "date": true,
+    "peer_id": true,
+    "from_id": true,
+    "message": true,
+    "format_data": {
+      "version": true,
+      "items": true
+    },
+    "random_id": true,
+    "ref": true,
+    "ref_source": true,
+    "attachments": true,
+    "important": true,
+    "geo": true,
+    "payload": true,
+    "keyboard": true,
+    "fwd_messages": true,
+    "reply_message": {
+      "id": true,
+      "date": true,
+      "peer_id": true,
+      "from_id": true,
+      "message": true
+    },
+    "action": {
+      "type": true,
+      "member_id": true,
+      "text": true,
+      "email": true,
+      "photo": {
+        "photo_50": true,
+        "photo_100": true,
+        "photo_200": true
+      }
+    },
+    "admin_author_id": true,
+    "conversation_message_id": true,
+    "is_cropped": true,
+    "members_count": true,
+    "update_time": true,
+    "was_listened": true,
+    "pinned_at": true,
+    "message_tag": true
+  },
+  "client_info": {
+    "button_actions": true,
+    "keyboard": true,
+    "inline_keyboard": true,
+    "carousel": true,
+    "lang_id": true
+  }
+}

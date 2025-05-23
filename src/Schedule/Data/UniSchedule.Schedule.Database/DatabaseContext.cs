@@ -6,6 +6,7 @@ using UniSchedule.Abstractions.Messaging;
 using UniSchedule.Entities;
 using UniSchedule.Events.Shared.Parameters;
 using UniSchedule.Schedule.Entities;
+using Group = UniSchedule.Schedule.Entities.Group;
 
 namespace UniSchedule.Schedule.Database;
 

@@ -17,6 +17,7 @@ using UniSchedule.Identity.Commands;
 using UniSchedule.Identity.Database;
 using UniSchedule.Identity.Database.Helpers;
 using UniSchedule.Identity.DTO.Messages.Users;
+using UniSchedule.Identity.Entities.Settings;
 using UniSchedule.Identity.Services;
 using UniSchedule.Identity.Services.Publishers.Users;
 using UniSchedule.Messaging;
@@ -31,13 +32,17 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.ConfigureForwardedHeaders();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
+        var credentialsSettings = configuration.GetSectionAs<AdminCredentials>();
+        services.AddSingleton(credentialsSettings);
+        var cookieSettings = configuration.GetSectionAs<CookieSettings>();
+        services.AddSingleton(cookieSettings);
+        
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                               throw new InvalidOperationException("DefaultConnection is missing");
         services.AddDatabase<DatabaseContext>(connectionString!);
         services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
-        var credentialsSettings = configuration.GetSectionAs<AdminCredentials>();
-        services.AddSingleton(credentialsSettings);
         services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddSyncData<UsersSyncService>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
@@ -63,7 +68,7 @@ public class Startup(IConfiguration configuration)
         
         services.AddValidation();
         services.AddAuthorization();
-        services.AddAntiforgeryWithOptions();
+        services.AddAntiforgeryWithOptions(cookieSettings);
         services.AddRouting(options => options.LowercaseUrls = true);
         services.AddControllersWithSnakeCase();
         services.AddApiDocumentation(_apiDocsSettings);

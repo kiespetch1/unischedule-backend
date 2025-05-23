@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Extensions.DI.Settings.Auth;
+using UniSchedule.Identity.Entities.Settings;
 using IPNetwork = Microsoft.AspNetCore.HttpOverrides.IPNetwork;
 
 namespace UniSchedule.Extensions.DI.Auth;
@@ -98,7 +99,8 @@ public static class AuthExtensions
         return services;
     }
 
-    public static IServiceCollection AddAntiforgeryWithOptions(this IServiceCollection services)
+    public static IServiceCollection AddAntiforgeryWithOptions(this IServiceCollection services,
+        CookieSettings settings)
     {
         services.AddDataProtection()
             .SetApplicationName("UniSchedule")
@@ -107,7 +109,7 @@ public static class AuthExtensions
         services.AddAntiforgery(options =>
         {
             options.Cookie.Name = "XSRF-COOKIE";
-            options.Cookie.Domain = ".streaminginfo.ru";
+            options.Cookie.Domain = settings.Domain;
             options.Cookie.SameSite = SameSiteMode.None;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             options.Cookie.HttpOnly = false;

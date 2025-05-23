@@ -10,6 +10,7 @@ using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Identity.DTO.Models;
 using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Entities;
+using UniSchedule.Identity.Entities.Settings;
 using UniSchedule.Identity.Services.Abstractions;
 using UniSchedule.Identity.Shared;
 using UniSchedule.Identity.Shared.Attributes;
@@ -27,6 +28,7 @@ public class AccountController(
     ICreateCommand<User, RegisterParameters, Guid> create,
     IUpdateCommand<User, UserUpdateParameters, Guid> update,
     IAntiforgery antiforgery,
+    CookieSettings cookieSettings,
     IMapper mapper) : ControllerBase
 {
     /// <summary>
@@ -48,9 +50,9 @@ public class AccountController(
         var token = await authenticationService.SignInAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = cookieSettings.Domain });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = cookieSettings.Domain });
         antiforgery.GetAndStoreTokens(HttpContext);
     }
 
@@ -91,9 +93,9 @@ public class AccountController(
         HttpStatusCode.InternalServerError)]
     public new void SignOut()
     {
-        Response.Cookies.Delete("x-token", new CookieOptions { Domain = ".streaminginfo.ru" });
-        Response.Cookies.Delete("z-token", new CookieOptions { Domain = ".streaminginfo.ru" });
-        Response.Cookies.Delete("XSRF-COOKIE", new CookieOptions { Domain = ".streaminginfo.ru" });
+        Response.Cookies.Delete("x-token", new CookieOptions { Domain = cookieSettings.Domain });
+        Response.Cookies.Delete("z-token", new CookieOptions { Domain = cookieSettings.Domain });
+        Response.Cookies.Delete("XSRF-COOKIE", new CookieOptions { Domain = cookieSettings.Domain });
     }
 
     /// <summary>
@@ -162,9 +164,9 @@ public class AccountController(
         var token = await authenticationService.RefreshAsync(parameters);
 
         HttpContext.Response.Cookies.Append("x-token", token.AccessToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = cookieSettings.Domain });
         HttpContext.Response.Cookies.Append("z-token", token.RefreshToken,
-            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = ".streaminginfo.ru" });
+            new CookieOptions { HttpOnly = true, MaxAge = TimeSpan.FromDays(30), Domain = cookieSettings.Domain });
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Entities.Owned;
 
-namespace UniSсhedule.Bot.Shared.Announcements;
+namespace UniSchedule.Bot.Shared.Announcements;
 
 /// <summary>
 ///     Модель объявления для передачи через брокер сообщений
@@ -38,4 +38,14 @@ public class AnnouncementMqModel : Entity<Guid>
     ///     Дата истечения доступности
     /// </summary>
     public DateTime? AvailableUntil { get; set; }
+
+    /// <summary>
+    ///     Добавлено ли через бота
+    /// </summary>
+    public bool IsAddedUsingBot { get; set; }
+    
+    /// <summary>
+    ///     Идентификатор пользователя, создавшего объявление
+    /// </summary>
+    public Guid? CreatedBy { get; set; }
 }

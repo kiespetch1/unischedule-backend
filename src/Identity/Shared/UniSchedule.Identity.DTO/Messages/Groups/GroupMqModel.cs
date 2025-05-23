@@ -1,4 +1,5 @@
 ﻿using UniSchedule.Abstractions.Entities;
+using UniSchedule.Entities;
 
 namespace UniSchedule.Identity.DTO.Messages.Groups;
 
@@ -11,4 +12,9 @@ public class GroupMqModel : Entity<Guid>
     ///     Название
     /// </summary>
     public required string Name { get; set; }
+
+    /// <summary>
+    ///     Используемый мессенджер
+    /// </summary>
+    public required MessengerType UsedMessenger { get; set; }
 }

@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using UniSchedule.Abstractions.Helpers.Database;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Abstractions.Messaging;
+using UniSchedule.Entities;
 using UniSchedule.Events.Shared.Parameters;
 using UniSchedule.Identity.Entities;
+using User = UniSchedule.Identity.Entities.User;
 
 namespace UniSchedule.Identity.Database;
 

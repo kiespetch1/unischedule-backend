@@ -1,4 +1,5 @@
 ﻿using UniSchedule.Abstractions.Entities;
+using UniSchedule.Entities;
 using UniSchedule.Identity.Entities.Owned;
 
 namespace UniSchedule.Identity.Entities;
@@ -41,9 +42,14 @@ public class User : Entity<Guid>
     public required Role Role { get; set; }
 
     /// <summary>
+    ///     Группа
+    /// </summary>
+    public Group Group { get; set; }
+
+    /// <summary>
     ///     Идентификатор группы
     /// </summary>
-    public Guid? GroupId { get; set; }
+    public Guid GroupId { get; set; }
 
     /// <summary>
     ///     Список идентификаторов групп, которыми управляет пользователь

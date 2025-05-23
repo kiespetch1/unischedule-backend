@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Bot\Shared\UniSсhedule.Bot.Shared\UniSсhedule.Bot.Shared.csproj" />
+        <ProjectReference Include="..\..\Bot\Shared\UniSchedule.Bot.Shared\UniSchedule.Bot.Shared.csproj" />
         <ProjectReference Include="..\..\Identity\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj"/>
         <ProjectReference Include="..\UniSchedule.Entities\UniSchedule.Entities.csproj"/>
         <ProjectReference Include="..\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>

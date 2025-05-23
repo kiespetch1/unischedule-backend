@@ -5,10 +5,16 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     </ItemGroup>
 
@@ -26,8 +32,10 @@
       <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions\UniSchedule.Extensions.csproj" />
       <ProjectReference Include="..\..\..\Shared\UniSchedule.Messaging\UniSchedule.Messaging.csproj" />
       <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj" />
+      <ProjectReference Include="..\..\Data\UniSchedule.Bot.Database\UniSchedule.Bot.Database.csproj" />
       <ProjectReference Include="..\..\Data\UniSchedule.Bot.Entities\UniSchedule.Bot.Entities.csproj" />
-      <ProjectReference Include="..\..\Shared\UniSсhedule.Bot.Shared\UniSсhedule.Bot.Shared.csproj" />
+      <ProjectReference Include="..\..\Domain\UniSchedule.Bot.Services\UniSchedule.Bot.Services.csproj" />
+      <ProjectReference Include="..\..\Shared\UniSchedule.Bot.Shared\UniSchedule.Bot.Shared.csproj" />
     </ItemGroup>
 
 </Project>

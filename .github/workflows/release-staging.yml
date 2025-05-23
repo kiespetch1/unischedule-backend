@@ -133,6 +133,7 @@ jobs:
             VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
             VkApiSettings__ConfirmationCode=${{ secrets.VkApiSettings__ConfirmationCode }}
             VkApiSettings__AccessToken=${{ secrets.VkApiSettings__AccessToken }}
+            CookieSettings__Domain=${{ secrets.DOMAIN_STAGING }}
             EOF
             docker compose pull
             docker compose up -d

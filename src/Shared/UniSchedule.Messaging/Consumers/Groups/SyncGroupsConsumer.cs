@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using UniSchedule.Entities;
 using UniSchedule.Identity.DTO.Messages.Groups;
 using UniSchedule.Identity.Entities;
 
@@ -55,6 +56,7 @@ public class SyncGroupsConsumer(IDbContextAccessor dbContextAccessor) : IConsume
             var group = groups.Single(x => x.Id == updatedGroup.Id);
 
             updatedGroup.Name = group.Name;
+            updatedGroup.UsedMessenger = group.UsedMessenger;
         }
 
         await dbContext.SaveChangesAsync();
@@ -66,7 +68,7 @@ public class SyncGroupsConsumer(IDbContextAccessor dbContextAccessor) : IConsume
         var groupIds = await dbContext.Set<Group>().Select(x => x.Id).ToListAsync();
         var createdGroups = users
             .Where(x => !groupIds.Contains(x.Id))
-            .Select(x => new Group { Id = x.Id, Name = x.Name })
+            .Select(x => new Group { Id = x.Id, Name = x.Name, UsedMessenger = x.UsedMessenger})
             .ToList();
 
         await dbContext.Set<Group>().AddRangeAsync(createdGroups);

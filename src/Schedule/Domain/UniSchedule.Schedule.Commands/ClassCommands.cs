@@ -4,7 +4,7 @@ using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Commands.Commands;
+namespace UniSchedule.Schedule.Commands;
 
 /// <summary>
 ///     Команды для работы с парами

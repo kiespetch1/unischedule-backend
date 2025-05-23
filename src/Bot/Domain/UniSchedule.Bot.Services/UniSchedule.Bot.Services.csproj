@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Identity\Shared\UniSchedule.Identity.DTO\UniSchedule.Identity.DTO.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Helpers\UniSchedule.Helpers.csproj" />
+      <ProjectReference Include="..\..\..\Shared\UniSchedule.Validation\UniSchedule.Validation.csproj" />
+      <ProjectReference Include="..\..\Data\UniSchedule.Bot.Database\UniSchedule.Bot.Database.csproj" />
+      <ProjectReference Include="..\..\Data\UniSchedule.Bot.Entities\UniSchedule.Bot.Entities.csproj" />
+      <ProjectReference Include="..\..\Shared\UniSchedule.Bot.Shared\UniSchedule.Bot.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+      <PackageReference Include="VkNet" Version="1.78.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="VkEventValidatorTemplate\" />
+    </ItemGroup>
+
+</Project>

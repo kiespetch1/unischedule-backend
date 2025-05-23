@@ -39,6 +39,16 @@ public class AnnouncementParametersValidator<TParams> : ValidatorBase<TParams>
             .When(x => x.Target is { ExcludedGrades.Count: > 0 })
             .WithMessage("Исключенные курсы должны быть в диапазоне от 1 до 4");
 
+        RuleFor(x => x.AvailableUntil)
+            .NotNull()
+            .When(x => x.IsTimeLimited)
+            .WithMessage("Если объявление ограничено по времени, необходимо указать дату окончания");
+
+        RuleFor(x => x.AvailableUntil)
+            .Null()
+            .When(x => !x.IsTimeLimited)
+            .WithMessage("Дата окончания должна быть указана только для объявлений с ограничением по времени");
+
         //TODO: аналогично нужно сделать валидацию для кафедр/отделений когда до них дойдет дело
     }
 }

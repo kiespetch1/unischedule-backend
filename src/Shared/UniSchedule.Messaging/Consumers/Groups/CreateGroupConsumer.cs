@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using UniSchedule.Entities;
 using UniSchedule.Identity.DTO.Messages.Groups;
 using UniSchedule.Identity.Entities;
 
@@ -17,7 +18,7 @@ public class CreateGroupConsumer(IDbContextAccessor dbContextAccessor) : IConsum
 
         foreach (var parameters in parametersCollection)
         {
-            var group = new Group { Id = parameters.Id, Name = parameters.Name };
+            var group = new Group { Id = parameters.Id, Name = parameters.Name, UsedMessenger = parameters.UsedMessenger };
 
             await dbContext.Set<Group>().AddAsync(group);
             await dbContext.SaveChangesAsync();

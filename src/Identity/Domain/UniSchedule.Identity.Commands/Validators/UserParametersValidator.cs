@@ -3,7 +3,7 @@ using UniSchedule.Identity.Database;
 using UniSchedule.Identity.DTO.Parameters;
 using UniSchedule.Identity.Entities;
 using UniSchedule.Validation;
-using Group = UniSchedule.Identity.Entities.Group;
+using Group = UniSchedule.Entities.Group;
 
 namespace UniSchedule.Identity.Commands.Validators;
 
@@ -16,8 +16,7 @@ public class UserParametersValidator<TParams> : ValidatorBase<TParams> where TPa
             .WithMessage("Роль не найдена");
 
         RuleFor(x => x.GroupId)
-            .Must(x => IsExist<Group, Guid>(x!.Value))
-            .When(x => x.GroupId.HasValue)
+            .Must(IsExist<Group, Guid>)
             .WithMessage("Группа не найдена");
 
         RuleFor(x => x.ManagedGroupIds)

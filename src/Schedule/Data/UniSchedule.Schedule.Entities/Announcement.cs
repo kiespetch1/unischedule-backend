@@ -42,6 +42,11 @@ public class Announcement : AuditableEntity<Guid>
     public DateTime? AvailableUntil { get; set; }
 
     /// <summary>
+    ///     Добавлено ли через бота
+    /// </summary>
+    public bool IsAddedUsingBot { get; set; }
+     
+    /// <summary>
     ///     Данные пользователя создавшего объявление
     /// </summary>
     [NotMapped]

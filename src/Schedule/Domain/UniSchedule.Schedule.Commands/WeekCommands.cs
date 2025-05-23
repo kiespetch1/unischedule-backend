@@ -4,7 +4,7 @@ using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Commands.Commands;
+namespace UniSchedule.Schedule.Commands;
 
 /// <summary>
 ///     Команды для работы с неделями
@@ -41,6 +41,7 @@ public class WeekCommands(DatabaseContext context, ICreateCommand<Day, DayCreate
     public async Task ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var week = await context.Weeks.SingleOrNotFoundAsync(id, cancellationToken);
+        // TODO: к моменту когда будет необходимо удаление, добавить инклюд для удаления с другими сущностями, и предупреждение о этом
 
         context.Weeks.Remove(week);
         await context.SaveChangesAsync(cancellationToken);

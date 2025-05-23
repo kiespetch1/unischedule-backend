@@ -1,4 +1,5 @@
 using UniSchedule.Extensions.DI.Database;
+using UniSchedule.Extensions.DI.Logging;
 using UniSchedule.Extensions.DI.Sync;
 
 namespace UniSchedule.Schedule.Api;
@@ -17,6 +18,7 @@ public class Program
     private static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder(args)
+            .UseSerilogConfiguration()
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();

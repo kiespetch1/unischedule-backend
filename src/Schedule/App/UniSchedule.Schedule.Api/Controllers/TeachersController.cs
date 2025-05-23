@@ -34,11 +34,13 @@ public class TeachersController(
     /// <returns>Идентификатор преподавателя</returns>
     /// <response code="200">Успешное создание преподавателя</response>
     /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task<Result<Guid>> CreateAsync(
@@ -105,12 +107,14 @@ public class TeachersController(
     /// <returns>Результат операции</returns>
     /// <response code="200">Успешное обновление преподавателя</response>
     /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Преподаватель не найден</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPut("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -129,11 +133,13 @@ public class TeachersController(
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
     /// <response code="200">Успешное удаление преподавателя</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Преподаватель не найден</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpDelete("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]

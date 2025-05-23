@@ -36,11 +36,13 @@ public class ClassesController(
     /// <returns>Идентификатор пары</returns>
     /// <response code="200">Успешное создание пары</response>
     /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task<Result<Guid>> CreateAsync(
@@ -107,12 +109,14 @@ public class ClassesController(
     /// <returns>Результат операции</returns>
     /// <response code="200">Успешное обновление пары</response>
     /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPut("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -131,11 +135,13 @@ public class ClassesController(
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
     /// <response code="200">Успешное удаление пары</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpDelete("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -151,11 +157,13 @@ public class ClassesController(
     /// <param name="id">Идентификатор пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешная отмена пары</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("{id}/cancel")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -172,11 +180,13 @@ public class ClassesController(
     /// <param name="id">Идентификатор пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешное восстановление пары</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("{id}/restore")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -193,11 +203,13 @@ public class ClassesController(
     /// <param name="dayId">Идентификатор дня</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешное копирование пар</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">День/противоположная неделя не найдены</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("copy/{dayId}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
@@ -214,11 +226,13 @@ public class ClassesController(
     /// <param name="dayId">Идентификатор дня</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешное удаление всех пар дня</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">День не найден</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("clear/{dayId}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]

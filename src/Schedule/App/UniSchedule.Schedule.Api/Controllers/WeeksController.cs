@@ -30,11 +30,13 @@ public class WeeksController(
     /// <returns>Идентификатор недели</returns>
     /// <response code="200">Успешное создание недели</response>
     /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin)]
     public async Task<Result<Guid>> CreateAsync(
@@ -53,11 +55,13 @@ public class WeeksController(
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
     /// <response code="200">Успешное удаление недели</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Неделя не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpDelete("{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin)]

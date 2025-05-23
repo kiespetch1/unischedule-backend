@@ -40,10 +40,12 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// <param name="parameters">Параметры привязки бота к беседе в мессенджере</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешная обработка события</response>
+    /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("auth")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task LinkMessengerAsync(

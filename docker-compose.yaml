@@ -171,6 +171,10 @@
       RabbitMqSettings__Host: ${RabbitMqSettings__Host}
       RabbitMqSettings__Username: ${RabbitMqSettings__Username}
       RabbitMqSettings__Password: ${RabbitMqSettings__Password}
+      JwtTokenSettings__Issuer: ${JwtTokenSettings__Issuer}
+      JwtTokenSettings__Audience: ${JwtTokenSettings__Audience}
+      JwtTokenSettings__Lifetime: ${JwtTokenSettings__Lifetime}
+      JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
       VkApiSettings__ConfirmationCode: ${VkApiSettings__ConfirmationCode}
       VkApiSettings__AccessToken: ${VkApiSettings__AccessToken}
       CookieSettings__Domain: ${CookieSettings__Domain}

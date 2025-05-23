@@ -11,13 +11,6 @@ namespace UniSchedule.Identity.Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"
-                UPDATE ""Users""
-                SET    ""GroupId"" = '77adaa90-97f7-4021-bce9-5d40d4968d63'::uuid
-                WHERE  ""GroupId"" IS NULL
-                OR  ""GroupId"" = '00000000-0000-0000-0000-000000000000'::uuid;
-            ");
-            
             migrationBuilder.AlterColumn<Guid>(
                 name: "GroupId",
                 table: "Users",

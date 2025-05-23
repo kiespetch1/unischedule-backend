@@ -214,8 +214,8 @@
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     environment:
-      RABBITMQ_DEFAULT_USER: ${RabbitMqSettings__Username}
-      RABBITMQ_DEFAULT_PASS: ${RabbitMqSettings__Password}
+      RABBITMQ_DEFAULT_USER: "rabbit"
+      RABBITMQ_DEFAULT_PASS: "root"
     ports:
       - "5672:5672"
       - "15672:15672"

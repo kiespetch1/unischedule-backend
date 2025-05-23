@@ -14,6 +14,20 @@ jobs:
       - name: Deploy of release ${{ github.event.release.tag_name }} started
         run: echo Deploy of release ${{ github.event.release.tag_name }} started
 
+      - name: Analyze changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            identity:
+              - 'src/Identity/**'
+            schedule:
+              - 'src/Schedule/**'
+            events:
+              - 'src/Events/**'
+            bot:
+              - 'src/Bot/**'
+
       - name: Checkout backend repo
         uses: actions/checkout@v3
 
@@ -25,6 +39,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Identity Image
+        if: steps.filter.outputs.identity == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -35,6 +50,7 @@ jobs:
             ghcr.io/kiespetch1/identity:latest
 
       - name: Build and push Schedule Image
+        if: steps.filter.outputs.schedule == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -45,6 +61,7 @@ jobs:
             ghcr.io/kiespetch1/schedule:latest
 
       - name: Build and push Events Image
+        if: steps.filter.outputs.events == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -55,6 +72,7 @@ jobs:
             ghcr.io/kiespetch1/events:latest
 
       - name: Build and push Bot Image
+        if: steps.filter.outputs.bot == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .

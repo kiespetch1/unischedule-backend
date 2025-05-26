@@ -50,8 +50,8 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
-      - ./loki/data:/loki
+      - ./grafana/loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - ./grafana/loki/data:/loki
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - monitoring
@@ -60,12 +60,12 @@ services:
     image: "grafana/promtail:latest"
     container_name: promtail
     volumes:
-      - ./promtail/promtail-config.yml:/etc/promtail/config.yml:ro
-      - ./promtail/positions:/tmp/positions
+      - ./grafana/promtail/promtail-config.yaml:/etc/promtail/config.yaml:ro
+      - ./grafana/promtail/positions:/tmp/positions
       - ../../logs:/app/logs:ro
     networks:
       - monitoring
-    command: -config.file=/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yaml
 
 networks:
   shared-network:

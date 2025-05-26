@@ -51,8 +51,8 @@ services:
       - "3100:3100"
     volumes:
       - ./grafana/loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
-      - ./grafana/loki/data:/loki
-      - ./grafana/loki/wal:/wal
+      - loki_data:/loki
+      - loki_wal:/wal
     command:
       - -config.file=/etc/loki/local-config.yaml
       - -validation.allow-structured-metadata=false
@@ -64,8 +64,8 @@ services:
     container_name: promtail
     volumes:
       - ./grafana/promtail/promtail-config.yaml:/etc/promtail/config.yaml:ro
-      - ./grafana/promtail/positions:/tmp/positions
-      - ../../logs:/app/logs:ro
+      - promtail_positions:/tmp/positions
+      - ../logs:/app/logs:ro
     networks:
       - monitoring
     command: -config.file=/etc/promtail/config.yaml
@@ -82,3 +82,6 @@ networks:
 volumes:
   prometheus_data:
   grafana_data:
+  loki_data:
+  loki_wal:
+  promtail_positions:

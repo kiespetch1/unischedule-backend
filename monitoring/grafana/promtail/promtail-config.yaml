@@ -17,25 +17,21 @@ scrape_configs:
           service: "identity"
           app: "unischedule"
           __path__: /app/logs/identity/*.log
-
       - targets:
           - localhost
         labels:
           service: "events"
           app: "unischedule"
           __path__: /app/logs/events/*.log
-
       - targets:
           - localhost
         labels:
           service: "schedule"
           app: "unischedule"
           __path__: /app/logs/schedule/*.log
-
       - targets:
           - localhost
         labels:
           service: "bot"
           app: "unischedule"
           __path__: /app/logs/bot/*.log
-

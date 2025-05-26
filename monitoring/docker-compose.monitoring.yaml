@@ -52,7 +52,10 @@ services:
     volumes:
       - ./grafana/loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
       - ./grafana/loki/data:/loki
-    command: -config.file=/etc/loki/local-config.yaml
+      - ./grafana/loki/wal:/wal
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+      - -validation.allow-structured-metadata=false
     networks:
       - monitoring
 

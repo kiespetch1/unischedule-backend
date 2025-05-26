@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using UniSchedule.Bot.Entities.Vk;
 using UniSchedule.Bot.Services.Abstractions;
 using UniSchedule.Bot.Shared;
 using UniSchedule.Extensions.Attributes;
@@ -26,7 +25,7 @@ public class EventsController(IEventService eventService) : ControllerBase
         HttpStatusCode.OK,
         HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> HandleEventAsync(
-        [FromBody] VkEvent vkEvent,
+        [FromBody] VkEventParameters vkEvent,
         CancellationToken cancellationToken = default)
     {
         var result = await eventService.HandleEventAsync(vkEvent, cancellationToken);

@@ -1,18 +1,17 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace UniSchedule.Bot.Entities.Vk;
+namespace UniSchedule.Bot.Shared;
 
 /// <summary>
-///     Событие VK
+///     Входная модель события VK
 /// </summary>
-public class VkEvent
+public class VkEventParameters
 {
     /// <summary>
     ///     Тип события
     /// </summary>
-    [JsonIgnore]
-    public VkResponseType Type { get; set; }
+    public string Type { get; set; }
 
     /// <summary>
     ///     Версия Vk API

@@ -13,7 +13,7 @@ public interface IEventService
     /// </summary>
     /// <param name="event">Объект события</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    Task<string> HandleEventAsync(VkEvent @event, CancellationToken cancellationToken = default);
+    Task<string> HandleEventAsync(VkEventParameters @event, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///    Авторизация беседы и пользователя в боте 

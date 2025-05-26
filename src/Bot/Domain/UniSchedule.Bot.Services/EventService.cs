@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Abstractions.Messaging;
 using UniSchedule.Bot.Database;
@@ -23,25 +23,28 @@ public class EventService(
     DatabaseContext context,
     VkApiSettings vkSettings,
     IPublisher<AnnouncementMqCreateParameters> publisher,
-    ILogger<EventService> logger,
     IUserContextProvider userContextProvider) : IEventService
 {
     /// <inheritdoc/>
-    public async Task<string> HandleEventAsync(VkEvent @event, CancellationToken cancellationToken = default)
+    public async Task<string> HandleEventAsync(VkEventParameters parameters, CancellationToken cancellationToken = default)
     {
-        var eventValidationResult = await VkEventValidator.Validate(@event, vkSettings, cancellationToken);
-        if (!eventValidationResult.IsValid)
+        var mappingResult = await VkEventMapper.Map(parameters, vkSettings, cancellationToken);
+        var validationResult = mappingResult.Item1;
+        
+        if (validationResult.IsValid)
         {
             var sb = new StringBuilder();
             sb.AppendLine("Ошибка валидации события :");
-            foreach (var error in eventValidationResult.Errors)
+            foreach (var error in validationResult.Errors)
             {
                 sb.AppendLine($"\t{error.PropertyName}: {error.ErrorMessage}");
             }
-            //TODO: логировать прям тут
+
+            Log.Error("{Message}", $"{sb} Событие: {parameters}");
 
             return "ok";
         }
+        var @event = mappingResult.Item2!;
 
         switch (@event.Type)
         {
@@ -52,7 +55,7 @@ public class EventService(
 
                 if (string.IsNullOrEmpty(message!.Text) || !message.Text.Contains("@all"))
                 {
-                    // TODO: логировать такие неприятности
+                    Log.Debug("{Message}", $"Не найдено ключевое слово. Событие: {parameters}");
                     return "ok";
                 }
 
@@ -60,7 +63,8 @@ public class EventService(
                     .SingleOrDefaultAsync(x => x.MessengerUserId == message.UserId, cancellationToken);
                 if (userMapping == null)
                 {
-                    // TODO: логировать такие неприятности
+                    Log.Debug("{Message}",
+                        $"Пользователь с идентификатором {message.UserId} не найден в базе. Событие: {parameters}");
                     return "ok";
                 }
 
@@ -68,7 +72,8 @@ public class EventService(
                     .SingleOrDefaultAsync(x => x.ConversationId == message.ChatId, cancellationToken);
                 if (groupMapping == null)
                 {
-                    // TODO: логировать такие неприятности
+                    Log.Debug("{Message}",
+                        $"Группа с идентификатором {message.ChatId} не найдена в базе. Событие: {parameters}");
                     return "ok";
                 }
 
@@ -92,7 +97,7 @@ public class EventService(
             case VkResponseType.MessageEdit:
             case VkResponseType.OutgoingMessage:
             default:
-                // TODO: логировать различную бесполезную нагрузку
+                Log.Debug("{Message}", $"Неподдерживаемый тип события: {parameters}");
                 return "ok";
         }
     }
@@ -113,6 +118,7 @@ public class EventService(
     {
         var userId = userContextProvider.GetContext().Id;
         context.UserMessengerUser.Add(new UserMessengerUser { UserId = userId, MessengerUserId = messengerUserId });
+        
         await context.SaveChangesAsync(cancellationToken);
     }
 
@@ -133,6 +139,7 @@ public class EventService(
         {
             GroupId = groupId, ConversationId = conversationId
         });
+        
         await context.SaveChangesAsync(cancellationToken);
     }
 }

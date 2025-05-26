@@ -4,7 +4,7 @@
     container_name: us-traefik
     restart: unless-stopped
     command:
-      - "--log.level=DEBUG"
+      - "--log.level=INFO"
       - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
       - "--entrypoints.vite.address=:3001"
@@ -63,6 +63,7 @@
     image: ghcr.io/kiespetch1/identity:latest
     volumes:
       - dp-keys:/app/keys
+      - ./logs:/app/logs
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-identity"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -101,6 +102,7 @@
     image: ghcr.io/kiespetch1/schedule:latest
     volumes:
       - dp-keys:/app/keys
+      - ./logs:/app/logs
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-schedule"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -134,6 +136,7 @@
     image: ghcr.io/kiespetch1/events:latest
     volumes:
       - dp-keys:/app/keys
+      - ./logs:/app/logs
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-events"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
@@ -165,6 +168,9 @@
       args:
         ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
     image: ghcr.io/kiespetch1/bot:latest
+    volumes:
+      - dp-keys:/app/keys
+      - ./logs:/app/logs
     environment:
       ConnectionStrings__DefaultConnection: "Host=us-postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=us-bot"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}

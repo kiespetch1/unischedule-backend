@@ -161,6 +161,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", 
 		monitoring\grafana\provisioning\dashboards\otel_metrics.json = monitoring\grafana\provisioning\dashboards\otel_metrics.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "loki", "loki", "{E0DBAF71-107F-4CE5-960F-8BB97F6846CA}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\grafana\loki\loki-config.yaml = monitoring\grafana\loki\loki-config.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "promtail", "promtail", "{172AC5B8-3E68-490F-A3A7-71054F8139F6}"
+	ProjectSection(SolutionItems) = preProject
+		monitoring\grafana\promtail\promtail-config.yaml = monitoring\grafana\promtail\promtail-config.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -398,5 +408,7 @@ Global
 		{CC54E8EA-543C-4EBB-8585-8E34E80493B4} = {B1546B39-DFBB-49BB-B98F-B7E9FDF13092}
 		{5F6C88EF-5697-40A6-8D75-A85E7B5049E2} = {CC54E8EA-543C-4EBB-8585-8E34E80493B4}
 		{F222508A-796E-42AD-B9A2-C18D2A167630} = {CC54E8EA-543C-4EBB-8585-8E34E80493B4}
+		{E0DBAF71-107F-4CE5-960F-8BB97F6846CA} = {B1546B39-DFBB-49BB-B98F-B7E9FDF13092}
+		{172AC5B8-3E68-490F-A3A7-71054F8139F6} = {B1546B39-DFBB-49BB-B98F-B7E9FDF13092}
 	EndGlobalSection
 EndGlobal

@@ -168,6 +168,7 @@ jobs:
             EOF
             docker network create unischedule-staging_shared-network || true
             docker network create unischedule-staging_monitoring || true
+            docker volume create app-logs || true
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml pull
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml up -d
             

@@ -251,3 +251,4 @@ volumes:
   rabbitmq-data:
     driver: local
   app-logs:
+    external: true

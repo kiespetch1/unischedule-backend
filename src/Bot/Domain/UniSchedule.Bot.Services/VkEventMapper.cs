@@ -31,7 +31,7 @@ public class VkEventMapper
 
         if (parameters.Type == confirmationType && parameters.Object is null)
         {
-            return (result, null);
+            return (result, new VkEvent{Type = VkResponseType.Confirmation});
         }
 
         if (parameters.Version != vkSettings.Version)

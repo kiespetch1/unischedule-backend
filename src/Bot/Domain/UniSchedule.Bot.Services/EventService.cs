@@ -31,7 +31,7 @@ public class EventService(
         var mappingResult = await VkEventMapper.Map(parameters, vkSettings, cancellationToken);
         var validationResult = mappingResult.Item1;
         
-        if (validationResult.IsValid)
+        if (!validationResult.IsValid)
         {
             var sb = new StringBuilder();
             sb.AppendJoin(" ", "Ошибка валидации события :");

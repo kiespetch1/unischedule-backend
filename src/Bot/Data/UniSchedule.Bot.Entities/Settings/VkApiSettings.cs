@@ -18,6 +18,11 @@ public class VkApiSettings
     public required string ConfirmationCode { get; set; }
 
     /// <summary>
+    ///     Идентификатор группы бота
+    /// </summary>
+    public required string GroupId { get; set; }
+
+    /// <summary>
     ///     Секретный ключ
     /// </summary>
     public required string Secret { get; set; }

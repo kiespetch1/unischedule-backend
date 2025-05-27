@@ -34,10 +34,10 @@ public class EventService(
         if (validationResult.IsValid)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Ошибка валидации события :");
+            sb.AppendJoin(" ", "Ошибка валидации события :");
             foreach (var error in validationResult.Errors)
             {
-                sb.AppendLine($"\t{error.PropertyName}: {error.ErrorMessage}");
+                sb.AppendJoin(" ", $"\t{error.PropertyName}: {error.ErrorMessage}");
             }
 
             Log.Error("{Message}", $"{sb} Событие: {parameters}");

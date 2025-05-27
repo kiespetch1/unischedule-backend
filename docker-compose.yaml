@@ -183,6 +183,8 @@
       JwtTokenSettings__SecurityKey: ${JwtTokenSettings__SecurityKey}
       VkApiSettings__ConfirmationCode: ${VkApiSettings__ConfirmationCode}
       VkApiSettings__AccessToken: ${VkApiSettings__AccessToken}
+      VkApiSettings__Secret: ${VkApiSettings__Secret}
+      VkApiSettings__GroupId: ${VkApiSettings__GroupId}
       CookieSettings__Domain: ${CookieSettings__Domain}
     labels:
       - "traefik.enable=true"

@@ -40,6 +40,20 @@ public class VkEventMapper
 
             return (result, null);
         }
+        
+        if (parameters.GroupId.ToString() != vkSettings.GroupId)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(parameters.GroupId), "Неверный идентификатор группы VK"));
+
+            return (result, null);
+        }
+        
+        if (parameters.Secret != vkSettings.Secret)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(parameters.Secret), "Неверный секрет VK"));
+
+            return (result, null);
+        }
 
         var expectedFileName = $"{parameters.Type}.json";
 

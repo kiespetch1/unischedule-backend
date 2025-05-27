@@ -29,5 +29,10 @@ public class VkEventParameters
     /// </summary>
     public long GroupId { get; set; }
 
+    /// <summary>
+    ///     Секретное слово
+    /// </summary>
+    public string Secret { get; set; }
+
     public override string ToString() => JsonSerializer.Serialize(this);
 }

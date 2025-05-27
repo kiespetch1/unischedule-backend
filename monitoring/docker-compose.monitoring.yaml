@@ -67,7 +67,7 @@ services:
     volumes:
       - ./grafana/promtail/promtail-config.yaml:/etc/promtail/config.yaml:ro
       - promtail_positions:/tmp/positions
-      - ../logs:/app/logs:ro
+      - app-logs:/app/logs:ro
     networks:
       - monitoring
     command: -config.file=/etc/promtail/config.yaml

@@ -250,3 +250,4 @@ volumes:
   postgres-data:
   rabbitmq-data:
     driver: local
+  app-logs:

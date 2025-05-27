@@ -87,3 +87,5 @@ volumes:
   loki_data:
   loki_wal:
   promtail_positions:
+  app-logs:
+    external: true

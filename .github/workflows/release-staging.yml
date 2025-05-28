@@ -96,7 +96,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: kiespetch1/unischedule-frontend-ts
-          ref: latest
           path: frontend
 
       - name: Build and push frontend Image

@@ -14,4 +14,9 @@ public class MessengerLinkParameters
     ///     Идентификатор беседы
     /// </summary>
     public required long ConversationId { get; set; }
+
+    /// <summary>
+    ///     Название беседы
+    /// </summary>
+    public string ConversationName { get; set; }
 }

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using UniSchedule.Bot.Services.Abstractions;
 using UniSchedule.Bot.Shared;
+using UniSchedule.Entities.DTO;
 using UniSchedule.Extensions.Attributes;
+using UniSchedule.Extensions.Data;
 using UniSchedule.Identity.Shared;
 using UniSchedule.Identity.Shared.Attributes;
 
@@ -38,7 +40,7 @@ public class EventsController(IEventService eventService) : ControllerBase
     /// </summary>
     /// <param name="parameters">Параметры привязки бота к беседе в мессенджере</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <response code="200">Успешная обработка события</response>
+    /// <response code="200">Успешная привязка</response>
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
     [HttpPost("auth")]
@@ -51,6 +53,25 @@ public class EventsController(IEventService eventService) : ControllerBase
         [FromBody] MessengerLinkParameters parameters,
         CancellationToken cancellationToken = default) 
     {
-        await eventService.LinkMessengerAsync(parameters, cancellationToken);
+        await eventService.LinkMessengerAsync(parameters, cancellationToken);   
+    }
+
+    
+    /// <summary>
+    ///     Получение списка авторизованных бесед
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешное получение бесед</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPost("conversations")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.InternalServerError)]
+    public async Task<CollectionResult<KeyValueItem<long>>> GetConversationsListAsync(
+        CancellationToken cancellationToken = default)
+    {
+        var conversations = await eventService.GetConversationsListAsync(cancellationToken);
+        
+        return new CollectionResult<KeyValueItem<long>>(conversations, conversations.Count);
     }
 }

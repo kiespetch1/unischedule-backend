@@ -23,7 +23,7 @@ public class VkEvent
     /// <summary>
     ///     Объект, инициировавший событие
     /// </summary>
-    public Dictionary<string, object>? Object { get; set; }
+    public JsonDocument? Object { get; set; }
 
     /// <summary>
     ///     Идентификатор сообщества, в котором произошло событие

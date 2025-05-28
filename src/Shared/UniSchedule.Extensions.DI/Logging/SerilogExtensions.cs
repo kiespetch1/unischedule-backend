@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -31,6 +32,7 @@ public static class SerilogExtensions
                     .Enrich.WithUserIdEnricher(provider)
                     .Enrich.FromLogContext();
             });
+        Console.OutputEncoding = Encoding.UTF8;
 
         return builder;
     }

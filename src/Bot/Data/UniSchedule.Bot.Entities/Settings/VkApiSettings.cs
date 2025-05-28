@@ -5,7 +5,7 @@ public class VkApiSettings
     /// <summary>
     ///     Версия API
     /// </summary>
-    public required string Version { get; set; }
+    public required string ApiVersion { get; set; }
     
     /// <summary>
     ///     Токен доступа

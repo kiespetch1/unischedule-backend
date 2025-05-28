@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
             builder.WithOrigins(
                 "https://streaminginfo.ru",
                 "https://api.vk.com",
-                "http://localhost:5173"
+                "http://localhost:3001"
             );
             builder.AllowCredentials();
             builder.AllowAnyMethod();

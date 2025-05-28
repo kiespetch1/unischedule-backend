@@ -16,4 +16,9 @@ public class GroupMessengerConversation : Entity<Guid>
     ///     Идентификатор беседы в мессенджере
     /// </summary>
     public long ConversationId { get; set; }
+
+    /// <summary>
+    ///     Название беседы
+    /// </summary>
+    public string ConversationName { get; set; }
 }

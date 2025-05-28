@@ -1,4 +1,4 @@
-﻿using UniSchedule.Abstractions.Entities;
+﻿using UniSchedule.Abstractions.Entities.Auditable;
 using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Entities.Owned;
 
@@ -7,7 +7,7 @@ namespace UniSchedule.Bot.Shared.Announcements;
 /// <summary>
 ///     Модель объявления для передачи через брокер сообщений
 /// </summary>
-public class AnnouncementMqModel : Entity<Guid>
+public class AnnouncementMqModel : AuditableEntity<Guid>
 {
     /// <summary>
     ///     Текст объявления
@@ -43,9 +43,4 @@ public class AnnouncementMqModel : Entity<Guid>
     ///     Добавлено ли через бота
     /// </summary>
     public bool IsAddedUsingBot { get; set; }
-    
-    /// <summary>
-    ///     Идентификатор пользователя, создавшего объявление
-    /// </summary>
-    public Guid? CreatedBy { get; set; }
 }

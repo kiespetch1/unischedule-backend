@@ -1,5 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace UniSchedule.Bot.Shared;
 
@@ -17,6 +18,7 @@ public class VkEventParameters
     ///     Версия Vk API
     /// </summary>
     [JsonPropertyName("v")]
+    [JsonProperty("v")]
     public string? Version { get; set; }
 
     /// <summary>
@@ -27,6 +29,7 @@ public class VkEventParameters
     /// <summary>
     ///     Идентификатор сообщества, в котором произошло событие
     /// </summary>
+    [JsonProperty("group_id")]
     public long GroupId { get; set; }
 
     /// <summary>
@@ -34,5 +37,16 @@ public class VkEventParameters
     /// </summary>
     public string Secret { get; set; }
 
-    public override string ToString() => JsonSerializer.Serialize(this);
+    public override string ToString()
+    {
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new SnakeCaseNamingStrategy()
+            },
+        };
+        
+        return JsonConvert.SerializeObject(this, settings);
+    }
 }

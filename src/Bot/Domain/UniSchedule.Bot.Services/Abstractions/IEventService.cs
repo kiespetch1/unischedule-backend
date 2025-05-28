@@ -1,5 +1,6 @@
 ﻿using UniSchedule.Bot.Entities.Vk;
 using UniSchedule.Bot.Shared;
+using UniSchedule.Entities.DTO;
 
 namespace UniSchedule.Bot.Services.Abstractions;
 
@@ -20,5 +21,12 @@ public interface IEventService
     /// </summary>
     /// <param name="parameters">Параметры привязки бота к беседе в мессенджере</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public Task LinkMessengerAsync(MessengerLinkParameters parameters, CancellationToken cancellationToken);
+    public Task LinkMessengerAsync(MessengerLinkParameters parameters, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    ///     Получение списка бесед
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список бесед</returns>
+    public Task<List<KeyValueItem<long>>> GetConversationsListAsync(CancellationToken cancellationToken = default);
 }

@@ -42,19 +42,6 @@
       - shared-network
       - monitoring
 
-  frontend:
-    image: ghcr.io/kiespetch1/frontend:latest
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`${CURRENT_DOMAIN}`)"
-      - "traefik.http.routers.frontend.entrypoints=https"
-      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.frontend.loadbalancer.server.port=3001"
-      - "traefik.docker.network=unischedule-staging_shared-network"
-    networks:
-      - monitoring
-      - shared-network
-
   identity:
     build:
       context: .

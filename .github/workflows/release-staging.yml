@@ -98,20 +98,6 @@ jobs:
           repository: kiespetch1/unischedule-frontend-ts
           path: frontend
 
-      - name: Build and push frontend Image
-        uses: docker/build-push-action@v4
-        with:
-          context: frontend
-          file: ${{ github.workspace }}/frontend/Dockerfile
-          push: true
-          build-args: |
-            VITE_IDENTITY_URL=${{ secrets.VITE_IDENTITY_URL }}
-            VITE_SCHEDULE_URL=${{ secrets.VITE_SCHEDULE_URL }}
-            VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
-          tags: |
-            ghcr.io/kiespetch1/frontend:${{ github.event.release.tag_name }}
-            ghcr.io/kiespetch1/frontend:latest
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -128,7 +114,6 @@ jobs:
           source: "monitoring/docker-compose.monitoring.yaml,monitoring/prometheus/**,monitoring/grafana/**,./docker-compose.yaml"
           target: "~/unischedule-staging"
           strip_components: 1
-      
       
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v0.1.10
@@ -157,9 +142,6 @@ jobs:
             AdminCredentials__Surname=${{ secrets.ADMIN_SURNAME }}
             AdminCredentials__Name=${{ secrets.ADMIN_NAME }}
             AdminCredentials__Patronymic=${{ secrets.ADMIN_PATRONYMIC }}
-            VITE_IDENTITY_URL=${{ secrets.VITE_IDENTITY_URL }}
-            VITE_SCHEDULE_URL=${{ secrets.VITE_SCHEDULE_URL }}
-            VITE_EVENTS_URL=${{ secrets.VITE_EVENTS_URL }}
             VkApiSettings__ConfirmationCode=${{ secrets.VkApiSettings__ConfirmationCode }}
             VkApiSettings__AccessToken=${{ secrets.VkApiSettings__AccessToken }}
             VkApiSettings__Secret=${{ secrets.VkApiSettings__Secret }}
@@ -168,9 +150,9 @@ jobs:
             GRAFANA_USER=${{ secrets.GRAFANA_USER }}
             GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
             EOF
-            docker network create unischedule-staging_shared-network || true
-            docker network create unischedule-staging_monitoring || true
-            docker volume create app-logs || true
+            docker network inspect unischedule-staging_shared-network >/dev/null 2>&1 \ || docker network create unischedule-staging_shared-network
+            docker network inspect unischedule-staging_monitoring >/dev/null 2>&1 \ || docker network create unischedule-staging_monitoring
+            docker volume inspect app-logs >/dev/null 2>&1 \ || docker volume create app-logs
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml pull
             docker compose -f docker-compose.yaml -f docker-compose.monitoring.yaml up -d
             

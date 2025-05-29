@@ -112,7 +112,7 @@ public class EventService(
                     IsAddedUsingBot = true
                 };
                 await publisher.PublishAsync(data, cancellationToken);
-                Log.Debug("{Message}", $"Отправлено объявление с текстом {messageTrimmed}, " +
+                Log.Debug("{Message}", $"Отправлено объявление с текстом \"{messageTrimmed}\", " +
                                        $"для группы {groupId} от пользователя c идентификатором {userId}");
 
                 return "ok";

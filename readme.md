@@ -30,3 +30,5 @@
 - Docker
 
 Репозиторий клиентской части приложения находится по ссылке: https://github.com/kiespetch1/unischedule-frontend-ts
+
+Этот проект распространяется под лицензией [CC BY-NC-SA 4.0](LICENSE).

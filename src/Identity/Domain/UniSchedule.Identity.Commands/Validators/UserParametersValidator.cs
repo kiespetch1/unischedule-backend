@@ -11,6 +11,10 @@ public class UserParametersValidator<TParams> : ValidatorBase<TParams> where TPa
 {
     public UserParametersValidator(DatabaseContext context) : base(context)
     {
+        RuleFor(x => x.Password)
+            .MinimumLength(8)
+            .WithMessage("Пароль должен содержать не менее 8 символов");
+        
         RuleFor(x => x.RoleId)
             .Must(IsExist<Role, Guid>)
             .WithMessage("Роль не найдена");
@@ -22,7 +26,7 @@ public class UserParametersValidator<TParams> : ValidatorBase<TParams> where TPa
         RuleFor(x => x.ManagedGroupIds)
             .Must(IsExists<Group, Guid>)
             .When(x => x.ManagedGroupIds is not null)
-            .WithMessage("Группа не найдена");
+            .WithMessage("Управляемая группа не найдена");
     }
 }
 

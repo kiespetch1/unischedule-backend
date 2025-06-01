@@ -28,6 +28,11 @@ public class AnnouncementModel
     public bool IsAnonymous { get; set; }
 
     /// <summary>
+    ///     Добавлено ли через бота
+    /// </summary>
+    public bool IsAddedUsingBot { get; set; }
+
+    /// <summary>
     ///     Дата создания
     /// </summary>
     public DateTime CreatedAt { get; set; }

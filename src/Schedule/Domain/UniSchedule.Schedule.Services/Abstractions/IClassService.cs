@@ -14,7 +14,7 @@ public interface IClassService
     /// </summary>
     /// <param name="id">Идентификатор пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    Task SetCancelledAsync(
+    Task CancelAsync(
         Guid id,
         CancellationToken cancellationToken = default);
 
@@ -23,9 +23,16 @@ public interface IClassService
     /// </summary>
     /// <param name="id">Идентификатор пары</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    Task SetActiveAsync(
+    Task RestoreAsync(
         Guid id,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Восстановление нескольких пар
+    /// </summary>
+    /// <param name="parameters">Параметры для восстановления</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    Task RestoreMultipleAsync(ClassMultipleRestoreParameters parameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Копирование пар дня на противоположную неделю

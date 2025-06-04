@@ -16,7 +16,7 @@ namespace UniSchedule.Schedule.Services;
 public class ClassService(DatabaseContext context) : IClassService
 {
     /// <inheritdoc />
-    public async Task SetCancelledAsync(
+    public async Task CancelAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
@@ -27,7 +27,7 @@ public class ClassService(DatabaseContext context) : IClassService
     }
 
     /// <inheritdoc />
-    public async Task SetActiveAsync(
+    public async Task RestoreAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
@@ -130,6 +130,22 @@ public class ClassService(DatabaseContext context) : IClassService
             .Include(x => x.Day)
             .ThenInclude(x => x.Week)
             .Where(x => x.Day.Week.GroupId == groupId && x.IsCancelled)
+            .Select(x => new Class
+            {
+                Id = x.Id,
+                Name = x.Name,
+                StartedAt = x.StartedAt,
+                FinishedAt = x.FinishedAt,
+                Type = x.Type,
+                WeekType = x.WeekType,
+                Subgroup = x.Subgroup,
+                IsCancelled = x.IsCancelled,
+                LocationId = x.LocationId,
+                TeacherId = x.TeacherId,
+                Teacher = x.Teacher,
+                Location = x.Location,
+                Day = new Day { DayOfWeek = x.Day.DayOfWeek, WeekId = x.Day.WeekId }
+            })
             .ToCollectionResultAsync(cancellationToken);
 
         return classes;
@@ -205,6 +221,23 @@ public class ClassService(DatabaseContext context) : IClassService
         foreach (var @class in classesToCancel)
         {
             @class.IsCancelled = true;
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task RestoreMultipleAsync(
+        ClassMultipleRestoreParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        var classesToRestore = await context.Classes
+            .Where(c => parameters.ClassIds.Contains(c.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var @class in classesToRestore)
+        {
+            @class.IsCancelled = false;
         }
 
         await context.SaveChangesAsync(cancellationToken);

@@ -171,7 +171,7 @@ public class ClassesController(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
     {
-        await service.SetCancelledAsync(id, cancellationToken);
+        await service.CancelAsync(id, cancellationToken);
     }
 
     /// <summary>
@@ -194,7 +194,32 @@ public class ClassesController(
         [FromRoute] Guid id,
         CancellationToken cancellationToken = default)
     {
-        await service.SetActiveAsync(id, cancellationToken);
+        await service.RestoreAsync(id, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Восстановление нескольких пар
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешное восстановление пар</response>
+    /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="404">Одна или несколько пар не найдены</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("restore/multiple")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task RestoreMultipleAsync(
+        [FromBody] ClassMultipleRestoreParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        await service.RestoreMultipleAsync(parameters, cancellationToken);
     }
 
     /// <summary>

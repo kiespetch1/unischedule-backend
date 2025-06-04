@@ -66,12 +66,34 @@ public interface IClassService
     /// </summary>
     /// <param name="parameters">Параметры запроса</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public Task CancelMultipleAsync(ClassMultipleCancelByDayIdParameters parameters, CancellationToken cancellationToken = default);
+    public Task CancelMultipleAsync(
+        ClassMultipleCancelByDayIdParameters parameters,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Отмена нескольких пар
     /// </summary>
     /// <param name="parameters">Параметры запроса</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    public Task CancelMultipleAsync(ClassMultipleCancelByIdParameters parameters, CancellationToken cancellationToken = default);
+    public Task CancelMultipleAsync(
+        ClassMultipleCancelByIdParameters parameters,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Отмена пар для всех групп по дням недели
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    Task CancelAllByWeekDaysAsync(
+        ClassCancelByWeekDaysParameters parameters,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Отмена всех пар для указанной группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    Task CancelMultipleByGroupAsync(
+        Guid groupId,
+        CancellationToken cancellationToken = default);
 }

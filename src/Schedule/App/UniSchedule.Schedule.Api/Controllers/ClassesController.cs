@@ -318,7 +318,76 @@ public class ClassesController(
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task CancelMultipleAsync(
-        [FromBody] ClassMultipleCancelByDayIdParameters parameters, 
+        [FromBody] ClassMultipleCancelByDayIdParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        await service.CancelMultipleAsync(parameters, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Отмена пар по дням недели и типу недели
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешная отмена пар</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("cancel/week-days")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task CancelAllByWeekDaysAsync(
+        [FromBody] ClassCancelByWeekDaysParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        await service.CancelAllByWeekDaysAsync(parameters, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Отмена всех пар для указанной группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор группы.</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешная отмена пар</response>
+    /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="404">Группа не найдена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("cancel/group/{groupId}")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest, 
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task CancelMultipleByGroupAsync(
+        [FromRoute] Guid groupId,
+        CancellationToken cancellationToken = default)
+    {
+        await service.CancelMultipleByGroupAsync(groupId, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Отмена нескольких пар по их идентификаторам
+    /// </summary>
+    /// <param name="parameters">Параметры с идентификаторами пар</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешная отмена пар</response>
+    /// <response code="400">Некорректные данные</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("cancel/multiple")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task CancelMultipleByIdsAsync(
+        [FromBody] ClassMultipleCancelByIdParameters parameters,
         CancellationToken cancellationToken = default)
     {
         await service.CancelMultipleAsync(parameters, cancellationToken);

@@ -4,6 +4,7 @@ using UniSchedule.Extensions.Data;
 using UniSchedule.Extensions.Exceptions.Base;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
+using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Services.Abstractions;
 using UniSchedule.Shared.DTO.Parameters;
 
@@ -159,6 +160,49 @@ public class ClassService(DatabaseContext context) : IClassService
             .ToListAsync(cancellationToken);
 
         foreach (var @class in classes)
+        {
+            @class.IsCancelled = true;
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task CancelAllByWeekDaysAsync(
+        ClassCancelByWeekDaysParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        var evenDays = parameters.Even ?? new List<DayOfWeek>();
+        var oddDays = parameters.Odd ?? new List<DayOfWeek>();
+
+        var classesToCancel = await context.Classes
+            .Include(c => c.Day)
+            .ThenInclude(d => d.Week)
+            .Where(c =>
+                (evenDays.Count > 0 && c.Day.Week.Type == WeekType.Even && evenDays.Contains(c.Day.DayOfWeek)) ||
+                (oddDays.Count > 0 && c.Day.Week.Type == WeekType.Odd && oddDays.Contains(c.Day.DayOfWeek)))
+            .ToListAsync(cancellationToken);
+
+        foreach (var @class in classesToCancel)
+        {
+            @class.IsCancelled = true;
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task CancelMultipleByGroupAsync(
+        Guid groupId,
+        CancellationToken cancellationToken = default)
+    {
+        var classesToCancel = await context.Classes
+            .Include(c => c.Day)
+            .ThenInclude(d => d.Week)
+            .Where(c => c.Day.Week.GroupId == groupId && !c.IsCancelled)
+            .ToListAsync(cancellationToken);
+
+        foreach (var @class in classesToCancel)
         {
             @class.IsCancelled = true;
         }

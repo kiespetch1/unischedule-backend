@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using UniSchedule.Extensions.Collections;
+using UniSchedule.Extensions.Data;
 using UniSchedule.Extensions.Exceptions.Base;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Services.Abstractions;
+using UniSchedule.Shared.DTO.Parameters;
 
 namespace UniSchedule.Schedule.Services;
 
@@ -97,6 +99,70 @@ public class ClassService(DatabaseContext context) : IClassService
             .SingleOrNotFoundAsync(dayId, cancellationToken);
 
         day.Classes.Clear();
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task ClearWeeksClassesAsync(Guid groupId, CancellationToken cancellationToken = default)
+    {
+        var group = await context.Groups
+            .Include(x => x.Weeks)
+            .ThenInclude(x => x.Days)
+            .ThenInclude(x => x.Classes)
+            .SingleOrNotFoundAsync(groupId, cancellationToken);
+
+        group.Weeks
+            .SelectMany(x => x.Days)
+            .ToList()
+            .ForEach(x => x.Classes.Clear());
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<CollectionResult<Class>> GetCancelledClassesAsync(
+        Guid groupId,
+        CancellationToken cancellationToken = default)
+    {
+        var classes = await context.Classes
+            .AsQueryable()
+            .Include(x => x.Day)
+            .ThenInclude(x => x.Week)
+            .Where(x => x.Day.Week.GroupId == groupId && x.IsCancelled)
+            .ToCollectionResultAsync(cancellationToken);
+
+        return classes;
+    }
+
+    /// <inheritdoc />
+    public async Task CancelMultipleAsync(ClassMultipleCancelByDayIdParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        var classes = await context.Classes
+            .Where(x => parameters.DayIds.Contains(x.DayId))
+            .ToListAsync(cancellationToken);
+
+        foreach (var @class in classes)
+        {
+            @class.IsCancelled = true;
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task CancelMultipleAsync(
+        ClassMultipleCancelByIdParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        var classes = await context.Classes
+            .Where(x => parameters.ClassIds.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var @class in classes)
+        {
+            @class.IsCancelled = true;
+        }
+
         await context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -152,21 +152,21 @@ public class GroupsController(
     }
 
     /// <summary>
-    ///     Обновление курса для всех групп
+    ///     Переход в следующий курс для всех групп
     /// </summary>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Результат операции</returns>
-    /// <response code="200">Успешное обновление курса</response>
+    /// <response code="200">Успешное обновление курса групп</response>
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("grades/update")]
+    [HttpPatch("promote")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin)]
-    public async Task UpdateGradesAsync(CancellationToken cancellationToken = default)
+    public async Task PromoteGroupsAsync(CancellationToken cancellationToken = default)
     {
-        await service.UpdateGradesAsync(cancellationToken);
+        await service.PromoteGroupsAsync(cancellationToken);
     }
 }

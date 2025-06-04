@@ -1,3 +1,7 @@
+using UniSchedule.Extensions.Data;
+using UniSchedule.Schedule.Entities;
+using UniSchedule.Shared.DTO.Parameters;
+
 namespace UniSchedule.Schedule.Services.Abstractions;
 
 /// <summary>
@@ -39,4 +43,35 @@ public interface IClassService
     /// <param name="dayId">Идентификатор дня</param>
     /// <param name="cancellationToken">Токен отмены</param>
     public Task ClearDayClassesAsync(Guid dayId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Удаление всех пар группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    public Task ClearWeeksClassesAsync(Guid groupId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Получение списка всех отмененных пар группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список отменных пар</returns>
+    public Task<CollectionResult<Class>> GetCancelledClassesAsync(
+        Guid groupId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Отмена нескольких пар
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    public Task CancelMultipleAsync(ClassMultipleCancelByDayIdParameters parameters, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Отмена нескольких пар
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    public Task CancelMultipleAsync(ClassMultipleCancelByIdParameters parameters, CancellationToken cancellationToken = default);
 }

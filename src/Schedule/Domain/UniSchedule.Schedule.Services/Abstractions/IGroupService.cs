@@ -10,5 +10,5 @@ public interface IGroupService
     /// </summary>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Задача</returns>
-    Task UpdateGradesAsync(CancellationToken cancellationToken = default);
+    Task PromoteGroupsAsync(CancellationToken cancellationToken = default);
 }

@@ -10,10 +10,10 @@ namespace UniSchedule.Schedule.Services;
 public class GroupService(DatabaseContext context) : IGroupService
 {
     /// <inheritdoc />
-    public async Task UpdateGradesAsync(CancellationToken cancellationToken = default)
+    public async Task PromoteGroupsAsync(CancellationToken cancellationToken = default)
     {
         var groups = await context.Groups
-            .Where(x => x.Grade < 4)
+            .Where(x => x.Grade < 5)
             .ToListAsync(cancellationToken);
 
         foreach (var group in groups)

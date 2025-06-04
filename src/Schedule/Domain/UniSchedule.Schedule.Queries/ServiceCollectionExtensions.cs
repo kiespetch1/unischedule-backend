@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UniSchedule.Abstractions.Queries;
-using UniSchedule.Schedule.Queries.Queries;
 
 namespace UniSchedule.Schedule.Queries;
 

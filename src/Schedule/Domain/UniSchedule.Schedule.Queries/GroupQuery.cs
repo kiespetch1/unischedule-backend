@@ -7,7 +7,7 @@ using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Shared.DTO.Parameters;
 
-namespace UniSchedule.Schedule.Queries.Queries;
+namespace UniSchedule.Schedule.Queries;
 
 /// <summary>
 ///     Запросы для работы с группами

@@ -160,7 +160,7 @@ public class ClassesController(
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("{id}/cancel")]
+    [HttpPatch("cancel/{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
@@ -183,7 +183,7 @@ public class ClassesController(
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Пара не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("{id}/restore")]
+    [HttpPatch("restore/{id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
@@ -206,7 +206,7 @@ public class ClassesController(
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">День/противоположная неделя не найдены</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("copy/{dayId}")]
+    [HttpPatch("copy/{day_id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
@@ -214,32 +214,113 @@ public class ClassesController(
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task CopyClassesToOppositeWeekAsync(
-        [FromRoute] Guid dayId,
+        [FromRoute(Name = "day_id")] Guid dayId,
         CancellationToken cancellationToken = default)
     {
         await service.CopyClassesToOppositeWeekAsync(dayId, cancellationToken);
     }
 
     /// <summary>
-    ///     Удаление всех пар дня
+    ///     Удаление всех пар из дня
     /// </summary>
     /// <param name="dayId">Идентификатор дня</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешное удаление всех пар дня</response>
     /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="403">Доступ запрещен</response>
     /// <response code="404">День не найден</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPost("clear/{dayId}")]
+    [HttpPatch("clear/day/{day_id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
+        HttpStatusCode.Forbidden,
         HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task ClearDayClassesAsync(
-        [FromRoute] Guid dayId,
+        [FromRoute(Name = "day_id")] Guid dayId,
         CancellationToken cancellationToken = default)
     {
         await service.ClearDayClassesAsync(dayId, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Удаление всех пар из расписания группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор дня</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <response code="200">Успешное удаление всех пар группы</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="403">Доступ запрещен</response>
+    /// <response code="404">День не найден</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("clear/group/{group_id}")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.Forbidden,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task ClearWeeksClassesAsync(
+        [FromRoute(Name = "group_id")] Guid groupId,
+        CancellationToken cancellationToken = default)
+    {
+        await service.ClearWeeksClassesAsync(groupId, cancellationToken);
+    }
+    
+    /// <summary>
+    ///     Получение списка отмененных пар группы
+    /// </summary>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список отмененных пар</returns>
+    /// <response code="200">Успешное удаление всех пар дня</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="403">Доступ запрещен</response>
+    /// <response code="404">День не найден</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpGet("cancelled/{group_id}")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.Forbidden,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task<CollectionResult<Class>> GetCancelledClassesAsync(
+        [FromRoute(Name = "group_id")] Guid groupId,
+        CancellationToken cancellationToken = default)
+    {
+        var classes = await service.GetCancelledClassesAsync(groupId, cancellationToken);
+
+        return classes;
+    }
+
+    /// <summary>
+    ///     Отмена пар по списку идентификаторов дня
+    /// </summary>
+    /// <param name="parameters">Параметры запроса</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список отмененных пар</returns>
+    /// <response code="200">Успешное удаление всех пар дня</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="403">Доступ запрещен</response>
+    /// <response code="404">Не все дни найдены</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPatch("cancel/days")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.Forbidden,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.InternalServerError)]
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task CancelMultipleAsync(
+        [FromBody] ClassMultipleCancelByDayIdParameters parameters, 
+        CancellationToken cancellationToken = default)
+    {
+        await service.CancelMultipleAsync(parameters, cancellationToken);
     }
 }

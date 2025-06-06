@@ -1,5 +1,3 @@
-using UniSchedule.Shared.DTO.Models;
-
 namespace UniSchedule.Schedule.Services.Abstractions;
 
 /// <summary>
@@ -15,10 +13,10 @@ public interface IGroupService
     Task PromoteGroupsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Парсинг расписания
+    ///     Импорт расписания пар для группы с официального сайта
     /// </summary>
-    /// <param name="url">Ссылка</param>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="url">Ссылка на страницу расписания</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns></returns>
-    public Task<List<DayParseModel>> ParseWeeksAsync(string url, CancellationToken cancellationToken = default);
+    Task ImportClassesScheduleAsync(Guid groupId, string url, CancellationToken cancellationToken = default);
 }

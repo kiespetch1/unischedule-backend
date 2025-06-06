@@ -171,26 +171,27 @@ public class GroupsController(
     }
 
     /// <summary>
-    ///     Парсинг расписания по URL-адресу
+    ///     Импорт расписания пар для группы с официального сайта
     /// </summary>
-    /// <param name="url">URL-адрес для парсинга расписания</param>
+    /// <param name="groupId">Идентификатор группы</param>
+    /// <param name="url">URL-адрес страницы расписания</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список дней с расписанием в виде коллекции</returns>
-    /// <response code="200">Успешный парсинг расписания</response>
-    /// <response code="400">Некорректный URL-адрес или ошибка парсинга</response>
-    /// <response code="500">Непредвиденная ошибка сервера</response>
-    [HttpGet("parse-schedule")]
+    /// <response code="200">Успешный импорт расписания</response>
+    /// <response code="401">Пользователь не авторизован</response>
+    /// <response code="404">Группа не найдена</response>
+    /// <response code="500">Непредвиденная ошибка</response>
+    [HttpPut("import/{group_id}")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
-        HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.NotFound,
         HttpStatusCode.InternalServerError)]
-    public async Task<CollectionResult<DayParseModel>> ParseScheduleAsync(
+    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
+    public async Task ImportClassesScheduleAsync(
+        [FromRoute(Name = "group_id")] Guid groupId,
         [FromQuery] string url,
         CancellationToken cancellationToken = default)
     {
-        var parsedDays = await service.ParseWeeksAsync(url, cancellationToken);
-        var result = new CollectionResult<DayParseModel>(parsedDays, parsedDays.Count);
-
-        return result;
+        await service.ImportClassesScheduleAsync(groupId, url, cancellationToken);
     }
 }

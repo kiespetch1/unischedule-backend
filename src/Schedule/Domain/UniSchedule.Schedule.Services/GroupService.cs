@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using AngleSharp;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using UniSchedule.Extensions.Collections;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Entities.Enums;
@@ -30,7 +31,96 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<DayParseModel>> ParseWeeksAsync(string url, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task ImportClassesScheduleAsync(
+        Guid groupId,
+        string url,
+        CancellationToken cancellationToken = default)
+    {
+        var group = await context.Groups
+            .Include(g => g.Weeks)
+            .ThenInclude(w => w.Days)
+            .ThenInclude(d => d.Classes)
+            .SingleOrNotFoundAsync(groupId, cancellationToken);
+
+        foreach (var day in group.Weeks.SelectMany(w => w.Days))
+        {
+            day.Classes.Clear();
+        }
+
+        var parsedDays = await ParseWeeksAsync(url, cancellationToken);
+
+        var weeks = group.Weeks.ToDictionary(x => (x.Type, x.Subgroup));
+
+        foreach (var parsedDay in parsedDays)
+        {
+            foreach (var parsedClass in parsedDay.Classes)
+            {
+                IEnumerable<Week> targetWeeks;
+
+                if (!group.HasFixedSubgroups)
+                {
+                    targetWeeks = parsedClass.WeekType switch
+                    {
+                        WeekType.Every => new[]
+                        {
+                            weeks[(WeekType.Even, Subgroup.None)], weeks[(WeekType.Odd, Subgroup.None)]
+                        },
+                        WeekType.Even => new[] { weeks[(WeekType.Even, Subgroup.None)] },
+                        WeekType.Odd => new[] { weeks[(WeekType.Odd, Subgroup.None)] },
+                        _ => Array.Empty<Week>()
+                    };
+                }
+                else
+                {
+                    targetWeeks = parsedClass.Subgroup switch
+                    {
+                        Subgroup.None => parsedClass.WeekType switch
+                        {
+                            WeekType.Every => weeks.Values,
+                            WeekType.Even => weeks.Values.Where(w => w.Type == WeekType.Even),
+                            WeekType.Odd => weeks.Values.Where(w => w.Type == WeekType.Odd),
+                            _ => []
+                        },
+                        _ => parsedClass.WeekType switch
+                        {
+                            WeekType.Every => new[]
+                            {
+                                weeks[(WeekType.Even, parsedClass.Subgroup)],
+                                weeks[(WeekType.Odd, parsedClass.Subgroup)]
+                            },
+                            _ => new[] { weeks[(parsedClass.WeekType, parsedClass.Subgroup)] }
+                        }
+                    };
+                }
+
+                foreach (var week in targetWeeks)
+                {
+                    var day = week.Days.Single(d => d.DayOfWeek == parsedDay.DayOfWeek);
+
+                    var entity = new Class
+                    {
+                        Name = parsedClass.Name,
+                        StartedAt = parsedClass.StartedAt,
+                        FinishedAt = parsedClass.FinishedAt,
+                        Type = parsedClass.Type,
+                        WeekType = parsedClass.WeekType,
+                        Subgroup = parsedClass.Subgroup,
+                        IsCancelled = false,
+                        LocationId = parsedClass.LocationId,
+                        TeacherId = parsedClass.TeacherId
+                    };
+
+                    context.Classes.Add(entity);
+                    day.Classes.Add(entity);
+                }
+            }
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task<List<DayParseModel>> ParseWeeksAsync(string url, CancellationToken cancellationToken = default)
     {
         const string firstSubgroupSuffix = "- 1 п/г";
         const string secondSubgroupSuffix = "- 2 п/г";

@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Helpers\UniSchedule.Abstractions.Helpers.csproj" />
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Collections\UniSchedule.Extensions.Collections.csproj"/>
       <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj" />
       <ProjectReference Include="..\UniSchedule.Identity.Database\UniSchedule.Identity.Database.csproj" />
     </ItemGroup>

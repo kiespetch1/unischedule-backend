@@ -1,3 +1,5 @@
+using UniSchedule.Shared.DTO.Parameters;
+
 namespace UniSchedule.Schedule.Services.Abstractions;
 
 /// <summary>
@@ -15,8 +17,8 @@ public interface IGroupService
     /// <summary>
     ///     Импорт расписания пар для группы с официального сайта
     /// </summary>
-    /// <param name="groupId">Идентификатор группы</param>
-    /// <param name="url">Ссылка на страницу расписания</param>
+    /// <param name="parameters">Параметры импорта расписания</param>
     /// <param name="cancellationToken">Токен отмены</param>
-    Task ImportClassesScheduleAsync(Guid groupId, string url, CancellationToken cancellationToken = default);
+    Task ImportClassesScheduleAsync(ClassScheduleImportParameters parameters,
+        CancellationToken cancellationToken = default);
 }

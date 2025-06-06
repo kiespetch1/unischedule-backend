@@ -8,6 +8,7 @@ using UniSchedule.Schedule.Entities;
 using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Services.Abstractions;
 using UniSchedule.Shared.DTO.Models;
+using UniSchedule.Shared.DTO.Parameters;
 
 namespace UniSchedule.Schedule.Services;
 
@@ -33,22 +34,21 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
 
     /// <inheritdoc />
     public async Task ImportClassesScheduleAsync(
-        Guid groupId,
-        string url,
+        ClassScheduleImportParameters parameters,
         CancellationToken cancellationToken = default)
     {
         var group = await context.Groups
             .Include(g => g.Weeks)
             .ThenInclude(w => w.Days)
             .ThenInclude(d => d.Classes)
-            .SingleOrNotFoundAsync(groupId, cancellationToken);
+            .SingleOrNotFoundAsync(parameters.GroupId, cancellationToken);
 
         foreach (var day in group.Weeks.SelectMany(w => w.Days))
         {
             day.Classes.Clear();
         }
 
-        var parsedDays = await ParseWeeksAsync(url, cancellationToken);
+        var parsedDays = await ParseWeeksAsync(parameters.Url, cancellationToken);
 
         var weeks = group.Weeks.ToDictionary(x => (x.Type, x.Subgroup));
 

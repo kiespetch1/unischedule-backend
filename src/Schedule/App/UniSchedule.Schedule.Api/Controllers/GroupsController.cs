@@ -173,14 +173,13 @@ public class GroupsController(
     /// <summary>
     ///     Импорт расписания пар для группы с официального сайта
     /// </summary>
-    /// <param name="groupId">Идентификатор группы</param>
-    /// <param name="url">URL-адрес страницы расписания</param>
+    /// <param name="parameters">Параметры импорта расписания</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="200">Успешный импорт расписания</response>
     /// <response code="401">Пользователь не авторизован</response>
     /// <response code="404">Группа не найдена</response>
     /// <response code="500">Непредвиденная ошибка</response>
-    [HttpPut("import/{group_id}")]
+    [HttpPut("import-classes")]
     [ResponseStatusCodes(
         HttpStatusCode.OK,
         HttpStatusCode.Unauthorized,
@@ -188,10 +187,9 @@ public class GroupsController(
         HttpStatusCode.InternalServerError)]
     [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
     public async Task ImportClassesScheduleAsync(
-        [FromRoute(Name = "group_id")] Guid groupId,
-        [FromQuery] string url,
+        [FromBody] ClassScheduleImportParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        await service.ImportClassesScheduleAsync(groupId, url, cancellationToken);
+        await service.ImportClassesScheduleAsync(parameters, cancellationToken);
     }
 }

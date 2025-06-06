@@ -37,7 +37,7 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
 
         Log.Debug("Начало парсинга по ссылке {Url}", url);
         var document = await browsingContext.OpenAsync(url, cancellationToken);
-        Log.Debug("Страница загружена. Длина документа - {DocumentLength}", document.Body!.TextContent.Length);
+        Log.Debug("Страница загружена. Длина документа - {DocumentLength} символов", document.Body!.TextContent.Length);
 
         var dayElements = document.QuerySelectorAll(".card-body.p-0").Skip(1).Take(6).ToList();
         var days = new List<DayParseModel>();

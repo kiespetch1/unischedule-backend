@@ -15,7 +15,7 @@ public class Teacher : Entity<Guid>
     /// <summary>
     ///     Полное ФИО преподавателя
     /// </summary>
-    public required string FullName { get; set; }
+    public string? FullName { get; set; }
 
     /// <summary>
     ///     Пары

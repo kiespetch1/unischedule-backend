@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using FluentValidation.Results;
 using Serilog;
 using UniSchedule.Bot.Entities.Settings;
@@ -23,7 +23,7 @@ public class VkEventMapper
         var incomingMessageType = VkResponseType.IncomingMessage.GetMemberValue();
         var outgoingMessageType = VkResponseType.OutgoingMessage.GetMemberValue();
         var messageEditType = VkResponseType.MessageEdit.GetMemberValue();
-        Log.Debug("{Message}", $"Начало обработки события: {parameters}");
+        Log.Debug("Начало обработки события: {@Parameters}", parameters);
 
         if (parameters.Type == confirmationType && parameters.Object is not null)
         {

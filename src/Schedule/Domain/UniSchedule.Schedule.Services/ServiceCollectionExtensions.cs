@@ -1,3 +1,4 @@
+using AngleSharp;
 using Microsoft.Extensions.DependencyInjection;
 using UniSchedule.Schedule.Services.Abstractions;
 
@@ -17,6 +18,19 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<IGroupService, GroupService>();
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Добавление AngleSharp
+    /// </summary>
+    /// <param name="services">Коллекция сервисов</param>
+    public static IServiceCollection AddAngleSharp(this IServiceCollection services)
+    {
+        services.AddSingleton<IConfiguration>(_ => Configuration.Default.WithDefaultLoader());
+        services.AddSingleton<IBrowsingContext>
+            (sp => BrowsingContext.New(sp.GetRequiredService<IConfiguration>()));
 
         return services;
     }

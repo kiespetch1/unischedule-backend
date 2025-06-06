@@ -65,6 +65,7 @@ public class Startup(IConfiguration configuration)
         services.AddQueries();
         services.AddServices();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddAngleSharp();
 
         services.AddValidation();
         services.AddAuthorization();

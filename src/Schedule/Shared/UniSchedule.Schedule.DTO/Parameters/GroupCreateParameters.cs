@@ -16,11 +16,6 @@ public class GroupCreateParameters
     public required int Grade { get; set; }
 
     /// <summary>
-    ///     Имеет ли разделение по подгруппам
-    /// </summary>
-    public required bool HasSubgroups { get; set; }
-
-    /// <summary>
     ///     Имеет ли четкое разделение на подгруппы
     /// </summary>
     public required bool HasFixedSubgroups { get; set; }

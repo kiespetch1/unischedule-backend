@@ -37,11 +37,6 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
             query = query.Where(x => x.Grade == parameters.Grade);
         }
 
-        if (parameters.HasSubgroups.HasValue)
-        {
-            query = query.Where(x => x.HasSubgroups == parameters.HasSubgroups);
-        }
-
         if (parameters.HasFixedSubgroups.HasValue)
         {
             query = query.Where(x => x.HasFixedSubgroups == parameters.HasFixedSubgroups);

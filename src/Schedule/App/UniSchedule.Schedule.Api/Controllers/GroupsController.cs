@@ -169,4 +169,28 @@ public class GroupsController(
     {
         await service.PromoteGroupsAsync(cancellationToken);
     }
+
+    /// <summary>
+    ///     Парсинг расписания по URL-адресу
+    /// </summary>
+    /// <param name="url">URL-адрес для парсинга расписания</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Список дней с расписанием в виде коллекции</returns>
+    /// <response code="200">Успешный парсинг расписания</response>
+    /// <response code="400">Некорректный URL-адрес или ошибка парсинга</response>
+    /// <response code="500">Непредвиденная ошибка сервера</response>
+    [HttpGet("parse-schedule")]
+    [ResponseStatusCodes(
+        HttpStatusCode.OK,
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.InternalServerError)]
+    public async Task<CollectionResult<DayParseModel>> ParseScheduleAsync(
+        [FromQuery] string url,
+        CancellationToken cancellationToken = default)
+    {
+        var parsedDays = await service.ParseWeeksAsync(url, cancellationToken);
+        var result = new CollectionResult<DayParseModel>(parsedDays, parsedDays.Count);
+
+        return result;
+    }
 }

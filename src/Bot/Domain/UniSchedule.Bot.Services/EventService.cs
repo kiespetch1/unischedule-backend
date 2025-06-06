@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,9 +10,9 @@ using UniSchedule.Bot.Entities.Settings;
 using UniSchedule.Bot.Entities.Vk;
 using UniSchedule.Bot.Services.Abstractions;
 using UniSchedule.Bot.Shared;
-using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Bot.Shared.Announcements;
 using UniSchedule.Entities.DTO;
+using UniSchedule.Schedule.Entities.Owned;
 
 namespace UniSchedule.Bot.Services;
 
@@ -41,7 +41,7 @@ public class EventService(
                 sb.AppendJoin(" ", $"\t{error.PropertyName}: {error.ErrorMessage}");
             }
 
-            Log.Error("{Message}", $"{sb} Событие: {parameters}");
+            Log.Error("{Sb} Событие: {Parameters}", sb, parameters);
 
             return "ok";
         }
@@ -63,8 +63,7 @@ public class EventService(
 
                 if (string.IsNullOrEmpty(message!.Text) || !message.Text.Contains("@all"))
                 {
-                    Log.Debug("{Message}", $"Не найдено ключевое слово. " +
-                                           $"Событие: {eventJson.RootElement}");
+                    Log.Debug("Не найдено ключевое слово. Событие: {EventJsonRootElement}", eventJson.RootElement);
                     return "ok";
                 }
 
@@ -72,9 +71,9 @@ public class EventService(
                     .SingleOrDefaultAsync(x => x.MessengerUserId == message.FromId, cancellationToken);
                 if (userMapping == null)
                 {
-                    Log.Debug("{Message}",
-                        $"Пользователь с идентификатором {message.FromId} не найден в базе. " +
-                        $"Событие: {eventJson.RootElement}");
+                    Log.Debug(
+                        "Пользователь с идентификатором {MessageFromId} не найден в базе. Событие: {EventJsonRootElement}",
+                        message.FromId, eventJson.RootElement);
                     return "ok";
                 }
 
@@ -82,8 +81,8 @@ public class EventService(
                     .SingleOrDefaultAsync(x => x.ConversationId == message.PeerId, cancellationToken);
                 if (groupMapping == null)
                 {
-                    Log.Debug("{Message}", $"Группа с идентификатором {message.PeerId} не найдена в базе. " +
-                                           $"Событие: {eventJson.RootElement}");
+                    Log.Debug("Группа с идентификатором {PeerId} не найдена в базе. Событие: {EventJsonRootElement}",
+                        message.PeerId, eventJson.RootElement);
                     return "ok";
                 }
 
@@ -112,15 +111,16 @@ public class EventService(
                     IsAddedUsingBot = true
                 };
                 await publisher.PublishAsync(data, cancellationToken);
-                Log.Debug("{Message}", $"Отправлено объявление с текстом \"{messageTrimmed}\", " +
-                                       $"для группы {groupId} от пользователя c идентификатором {userId}");
+                Log.Debug(
+                    "Отправлено объявление с текстом \"{MessageTrimmed}\", для группы {GroupId} от пользователя c идентификатором {UserId}",
+                    messageTrimmed, groupId, userId);
 
                 return "ok";
 
             case VkResponseType.MessageEdit:
             case VkResponseType.OutgoingMessage:
             default:
-                Log.Debug("{Message}", $"Неподдерживаемый тип события: {parameters}");
+                Log.Debug("Неподдерживаемый тип события: {Parameters}", parameters);
                 return "ok";
         }
     }

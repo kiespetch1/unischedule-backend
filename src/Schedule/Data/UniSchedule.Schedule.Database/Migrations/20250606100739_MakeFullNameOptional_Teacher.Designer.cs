@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UniSchedule.Schedule.Database;
@@ -12,9 +13,11 @@ using UniSchedule.Schedule.Database;
 namespace UniSchedule.Schedule.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250606100739_MakeFullNameOptional_Teacher")]
+    partial class MakeFullNameOptional_Teacher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,6 +174,9 @@ namespace UniSchedule.Schedule.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("HasFixedSubgroups")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasSubgroups")
                         .HasColumnType("boolean");
 
                     b.Property<int>("LastAcademicWeekNumber")

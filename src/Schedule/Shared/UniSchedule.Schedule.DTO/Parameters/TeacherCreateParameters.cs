@@ -13,5 +13,5 @@ public class TeacherCreateParameters
     /// <summary>
     ///     Полное ФИО преподавателя
     /// </summary>
-    public required string FullName { get; set; }
+    public string? FullName { get; set; }
 }

@@ -1,24 +1,23 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Shared.DTO.Parameters;
 using UniSchedule.Validation;
+using Group = UniSchedule.Schedule.Entities.Group;
 
 namespace UniSchedule.Schedule.Commands.Validators;
 
 /// <summary>
 ///     Валидатор параметров импорта расписания
 /// </summary>
-public class ClassScheduleParametersValidator : ValidatorBase<ClassScheduleImportParameters>
+public class ClassScheduleImportParametersValidator : ValidatorBase<ClassScheduleImportParameters>
 {
     /// <summary />
-    public ClassScheduleParametersValidator(DatabaseContext context) : base(context)
+    public ClassScheduleImportParametersValidator(DatabaseContext context) : base(context)
     {
         RuleFor(x => x.GroupId)
             .NotEmpty()
             .WithMessage("Идентификатор группы не должен быть пустым")
-            .MustAsync(async (groupId, cancellationToken) =>
-                await context.Groups.AnyAsync(g => g.Id == groupId, cancellationToken))
+            .Must(IsExist<Group, Guid>)
             .WithMessage(x => $"Группа с идентификатором '{x.GroupId}' не найдена");
 
         RuleFor(x => x.Url)

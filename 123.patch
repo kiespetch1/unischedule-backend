@@ -1,0 +1,276 @@
+diff --git a/src/Schedule/App/UniSchedule.Schedule.Api/Controllers/GroupsController.cs b/src/Schedule/App/UniSchedule.Schedule.Api/Controllers/GroupsController.cs
+index 56b871ff04c785d37758edccd64a431081a3578d..07289c715b65aae315b5b1d696f3c905b2deba95 100644
+--- a/src/Schedule/App/UniSchedule.Schedule.Api/Controllers/GroupsController.cs
++++ b/src/Schedule/App/UniSchedule.Schedule.Api/Controllers/GroupsController.cs
+@@ -171,26 +171,51 @@ public class GroupsController(
+     }
+ 
+     /// <summary>
+     ///     Парсинг расписания по URL-адресу
+     /// </summary>
+     /// <param name="url">URL-адрес для парсинга расписания</param>
+     /// <param name="cancellationToken">Токен отмены</param>
+     /// <returns>Список дней с расписанием в виде коллекции</returns>
+     /// <response code="200">Успешный парсинг расписания</response>
+     /// <response code="400">Некорректный URL-адрес или ошибка парсинга</response>
+     /// <response code="500">Непредвиденная ошибка сервера</response>
+     [HttpGet("parse-schedule")]
+     [ResponseStatusCodes(
+         HttpStatusCode.OK,
+         HttpStatusCode.BadRequest,
+         HttpStatusCode.InternalServerError)]
+     public async Task<CollectionResult<DayParseModel>> ParseScheduleAsync(
+         [FromQuery] string url,
+         CancellationToken cancellationToken = default)
+     {
+         var parsedDays = await service.ParseWeeksAsync(url, cancellationToken);
+         var result = new CollectionResult<DayParseModel>(parsedDays, parsedDays.Count);
+ 
+         return result;
+     }
++
++    /// <summary>
++    ///     Заполнение расписания группы по ссылке
++    /// </summary>
++    /// <param name="groupId">Идентификатор группы</param>
++    /// <param name="url">URL-адрес страницы расписания</param>
++    /// <param name="cancellationToken">Токен отмены</param>
++    /// <response code="200">Расписание успешно обновлено</response>
++    /// <response code="401">Пользователь не авторизован</response>
++    /// <response code="404">Группа не найдена</response>
++    /// <response code="500">Непредвиденная ошибка</response>
++    [HttpPatch("fill-schedule/{group_id}")]
++    [ResponseStatusCodes(
++        HttpStatusCode.OK,
++        HttpStatusCode.Unauthorized,
++        HttpStatusCode.NotFound,
++        HttpStatusCode.InternalServerError)]
++    [Authorize(RoleOption.Admin, RoleOption.GroupLeader, RoleOption.Staff)]
++    public async Task FillWeeksAsync(
++        [FromRoute(Name = "group_id")] Guid groupId,
++        [FromQuery] string url,
++        CancellationToken cancellationToken = default)
++    {
++        await service.FillWeeksAsync(groupId, url, cancellationToken);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/Schedule/Domain/UniSchedule.Schedule.Services/Abstractions/IGroupService.cs b/src/Schedule/Domain/UniSchedule.Schedule.Services/Abstractions/IGroupService.cs
+index bc22f075a8a3c2207881af86152968481b9226a1..8b085f2f5f517d912c846434507733ee44255537 100644
+--- a/src/Schedule/Domain/UniSchedule.Schedule.Services/Abstractions/IGroupService.cs
++++ b/src/Schedule/Domain/UniSchedule.Schedule.Services/Abstractions/IGroupService.cs
+@@ -1,24 +1,32 @@
+ using UniSchedule.Shared.DTO.Models;
+ 
+ namespace UniSchedule.Schedule.Services.Abstractions;
+ 
+ /// <summary>
+ ///     Сервис для работы с группами
+ /// </summary>
+ public interface IGroupService
+ {
+     /// <summary>
+     ///     Обновление курса для всех групп
+     /// </summary>
+     /// <param name="cancellationToken">Токен отмены</param>
+     /// <returns>Задача</returns>
+     Task PromoteGroupsAsync(CancellationToken cancellationToken = default);
+ 
+     /// <summary>
+     ///     Парсинг расписания
+     /// </summary>
+     /// <param name="url">Ссылка</param>
+     /// <param name="cancellationToken">Токен отмены</param>
+     /// <returns></returns>
+     public Task<List<DayParseModel>> ParseWeeksAsync(string url, CancellationToken cancellationToken = default);
++
++    /// <summary>
++    ///     Заполнение расписания группы из внешнего источника
++    /// </summary>
++    /// <param name="groupId">Идентификатор группы</param>
++    /// <param name="url">Ссылка на страницу расписания</param>
++    /// <param name="cancellationToken">Токен отмены</param>
++    Task FillWeeksAsync(Guid groupId, string url, CancellationToken cancellationToken = default);
+ }
+\ No newline at end of file
+diff --git a/src/Schedule/Domain/UniSchedule.Schedule.Services/GroupService.cs b/src/Schedule/Domain/UniSchedule.Schedule.Services/GroupService.cs
+index d937e2b4abdbcf00af6956aff88054f8f648805c..97707048d523a040ce5a8c95edde144831d17c47 100644
+--- a/src/Schedule/Domain/UniSchedule.Schedule.Services/GroupService.cs
++++ b/src/Schedule/Domain/UniSchedule.Schedule.Services/GroupService.cs
+@@ -1,28 +1,29 @@
+ using System.Text.RegularExpressions;
+ using AngleSharp;
+ using Microsoft.EntityFrameworkCore;
++using UniSchedule.Extensions.Collections;
+ using Serilog;
+ using UniSchedule.Schedule.Database;
+ using UniSchedule.Schedule.Entities;
+ using UniSchedule.Schedule.Entities.Enums;
+ using UniSchedule.Schedule.Services.Abstractions;
+ using UniSchedule.Shared.DTO.Models;
+ 
+ namespace UniSchedule.Schedule.Services;
+ 
+ /// <summary>
+ ///     Сервис для работы с группами
+ /// </summary>
+ public partial class GroupService(DatabaseContext context, IBrowsingContext browsingContext) : IGroupService
+ {
+     /// <inheritdoc />
+     public async Task PromoteGroupsAsync(CancellationToken cancellationToken = default)
+     {
+         var groups = await context.Groups
+             .Where(x => x.Grade < 5)
+             .ToListAsync(cancellationToken);
+ 
+         foreach (var group in groups)
+         {
+             group.Grade++;
+         }
+@@ -190,50 +191,146 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
+         };
+     }
+ 
+     private static ClassType ParseClassType(string lessonType)
+     {
+         return lessonType switch
+         {
+             "пр" => ClassType.Practice,
+             "лек" => ClassType.Lecture,
+             "лаб" => ClassType.LabWork,
+             _ => throw new ArgumentOutOfRangeException(nameof(lessonType), lessonType, null)
+         };
+     }
+ 
+     private static WeekType ParseWeekType(string title)
+     {
+         return title switch
+         {
+             "Еженедельно" => WeekType.Every,
+             "Нечётная неделя" => WeekType.Odd,
+             "Чётная неделя" => WeekType.Even,
+             _ => throw new ArgumentOutOfRangeException(nameof(title), title, null)
+         };
+     }
+ 
++    /// <summary>
++    ///     Заполнение расписания группы по ссылке
++    /// </summary>
++    /// <param name="groupId">Идентификатор группы</param>
++    /// <param name="url">Ссылка на страницу с расписанием</param>
++    /// <param name="cancellationToken">Токен отмены</param>
++    public async Task FillWeeksAsync(
++        Guid groupId,
++        string url,
++        CancellationToken cancellationToken = default)
++    {
++        var group = await context.Groups
++            .Include(g => g.Weeks)
++            .ThenInclude(w => w.Days)
++            .ThenInclude(d => d.Classes)
++            .SingleOrNotFoundAsync(groupId, cancellationToken);
++
++        // очистка существующих пар
++        foreach (var day in group.Weeks.SelectMany(w => w.Days))
++        {
++            day.Classes.Clear();
++        }
++
++        var parsedDays = await ParseWeeksAsync(url, cancellationToken);
++
++        var weeks = group.Weeks.ToDictionary(x => (x.Type, x.Subgroup));
++
++        foreach (var parsedDay in parsedDays)
++        {
++            foreach (var parsedClass in parsedDay.Classes)
++            {
++                IEnumerable<Week> targetWeeks;
++
++                if (!group.HasFixedSubgroups)
++                {
++                    targetWeeks = parsedClass.WeekType switch
++                    {
++                        WeekType.Every => new[]
++                        {
++                            weeks[(WeekType.Even, Subgroup.None)],
++                            weeks[(WeekType.Odd, Subgroup.None)]
++                        },
++                        WeekType.Even => new[] { weeks[(WeekType.Even, Subgroup.None)] },
++                        WeekType.Odd => new[] { weeks[(WeekType.Odd, Subgroup.None)] },
++                        _ => Array.Empty<Week>()
++                    };
++                }
++                else
++                {
++                    targetWeeks = parsedClass.Subgroup switch
++                    {
++                        Subgroup.None => parsedClass.WeekType switch
++                        {
++                            WeekType.Every => weeks.Values,
++                            WeekType.Even => weeks.Values.Where(w => w.Type == WeekType.Even),
++                            WeekType.Odd => weeks.Values.Where(w => w.Type == WeekType.Odd),
++                            _ => Array.Empty<Week>()
++                        },
++                        _ => parsedClass.WeekType switch
++                        {
++                            WeekType.Every => new[]
++                            {
++                                weeks[(WeekType.Even, parsedClass.Subgroup)],
++                                weeks[(WeekType.Odd, parsedClass.Subgroup)]
++                            },
++                            _ => new[] { weeks[(parsedClass.WeekType, parsedClass.Subgroup)] }
++                        }
++                    };
++                }
++
++                foreach (var week in targetWeeks)
++                {
++                    var day = week.Days.Single(d => d.DayOfWeek == parsedDay.DayOfWeek);
++
++                    var entity = new Class
++                    {
++                        Name = parsedClass.Name,
++                        StartedAt = parsedClass.StartedAt,
++                        FinishedAt = parsedClass.FinishedAt,
++                        Type = parsedClass.Type,
++                        WeekType = parsedClass.WeekType,
++                        Subgroup = parsedClass.Subgroup,
++                        IsCancelled = false,
++                        LocationId = parsedClass.LocationId,
++                        TeacherId = parsedClass.TeacherId
++                    };
++
++                    context.Classes.Add(entity);
++                    day.Classes.Add(entity);
++                }
++            }
++        }
++
++        await context.SaveChangesAsync(cancellationToken);
++    }
++
+     private async Task<Guid> GetOrCreateTeacherId(string teacherName, CancellationToken cancellationToken = default)
+     {
+         var existingTeacher =
+             await context.Teachers.SingleOrDefaultAsync(x => x.Name == teacherName, cancellationToken);
+ 
+         if (existingTeacher == null)
+         {
+             var newTeacher = new Teacher { Name = teacherName };
+             await context.Teachers.AddAsync(newTeacher, cancellationToken);
+             await context.SaveChangesAsync(cancellationToken);
+ 
+             return newTeacher.Id;
+         }
+ 
+         return existingTeacher.Id;
+     }
+ 
+     private async Task<Guid> GetOrCreateLocationId(string locationName, CancellationToken cancellationToken = default)
+     {
+         var existingLocation =
+             await context.Locations.SingleOrDefaultAsync(x => x.Name == locationName, cancellationToken);
+ 
+         if (existingLocation == null)
+         {
+             var newLocation = new Location { Name = locationName, Type = LocationType.Irl };

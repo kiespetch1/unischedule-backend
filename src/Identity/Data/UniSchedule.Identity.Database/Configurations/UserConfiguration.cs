@@ -15,7 +15,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(x => x.Id);
 
         builder.OwnsOne(x => x.Password);
-        
-        builder.HasOne(x => x.Group);
+
+        builder.HasOne(x => x.Group)
+            .WithMany()
+            .HasForeignKey(x => x.GroupId)
+            .OnDelete(DeleteBehavior.SetNull); 
     }
 }

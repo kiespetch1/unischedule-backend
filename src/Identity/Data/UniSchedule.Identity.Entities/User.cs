@@ -44,12 +44,12 @@ public class User : Entity<Guid>
     /// <summary>
     ///     Группа
     /// </summary>
-    public Group Group { get; set; }
+    public Group? Group { get; set; }
 
     /// <summary>
     ///     Идентификатор группы
     /// </summary>
-    public Guid GroupId { get; set; }
+    public Guid? GroupId { get; set; }
 
     /// <summary>
     ///     Список идентификаторов групп, которыми управляет пользователь

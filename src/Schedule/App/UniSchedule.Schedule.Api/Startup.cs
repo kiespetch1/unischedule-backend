@@ -44,6 +44,7 @@ public class Startup(IConfiguration configuration)
         services.AddScoped<IDbContextAccessor, DbContextAccessor<DatabaseContext>>();
         services.AddSyncData<GroupsSyncService>();
         var rabbitMqSettings = configuration.GetSectionAs<RabbitMqSettings>();
+        services.AddDataSeeder<DataSeeder, DatabaseContext>();
         services.AddRabbitMq(rabbitMqSettings, configure =>
         {
             configure.AddPublisher<EventsPublisher, EventCreateParameters>();

@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Abstractions.Helpers\UniSchedule.Abstractions.Helpers.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.DI\UniSchedule.Extensions.DI.csproj"/>
         <ProjectReference Include="..\..\..\Shared\UniSchedule.Extensions.Helpers\UniSchedule.Extensions.Helpers.csproj" />
         <ProjectReference Include="..\UniSchedule.Schedule.Entities\UniSchedule.Schedule.Entities.csproj"/>
     </ItemGroup>
@@ -19,6 +20,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.12"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11"/>
+        <PackageReference Include="Serilog" Version="4.3.0"/>
     </ItemGroup>
 
     <ItemGroup>

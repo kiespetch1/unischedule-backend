@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using UniSchedule.Entities;
 using UniSchedule.Extensions.Basic;
 using UniSchedule.Extensions.Collections;
@@ -32,6 +33,7 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
     /// </summary>
     private async Task SeedRolesAsync()
     {
+        Log.Information("Инициализация ролей...");
         var existingEntities = await context.Roles
             .ToListAsync();
         var entities = Enum.GetValues<RoleOption>()
@@ -39,10 +41,13 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
             .ToList();
 
         var entitiesToCreate = entities.Where(a =>
-            !existingEntities.Select(x => x.Name).Contains(a.Name));
+            !existingEntities.Select(x => x.Name).Contains(a.Name)).ToList();
         var entitiesToUpdate = existingEntities
             .Where(a => entities.Select(x => x.Name).Contains(a.Name))
-            .Select(a => UpdateDefaultRole(a, entities.Single(x => a.Name == x.Name)));
+            .Select(a => UpdateDefaultRole(a, entities.Single(x => a.Name == x.Name))).ToList();
+
+        Log.Information("Создание {rolesToUpdateCount} ролей", entitiesToCreate.Count);
+        Log.Information("Обновление {rolesToCreateCount} ролей", entitiesToUpdate.Count);
 
         await context.Roles.AddRangeAsync(entitiesToCreate);
         context.Roles.UpdateRange(entitiesToUpdate);
@@ -70,9 +75,11 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
     /// </summary>
     private async Task SeedGroupsAsync()
     {
+        Log.Information("Инициализация групп...");
         var groupExists = await context.Groups.AnyAsync(g => g.Id == mainGroupId);
         if (!groupExists)
         {
+            Log.Information("Создание группы ИВТ-Б21");
             var ivtB21Group = new Group { Id = mainGroupId, Name = "ИВТ-Б21" };
             await context.Groups.AddAsync(ivtB21Group);
             await context.SaveChangesAsync();
@@ -86,9 +93,11 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
     /// </summary>
     private async Task SeedUsersAsync()
     {
+        Log.Information("Инициализация пользователей...");
         var isExists = await context.Users.AnyAsync();
         if (!isExists)
         {
+            Log.Information("Создание пользователей...");
             var roles = await context.Roles
                 .ToArrayAsync();
 
@@ -115,6 +124,7 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
         var salt = PasswordUtils.GenerateSequence();
         var role = roles.Single(x => x.Name == RoleOption.Admin.ToString());
 
+        Log.Information("Создание администратора...");
         var user = new User
         {
             Surname = "Админов",
@@ -140,7 +150,8 @@ public class DataSeeder(DatabaseContext context, AdminCredentials credentials)
     private User CreateTestUser(Role[] roles, Guid groupId)
     {
         var salt = PasswordUtils.GenerateSequence();
-        var role = roles.Single(x => x.Name == RoleOption.Admin.ToString()); // Test user is also Admin for now
+        var role = roles.Single(x => x.Name == RoleOption.Admin.ToString());
+        Log.Information("Создание тестового пользователя...");
 
         var user = new User
         {

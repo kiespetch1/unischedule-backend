@@ -1,5 +1,4 @@
 using UniSchedule.Abstractions.Queries;
-using UniSchedule.Shared.DTO.Models;
 
 namespace UniSchedule.Shared.DTO.Parameters;
 
@@ -19,7 +18,7 @@ public class AnnouncementQueryParameters : QueryParameters
     public bool? IsAnonymous { get; set; }
 
     /// <summary>
-    ///     Информация о получателях
+    ///     Идентификатор группы целевой аудитории
     /// </summary>
-    public AnnouncementTargetModel? Target { get; set; }
+    public Guid? GroupId { get; set; } 
 }

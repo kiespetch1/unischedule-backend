@@ -8,30 +8,30 @@ public class AnnouncementTargetInfo
     /// <summary>
     ///     Включенные курсы
     /// </summary>
-    public List<int>? IncludedGrades { get; set; }
+    public required List<int> IncludedGrades { get; set; }
 
     /// <summary>
-    ///     Включенный набор групп
+    ///     Включенные группы
     /// </summary>
-    public List<Guid>? IncludedGroups { get; set; }
+    public required List<Guid> IncludedGroups { get; set; }
 
     /// <summary>
     ///     Включенные кафедры
     /// </summary>
-    public List<Guid>? IncludedDepartments { get; set; }
+    public required List<Guid> IncludedDepartments { get; set; }
 
     /// <summary>
     ///     Исключенные курсы
     /// </summary>
-    public List<int>? ExcludedGrades { get; set; }
+    public required List<int> ExcludedGrades { get; set; }
 
     /// <summary>
-    ///     Исключенный набор групп
+    ///     Исключенные группы
     /// </summary>
-    public List<Guid>? ExcludedGroups { get; set; }
+    public required List<Guid> ExcludedGroups { get; set; }
 
     /// <summary>
     ///     Исключенные кафедры
     /// </summary>
-    public List<Guid>? ExcludedDepartments { get; set; }
+    public required List<Guid> ExcludedDepartments { get; set; }
 }

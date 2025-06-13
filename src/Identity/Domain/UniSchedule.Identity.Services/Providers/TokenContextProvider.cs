@@ -18,7 +18,8 @@ public class TokenContextProvider : ITokenContextProvider
             Patronymic = user.Patronymic,
             Email = user.Email,
             GroupId = user.GroupId,
-            Role = user.Role
+            Role = user.Role,
+            ManagedGroupIds = user.ManagedGroupIds
         };
 
         return tokenContext;

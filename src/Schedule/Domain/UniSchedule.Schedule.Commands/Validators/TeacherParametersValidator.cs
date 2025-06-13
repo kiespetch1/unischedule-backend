@@ -17,10 +17,6 @@ public class TeacherParametersValidator<TParams> : ValidatorBase<TParams>
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("ФИО преподавателя не может быть пустым");
-
-        RuleFor(x => x.FullName)
-            .NotEmpty()
-            .WithMessage("Полное ФИО преподавателя не может быть пустым");
     }
 }
 

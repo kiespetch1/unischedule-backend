@@ -46,43 +46,23 @@ public class AnnouncementQuery(DatabaseContext context)
     {
         var query = BaseQuery;
 
-        if (parameters.Target is not null)
+        if (parameters.GroupId != null)
         {
-            if (parameters.Target.IncludedGrades is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.IncludedGrades!.Any(pt => parameters.Target.IncludedGrades.Contains(pt)));
-            }
+            var group = await context.Groups.SingleOrNotFoundAsync(x => x.Id == parameters.GroupId, cancellationToken);
 
-            if (parameters.Target.ExcludedGrades is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.ExcludedGrades!.Any(pt => parameters.Target.ExcludedGrades.Contains(pt)));
-            }
-
-            if (parameters.Target.IncludedGroups is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.IncludedGroups!.Any(pt => parameters.Target.IncludedGroups.Contains(pt)));
-            }
-
-            if (parameters.Target.ExcludedGroups is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.ExcludedGroups!.Any(pt => parameters.Target.ExcludedGroups.Contains(pt)));
-            }
-
-            if (parameters.Target.IncludedDepartments is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.IncludedDepartments!.Any(pt => parameters.Target.IncludedDepartments.Contains(pt)));
-            }
-
-            if (parameters.Target.ExcludedDepartments is { Count: > 0 })
-            {
-                query = query.Where(x =>
-                    x.Target!.ExcludedDepartments!.Any(pt => parameters.Target.ExcludedDepartments.Contains(pt)));
-            }
+            query = query.Where(a =>
+                // если все еще доступно по временному ограничению
+                (!a.IsTimeLimited || a.AvailableUntil > DateTime.UtcNow)
+                &&
+                (
+                    //  есть хоть одно попадание в включение
+                    a.Target.IncludedGroups.Any(x => x == parameters.GroupId) ||
+                    a.Target.IncludedGrades.Any(x => x == group.Grade)
+                    ||
+                    //  нет совпадений ни в одном исключении
+                    (a.Target.ExcludedGroups.All(x => x != parameters.GroupId) &&
+                     a.Target.ExcludedGrades.All(x => x != group.Grade))
+                ));
         }
 
         if (!string.IsNullOrEmpty(parameters.Search))

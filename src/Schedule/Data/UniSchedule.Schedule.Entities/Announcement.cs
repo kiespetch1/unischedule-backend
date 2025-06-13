@@ -19,22 +19,22 @@ public class Announcement : AuditableEntity<Guid>
     /// <summary>
     ///     Информация о получателях
     /// </summary>
-    public AnnouncementTargetInfo? Target { get; set; }
+    public required AnnouncementTargetInfo Target { get; set; }
 
     /// <summary>
     ///     Приоритет
     /// </summary>
-    public AnnouncementPriority Priority { get; set; }
+    public required AnnouncementPriority Priority { get; set; }
 
     /// <summary>
     ///     Является ли анонимным
     /// </summary>
-    public bool IsAnonymous { get; set; }
+    public required bool IsAnonymous { get; set; }
 
     /// <summary>
     ///     Является ли доступным ограниченное время
     /// </summary>
-    public bool IsTimeLimited { get; set; }
+    public required bool IsTimeLimited { get; set; }
 
     /// <summary>
     ///     Дата истечения доступности

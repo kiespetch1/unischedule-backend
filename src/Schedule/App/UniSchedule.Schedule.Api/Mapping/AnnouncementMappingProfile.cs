@@ -1,5 +1,6 @@
 using UniSchedule.Extensions.Mapping;
 using UniSchedule.Schedule.Entities;
+using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Shared.DTO.Models;
 
 namespace UniSchedule.Schedule.Api.Mapping;
@@ -14,7 +15,9 @@ public class AnnouncementMappingProfile : MappingProfileBase
         CreateMap<Announcement, AnnouncementModel>()
             .ForMember(x => x.CreatedBy, opt => opt.MapFrom(x => x.Creator))
             .ForMember(x => x.UpdatedBy, opt => opt.MapFrom(x => x.Updater));
+        CreateMap<AnnouncementTargetInfo, AnnouncementTargetModel>();
 
+        CreateMapForCollectionResult<AnnouncementTargetInfo, AnnouncementTargetModel>();
         CreateMapForCollectionResult<Announcement, AnnouncementModel>();
     }
 }

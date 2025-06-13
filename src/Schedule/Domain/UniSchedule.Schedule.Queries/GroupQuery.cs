@@ -30,7 +30,7 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
         GroupQueryParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        var query = Query;
+        var query = parameters.FetchDetails == false ? BaseQuery : Query;
 
         if (parameters.Grade.HasValue)
         {
@@ -40,6 +40,11 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
         if (parameters.HasFixedSubgroups.HasValue)
         {
             query = query.Where(x => x.HasFixedSubgroups == parameters.HasFixedSubgroups);
+        }
+
+        if (parameters.Ids is { Count: > 0 })
+        {
+            query = query.Where(x => parameters.Ids.Contains(x.Id));
         }
 
         return await query.ToCollectionResultAsync(parameters, cancellationToken);
@@ -52,23 +57,18 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
 
         var announcements = await context.Announcements
             .Where(a =>
+                // если все еще доступно по временному ограничению
                 (!a.IsTimeLimited || a.AvailableUntil > DateTime.UtcNow)
-                && (
-                    a.Target == null
-                    || (
-                        (a.Target.IncludedGroups == null
-                         || a.Target.IncludedGroups.Contains(group.Id))
-                        && (a.Target.ExcludedGroups == null
-                            || !a.Target.ExcludedGroups.Contains(group.Id))
-                    )
-                    || (
-                        (a.Target.IncludedGrades == null
-                         || a.Target.IncludedGrades.Contains(group.Grade))
-                        && (a.Target.ExcludedGrades == null
-                            || !a.Target.ExcludedGrades.Contains(group.Grade))
-                    )
-                )
-            )
+                &&
+                (
+                    //  есть хоть одно попадание в включение
+                    a.Target.IncludedGroups.Any(x => x == group.Id) ||
+                    a.Target.IncludedGrades.Any(x => x == group.Grade)
+                    ||
+                    //  нет совпадений ни в одном исключении
+                    (a.Target.ExcludedGroups.All(x => x != group.Id) &&
+                     a.Target.ExcludedGrades.All(x => x != group.Grade))
+                ))
             .OrderByDescending(a => a.CreatedAt)
             .ToListAsync(cancellationToken);
 

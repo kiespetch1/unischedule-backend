@@ -49,7 +49,7 @@ public static class ClaimsUtils
             .Where(claim => claim.Type == ClaimTypes.ManagedGroupIds)
             .Select(claim => Guid.Parse(claim.Value))
             .ToList();
-        var groupId = Guid.Parse(claims.Single(claim => claim.Type.Contains(ClaimTypes.GroupId)).Value);
+        var groupId = Guid.Parse(claims.Single(claim => claim.Type == ClaimTypes.GroupId).Value);
 
         var rawRole = claims
                           .SingleOrDefault(c =>

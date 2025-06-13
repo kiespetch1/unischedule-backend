@@ -8,6 +8,11 @@ namespace UniSchedule.Shared.DTO.Parameters;
 public class GroupQueryParameters : QueryParameters
 {
     /// <summary>
+    ///     Идентификаторы групп
+    /// </summary>
+    public List<Guid>? Ids { get; set; }
+    
+    /// <summary>
     ///     Курс
     /// </summary>
     public int? Grade { get; set; }
@@ -16,4 +21,9 @@ public class GroupQueryParameters : QueryParameters
     ///     Имеет ли четкое разделение на подгруппы
     /// </summary>
     public bool? HasFixedSubgroups { get; set; }
+
+    /// <summary>
+    ///     Подгружать ли вложенные сущности
+    /// </summary>
+    public bool FetchDetails { get; set; } = true;
 }

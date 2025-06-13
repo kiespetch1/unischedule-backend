@@ -18,6 +18,11 @@ public class AnnouncementModel
     public required string Message { get; set; }
 
     /// <summary>
+    ///     Информация о получателях
+    /// </summary>
+    public AnnouncementTargetModel? Target { get; set; }
+
+    /// <summary>
     ///     Приоритет
     /// </summary>
     public AnnouncementPriority Priority { get; set; }
@@ -26,6 +31,16 @@ public class AnnouncementModel
     ///     Является ли анонимным
     /// </summary>
     public bool IsAnonymous { get; set; }
+
+    /// <summary>
+    ///     Является ли доступным ограниченное время
+    /// </summary>
+    public bool IsTimeLimited { get; set; }
+
+    /// <summary>
+    ///     Дата истечения доступности
+    /// </summary>
+    public DateTime? AvailableUntil { get; set; }
 
     /// <summary>
     ///     Добавлено ли через бота

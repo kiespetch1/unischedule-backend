@@ -29,6 +29,8 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
             group.Grade++;
         }
 
+        await context.FilteringInfo.ExecuteDeleteAsync(cancellationToken);
+
         await context.SaveChangesAsync(cancellationToken);
     }
 

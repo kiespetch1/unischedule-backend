@@ -62,10 +62,10 @@ public class GroupQuery(
 
         if (group.HasFixedSubgroups == false && userContext.IsAuthenticated)
         {
-            var filteringOptions = await context.FilteringInfo
-                .SingleOrDefaultAsync(x => x.CreatedBy == userContext.Id, cancellationToken);
+            var filteringOptions = await context.FilteringInfo.Where(x => x.CreatedBy == userContext.Id)
+                .ToListAsync(cancellationToken);
 
-            if (filteringOptions != null)
+            if (filteringOptions.Count > 0)
             {
                 foreach (var week in group.Weeks)
                 {
@@ -73,10 +73,10 @@ public class GroupQuery(
                     {
                         foreach (var @class in day.Classes)
                         {
-                            if (filteringOptions.ClassName == @class.Name &&
-                                (@class.Subgroup != Subgroup.None ||
-                                 @class.Subgroup !=
-                                 filteringOptions.Subgroup))
+                            if (filteringOptions.Any(opt =>
+                                    opt.ClassName == @class.Name &&
+                                    (@class.Subgroup != Subgroup.None ||
+                                     @class.Subgroup == opt.Subgroup)))
                             {
                                 @class.IsHidden = true;
                             }

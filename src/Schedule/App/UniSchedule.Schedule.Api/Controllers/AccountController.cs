@@ -18,7 +18,7 @@ namespace UniSchedule.Schedule.Api.Controllers;
 [ApiController]
 [Route("api/v1/[controller]")]
 public class AccountController(
-    IPreferenceService preferenceService,
+    IPreferencesService preferencesService,
     IUserContextProvider userContextProvider,
     IMultipleQuery<ScheduleFilteringOption, ScheduleFilteringQueryParameters> getFiltering,
     ISingleQuery<ScheduleFilteringOption, Guid> getFilteringById,
@@ -97,7 +97,8 @@ public class AccountController(
         [FromBody] ScheduleFilteringParameters parameters,
         CancellationToken cancellationToken = default)
     {
-        await preferenceService.SetMultipleAsync(parameters, cancellationToken);
+        var userId = userContextProvider.GetContext().Id;
+        await preferencesService.SetMultipleAsync(parameters, userId, cancellationToken);
     }
 
     /// <summary>
@@ -119,6 +120,6 @@ public class AccountController(
         CancellationToken cancellationToken = default)
     {
         var userId = userContextProvider.GetContext().Id;
-        await preferenceService.DeleteAsync(id, userId, cancellationToken);
+        await preferencesService.DeleteAsync(id, userId, cancellationToken);
     }
 }

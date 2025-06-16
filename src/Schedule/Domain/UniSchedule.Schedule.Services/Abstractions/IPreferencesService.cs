@@ -5,15 +5,17 @@ namespace UniSchedule.Schedule.Services.Abstractions;
 /// <summary>
 ///     Интерфейс сервиса для работы с персональной фильтрацией
 /// </summary>
-public interface IPreferenceService
+public interface IPreferencesService
 {
     /// <summary>
     ///     Устанавливает предпочтения фильтрации для пользователя
     /// </summary>
     /// <param name="parameters">Параметры фильтрации</param>
+    /// <param name="userId">Идентификатор пользователя</param>
     /// <param name="cancellationToken">Токен отмены</param>
     Task SetMultipleAsync(
         ScheduleFilteringParameters parameters,
+        Guid userId,
         CancellationToken cancellationToken = default);
 
     /// <summary>

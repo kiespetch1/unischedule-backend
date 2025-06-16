@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<IGroupService, GroupService>();
-        services.AddScoped<IPreferenceService, PreferenceService>();
+        services.AddScoped<IPreferencesService, PreferencesService>();
 
         return services;
     }

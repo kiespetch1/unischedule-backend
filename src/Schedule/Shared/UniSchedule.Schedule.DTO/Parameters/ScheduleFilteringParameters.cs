@@ -8,5 +8,5 @@ public class ScheduleFilteringParameters
     /// <summary>
     ///     Список параметров фильтрации
     /// </summary>
-    public required List<ScheduleFilteringModel> FilteringParameters { get; set; }
+    public required List<ScheduleFilteringCreateParameters> FilteringParameters { get; set; }
 }

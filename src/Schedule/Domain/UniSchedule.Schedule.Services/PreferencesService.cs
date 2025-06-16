@@ -1,4 +1,5 @@
-﻿using UniSchedule.Extensions.Collections;
+﻿using Microsoft.EntityFrameworkCore;
+using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Exceptions;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
@@ -10,12 +11,21 @@ namespace UniSchedule.Schedule.Services;
 /// <summary>
 ///     Сервис для работы с персональной фильтрацией
 /// </summary>
-public class PreferenceService(DatabaseContext context) : IPreferenceService
+public class PreferencesService(DatabaseContext context) : IPreferencesService
 {
     public async Task SetMultipleAsync(
         ScheduleFilteringParameters parameters,
+        Guid userId,
         CancellationToken cancellationToken = default)
     {
+        var ids = context.FilteringInfo
+            .Where(p => p.CreatedBy == userId)
+            .Select(x => x.CreatedBy)
+            .ToList();
+        await context.FilteringInfo
+            .Where(x => ids.Contains(x.CreatedBy!.Value))
+            .ExecuteDeleteAsync(cancellationToken);
+
         foreach (var parameter in parameters.FilteringParameters)
         {
             context.FilteringInfo.Add(new ScheduleFilteringOption

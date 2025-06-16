@@ -59,6 +59,11 @@ public class DatabaseContext(
     /// </summary>
     public DbSet<User> Users { get; set; }
 
+    /// <summary>
+    ///     Информация о фильтрации
+    /// </summary>
+    public DbSet<ScheduleFilteringOption> FilteringInfo { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

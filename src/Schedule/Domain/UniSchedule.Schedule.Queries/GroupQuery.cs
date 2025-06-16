@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using UniSchedule.Abstractions.Helpers.Identity;
 using UniSchedule.Abstractions.Queries;
 using UniSchedule.Extensions.Collections;
 using UniSchedule.Extensions.Data;
 using UniSchedule.Schedule.Database;
 using UniSchedule.Schedule.Entities;
+using UniSchedule.Schedule.Entities.Enums;
 using UniSchedule.Schedule.Entities.Owned;
 using UniSchedule.Shared.DTO.Parameters;
 
@@ -12,7 +14,9 @@ namespace UniSchedule.Schedule.Queries;
 /// <summary>
 ///     Запросы для работы с группами
 /// </summary>
-public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQueryParameters>(context)
+public class GroupQuery(
+    DatabaseContext context,
+    IUserContextProvider userContextProvider) : EFQuery<Group, Guid, GroupQueryParameters>(context)
 {
     /// <summary />
     private IQueryable<Group> Query => BaseQuery
@@ -53,7 +57,34 @@ public class GroupQuery(DatabaseContext context) : EFQuery<Group, Guid, GroupQue
     /// <inheritdoc />
     public override async Task<Group> ExecuteAsync(Guid id, CancellationToken cancellationToken = default)
     {
+        var userContext = userContextProvider.GetContext();
         var group = await Query.SingleOrNotFoundAsync(id, cancellationToken);
+
+        if (group.HasFixedSubgroups == false && userContext.IsAuthenticated)
+        {
+            var filteringOptions = await context.FilteringInfo
+                .SingleOrDefaultAsync(x => x.CreatedBy == userContext.Id, cancellationToken);
+
+            if (filteringOptions != null)
+            {
+                foreach (var week in group.Weeks)
+                {
+                    foreach (var day in week.Days)
+                    {
+                        foreach (var @class in day.Classes)
+                        {
+                            if (filteringOptions.ClassName == @class.Name &&
+                                (@class.Subgroup != Subgroup.None ||
+                                 @class.Subgroup !=
+                                 filteringOptions.Subgroup))
+                            {
+                                @class.IsHidden = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         var announcements = await context.Announcements
             .Where(a =>

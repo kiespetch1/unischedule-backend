@@ -1,4 +1,5 @@
-﻿using UniSchedule.Abstractions.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using UniSchedule.Abstractions.Entities;
 using UniSchedule.Schedule.Entities.Enums;
 
 namespace UniSchedule.Schedule.Entities;
@@ -72,4 +73,10 @@ public class Class : Entity<Guid>
     ///     Преподаватель
     /// </summary>
     public Teacher Teacher { get; set; }
+
+    /// <summary>
+    ///     Скрыта ли пара при показе расписания
+    /// </summary>
+    [NotMapped]
+    public bool IsHidden { get; set; }
 }

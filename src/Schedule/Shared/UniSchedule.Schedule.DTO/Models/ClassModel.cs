@@ -61,4 +61,9 @@ public class ClassModel
     ///     Преподаватель
     /// </summary>
     public TeacherModel Teacher { get; set; }
+
+    /// <summary>
+    ///     Скрыта ли пара при показе расписания
+    /// </summary>
+    public bool IsHidden { get; set; }
 }

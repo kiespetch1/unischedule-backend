@@ -60,6 +60,11 @@ public class DatabaseContext(
     public DbSet<User> Users { get; set; }
 
     /// <summary>
+    ///     Данные для доступа к LMS
+    /// </summary>
+    public DbSet<LmsData> LmsData { get; set; }
+
+    /// <summary>
     ///     Информация о фильтрации
     /// </summary>
     public DbSet<ScheduleFilteringOption> FilteringInfo { get; set; }

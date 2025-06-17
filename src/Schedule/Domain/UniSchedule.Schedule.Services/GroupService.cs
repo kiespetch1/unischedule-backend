@@ -30,6 +30,7 @@ public partial class GroupService(DatabaseContext context, IBrowsingContext brow
         }
 
         await context.FilteringInfo.ExecuteDeleteAsync(cancellationToken);
+        await context.LmsData.ExecuteDeleteAsync(cancellationToken);
 
         await context.SaveChangesAsync(cancellationToken);
     }

@@ -42,6 +42,11 @@ public class Group : Entity<Guid>
     public ICollection<Week> Weeks { get; set; }
 
     /// <summary>
+    ///     Данные для доступа к LMS
+    /// </summary>
+    public ICollection<LmsData> LmsData { get; set; }
+
+    /// <summary>
     ///     Используемый мессенджер
     /// </summary>
     public MessengerType UsedMessenger { get; set; } = MessengerType.None;

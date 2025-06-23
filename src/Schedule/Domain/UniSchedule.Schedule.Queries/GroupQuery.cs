@@ -75,8 +75,8 @@ public class GroupQuery(
                         {
                             if (filteringOptions.Any(opt =>
                                     opt.ClassName == @class.Name &&
-                                    (@class.Subgroup != Subgroup.None ||
-                                     @class.Subgroup == opt.Subgroup)))
+                                    @class.Subgroup != Subgroup.None &&
+                                    @class.Subgroup != opt.Subgroup))
                             {
                                 @class.IsHidden = true;
                             }
